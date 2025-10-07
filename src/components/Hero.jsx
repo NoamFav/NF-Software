@@ -1,39 +1,51 @@
 import React, { useState, useEffect } from "react";
 import {
     Code,
-    Sparkles,
     ArrowRight,
     Github,
     Mail,
-    ExternalLink,
     Layers,
-    Zap,
     Shield,
-    ChevronDown,
     Terminal,
-    Gamepad2,
     Database,
-    GraduationCap,
-    Monitor,
+    CheckCircle,
+    Clock,
+    TrendingUp,
+    Award,
+    Target,
+    Sun,
+    Moon,
 } from "lucide-react";
 
-const NfSoftwareHero = () => {
-    const [scrollY, setScrollY] = useState(0);
+const Hero = () => {
+    const [, setScrollY] = useState(0);
     const [activeCategory, setActiveCategory] = useState("all");
+    const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener("scroll", handleScroll);
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+            setDarkMode(true);
+        }
+
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const toggleDarkMode = () => {
+        setDarkMode(!darkMode);
+        localStorage.setItem("theme", !darkMode ? "dark" : "light");
+    };
+
     const categories = [
-        { id: "all", label: "All Projects", icon: Layers },
-        { id: "system", label: "System Tools", icon: Monitor },
-        { id: "dev", label: "Dev Tools", icon: Terminal },
-        { id: "games", label: "Games", icon: Gamepad2 },
-        { id: "education", label: "Education", icon: GraduationCap },
-        { id: "data", label: "Data & Research", icon: Database },
+        { id: "all", label: "All Projects" },
+        { id: "system", label: "System Tools" },
+        { id: "dev", label: "Developer Tools" },
+        { id: "games", label: "Games" },
+        { id: "education", label: "Education" },
     ];
 
     const categoryMap = {
@@ -53,121 +65,102 @@ const NfSoftwareHero = () => {
         {
             title: "Sysmon-CLI",
             description:
-                "Lightweight terminal system monitor for Mac & Linux with real-time metrics",
+                "Enterprise-grade terminal system monitor delivering real-time performance metrics with minimal resource overhead.",
             category: "System Utilities & Monitoring",
             status: "active",
             progress: 30,
-            tech: ["C", "POSIX"],
-            color: "from-cyan-500 to-blue-600",
+            tech: ["C", "POSIX", "IOKit"],
+            type: "System Utility",
         },
         {
             title: "SysDash Ultra",
             description:
-                "Advanced monitoring dashboard with predictive analytics",
+                "Advanced monitoring dashboard featuring predictive analytics and comprehensive system visualization.",
             category: "System Utilities & Monitoring",
             status: "active",
             progress: 25,
-            tech: ["Rust", "Swift"],
-            color: "from-purple-500 to-pink-600",
+            tech: ["Rust", "Swift", "SwiftUI"],
+            type: "Dashboard",
         },
         {
             title: "NetViz Pro",
-            description: "3D network traffic visualizer with anomaly detection",
+            description:
+                "Network traffic analysis platform with 3D visualization and intelligent anomaly detection.",
             category: "System Utilities & Monitoring",
             status: "planning",
             progress: 20,
-            tech: ["Rust", "TypeScript"],
-            color: "from-emerald-500 to-teal-600",
+            tech: ["Rust", "TypeScript", "WebGL"],
+            type: "Analytics",
         },
         {
             title: "CodeGrep",
-            description: "Syntax-aware code search using AST parsing",
+            description:
+                "Syntax-aware code search engine leveraging AST parsing for precise, semantic results.",
             category: "Developer Tools & Productivity",
             status: "active",
             progress: 60,
             tech: ["Rust", "Tree-sitter"],
-            color: "from-orange-500 to-red-600",
-        },
-        {
-            title: "2077.nvim",
-            description: "Cyberpunk-inspired Neovim theme",
-            category: "Developer Tools & Productivity",
-            status: "completed",
-            progress: 100,
-            tech: ["Lua"],
-            color: "from-yellow-500 to-orange-600",
+            type: "Developer Tool",
         },
         {
             title: "Zvezda",
-            description: "Terminal Git dashboard with AI commit suggestions",
+            description:
+                "Intelligent Git repository manager with AI-powered commit assistance and analytics.",
             category: "Developer Tools & Productivity",
             status: "active",
             progress: 70,
-            tech: ["Go", "Bubble Tea"],
-            color: "from-indigo-500 to-purple-600",
-        },
-        {
-            title: "QueryCrust",
-            description: "Web-based database query management tool",
-            category: "Developer Tools & Productivity",
-            status: "completed",
-            progress: 100,
-            tech: ["React", "Python"],
-            color: "from-blue-500 to-cyan-600",
+            tech: ["Go", "Bubble Tea", "Git"],
+            type: "Version Control",
         },
         {
             title: "ShadowedHunter",
-            description: "Metroidvania game with advanced mechanics",
+            description:
+                "Metroidvania-style game featuring advanced mechanics and procedural level design.",
             category: "Games & Interactive Entertainment",
             status: "active",
             progress: 35,
-            tech: ["C#", "Unity"],
-            color: "from-red-500 to-pink-600",
+            tech: ["C#", "Unity", "DOTween"],
+            type: "Game",
         },
         {
             title: "Pot Pot Golf",
-            description: "Physics-based 2D mini-golf with AI opponents",
+            description:
+                "Physics-based golf simulation with realistic ball dynamics and AI opponents.",
             category: "Games & Interactive Entertainment",
             status: "completed",
             progress: 100,
-            tech: ["Java", "Box2D"],
-            color: "from-green-500 to-emerald-600",
+            tech: ["Java", "LWJGL", "Box2D"],
+            type: "Simulation",
         },
         {
             title: "Frisia",
-            description: "Multiplayer Frisian Draughts with AI",
+            description:
+                "Multiplayer board game platform with advanced AI and real-time networking.",
             category: "Games & Interactive Entertainment",
             status: "active",
             progress: 45,
             tech: ["Rust", "WebSockets"],
-            color: "from-amber-500 to-orange-600",
+            type: "Multiplayer",
         },
         {
             title: "BitVoyager",
-            description: "Gamified programming education platform",
+            description:
+                "Interactive programming education platform with gamified learning paths.",
             category: "Educational Technology",
             status: "active",
             progress: 55,
             tech: ["TypeScript", "WebAssembly"],
-            color: "from-violet-500 to-purple-600",
+            type: "EdTech",
         },
         {
             title: "Thynkly",
-            description: "AI-powered knowledge management platform",
+            description:
+                "AI-enhanced knowledge management system for information organization and retention.",
             category: "Knowledge Management & Learning",
             status: "active",
             progress: 20,
-            tech: ["React", "AI"],
-            color: "from-pink-500 to-rose-600",
-        },
-        {
-            title: "EnronBox",
-            description: "Email dataset analysis with semantic search",
-            category: "Data Analysis & Research",
-            status: "active",
-            progress: 40,
-            tech: ["Python", "Go"],
-            color: "from-slate-500 to-gray-600",
+            tech: ["React", "AI/ML"],
+            type: "Productivity",
         },
     ];
 
@@ -179,288 +172,457 @@ const NfSoftwareHero = () => {
               );
 
     const stats = [
-        { label: "Active Projects", value: "13+", icon: Zap },
-        { label: "Technologies", value: "20+", icon: Code },
-        { label: "Years Building", value: "5+", icon: Sparkles },
+        {
+            label: "Active Projects",
+            value: "13",
+            icon: TrendingUp,
+            sublabel: "In Development",
+        },
+        {
+            label: "Completed",
+            value: "3",
+            icon: CheckCircle,
+            sublabel: "Production Ready",
+        },
+        {
+            label: "Technologies",
+            value: "20+",
+            icon: Code,
+            sublabel: "Stack Depth",
+        },
+        {
+            label: "Years Experience",
+            value: "3",
+            icon: Award,
+            sublabel: "Building Software",
+        },
     ];
 
+    const capabilities = [
+        {
+            icon: Terminal,
+            title: "System-Level Engineering",
+            description:
+                "Performance-critical applications with direct system integration",
+        },
+        {
+            icon: Layers,
+            title: "Full-Stack Development",
+            description:
+                "End-to-end solutions from infrastructure to user interface",
+        },
+        {
+            icon: Database,
+            title: "Data Engineering",
+            description: "Scalable data processing and analysis platforms",
+        },
+        {
+            icon: Shield,
+            title: "Security-First Design",
+            description:
+                "Built-in security considerations from architecture to deployment",
+        },
+    ];
+
+    // Theme classes
+    const theme = {
+        bg: darkMode ? "bg-slate-950" : "bg-slate-50",
+        bgAlt: darkMode ? "bg-slate-900" : "bg-white",
+        bgCard: darkMode ? "bg-slate-900/50" : "bg-white",
+        bgHover: darkMode ? "hover:bg-slate-800" : "hover:bg-slate-50",
+        text: darkMode ? "text-white" : "text-slate-900",
+        textSecondary: darkMode ? "text-slate-400" : "text-slate-600",
+        textTertiary: darkMode ? "text-slate-500" : "text-slate-500",
+        border: darkMode ? "border-slate-800" : "border-slate-200",
+        borderHover: darkMode
+            ? "hover:border-slate-700"
+            : "hover:border-slate-300",
+        navBg: darkMode ? "bg-slate-900/80" : "bg-white/80",
+        buttonPrimary: darkMode
+            ? "bg-white text-slate-900 hover:bg-slate-100"
+            : "bg-slate-900 text-white hover:bg-slate-800",
+        buttonSecondary: darkMode
+            ? "bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+            : "bg-white text-slate-900 border-slate-200 hover:border-slate-300",
+        badge: darkMode ? "bg-slate-800" : "bg-slate-100",
+        badgeText: darkMode ? "text-slate-300" : "text-slate-700",
+        cardBorder: darkMode
+            ? "border-slate-800 hover:border-slate-700"
+            : "border-slate-200 hover:border-slate-300",
+        progressBg: darkMode ? "bg-slate-800" : "bg-slate-100",
+        progressBar: darkMode ? "bg-white" : "bg-slate-900",
+        sectionBg: darkMode ? "bg-slate-900/30" : "bg-white",
+        sectionBorder: darkMode ? "border-slate-800" : "border-slate-200",
+        ctaBg: darkMode ? "bg-slate-900" : "bg-slate-900",
+        footerBg: darkMode ? "bg-slate-950" : "bg-white",
+    };
+
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
-            {/* Animated Background */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div
-                    className="absolute w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl -top-48 -left-48 animate-pulse"
-                    style={{ animationDuration: "8s" }}
-                />
-                <div
-                    className="absolute w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl top-1/2 -right-48 animate-pulse"
-                    style={{ animationDuration: "10s", animationDelay: "2s" }}
-                />
-                <div
-                    className="absolute w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-3xl bottom-0 left-1/3 animate-pulse"
-                    style={{ animationDuration: "12s", animationDelay: "4s" }}
-                />
-
-                {/* Grid Pattern */}
-                <div
-                    className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem]"
-                    style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-                />
-            </div>
-
-            {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
-                <div className="max-w-7xl mx-auto w-full">
-                    <div className="text-center mb-16 space-y-8">
-                        {/* Logo/Badge */}
-                        <div
-                            className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-cyan-500/10 to-purple-500/10
-                          backdrop-blur-xl rounded-full border border-white/10"
-                        >
-                            <div className="relative">
-                                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-400 blur-md opacity-50" />
-                                <Code className="w-5 h-5 relative text-cyan-400" />
+        <div className={`relative min-h-screen ${theme.bg} ${theme.text}`}>
+            {/* Subtle Background Pattern */}
+            <div
+                className="pointer-events-none fixed inset-0 z-0 opacity-10"
+                style={{
+                    backgroundImage: `radial-gradient(circle at 1px 1px, ${
+                        darkMode ? "rgba(255,255,255,0.8)" : "rgba(0,0,0,0.8)"
+                    } 1px, transparent 0)`,
+                    backgroundSize: "28px 28px",
+                }}
+            />{" "}
+            {/* Navigation */}
+            <nav
+                className={`sticky top-0 z-50 ${theme.navBg} backdrop-blur-xl border-b ${theme.border} transition-colors duration-200`}
+            >
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div
+                                className={`w-10 h-10 ${darkMode ? "bg-white" : "bg-slate-900"} rounded-lg flex items-center justify-center transition-colors duration-200`}
+                            >
+                                <Code
+                                    className={`w-6 h-6 ${darkMode ? "text-slate-900" : "text-white"}`}
+                                />
                             </div>
-                            <span className="font-mono text-sm tracking-wider">
-                                NF-SOFTWARE
-                            </span>
-                            <Sparkles className="w-4 h-4 text-purple-400" />
+                            <div>
+                                <div
+                                    className={`font-bold text-lg ${theme.text}`}
+                                >
+                                    NoamFav Software
+                                </div>
+                                <div
+                                    className={`text-xs ${theme.textTertiary}`}
+                                >
+                                    Independent Software Studio
+                                </div>
+                            </div>
                         </div>
-
-                        {/* Main Heading */}
-                        <div className="space-y-4">
-                            <h1 className="text-6xl md:text-8xl font-black tracking-tight">
-                                <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                                    Building Tomorrow's
-                                </span>
-                            </h1>
-                            <h2 className="text-5xl md:text-7xl font-black tracking-tight">
-                                <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                                    Software Tools
-                                </span>
-                            </h2>
-                        </div>
-
-                        {/* Description */}
-                        <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-                            An independent software studio crafting innovative
-                            solutions across{" "}
-                            <span className="text-cyan-400 font-semibold">
-                                system utilities
-                            </span>
-                            ,{" "}
-                            <span className="text-purple-400 font-semibold">
-                                developer tools
-                            </span>
-                            , and{" "}
-                            <span className="text-pink-400 font-semibold">
-                                interactive experiences
-                            </span>
-                        </p>
-
-                        {/* CTAs */}
-                        <div className="flex flex-wrap gap-4 justify-center pt-8">
+                        <div className="flex items-center gap-4">
                             <a
                                 href="#projects"
-                                className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold
-                          hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105
-                          flex items-center gap-2"
+                                className={`text-sm font-medium ${theme.textSecondary} hover:${theme.text} transition-colors`}
                             >
-                                Explore Projects
-                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                Projects
                             </a>
+                            <a
+                                href="#capabilities"
+                                className={`text-sm font-medium ${theme.textSecondary} hover:${theme.text} transition-colors`}
+                            >
+                                Capabilities
+                            </a>
+                            <button
+                                onClick={toggleDarkMode}
+                                className={`p-2 rounded-lg ${theme.badge} ${theme.borderHover} transition-all duration-200`}
+                                aria-label="Toggle dark mode"
+                            >
+                                {darkMode ? (
+                                    <Sun className="w-5 h-5" />
+                                ) : (
+                                    <Moon className="w-5 h-5" />
+                                )}
+                            </button>
                             <a
                                 href="mailto:contact@nf-software.com"
-                                className="px-8 py-4 bg-white/5 backdrop-blur-xl rounded-xl font-semibold border border-white/10
-                          hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
+                                className={`px-5 py-2 ${theme.buttonPrimary} text-sm font-medium rounded-lg transition-colors`}
                             >
-                                <Mail className="w-5 h-5" />
-                                Get in Touch
-                            </a>
-                            <a
-                                href="https://github.com/NoamFav"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-8 py-4 bg-white/5 backdrop-blur-xl rounded-xl font-semibold border border-white/10
-                          hover:bg-white/10 transition-all duration-300 flex items-center gap-2"
-                            >
-                                <Github className="w-5 h-5" />
-                                GitHub
+                                Contact
                             </a>
                         </div>
                     </div>
+                </div>
+            </nav>
+            {/* Hero Section */}
+            <section className="relative pt-24 pb-32 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div className="space-y-8">
+                            <div
+                                className={`inline-flex items-center gap-2 px-4 py-2 ${theme.badge} rounded-full border ${theme.border}`}
+                            >
+                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                                <span
+                                    className={`text-sm font-medium ${theme.badgeText}`}
+                                >
+                                    Available for Projects
+                                </span>
+                            </div>
 
-                    {/* Stats */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                        {stats.map((stat, index) => {
-                            const Icon = stat.icon;
+                            <div className="space-y-4">
+                                <h1
+                                    className={`text-5xl md:text-6xl font-bold ${theme.text} leading-tight`}
+                                >
+                                    Building Professional Software Solutions
+                                </h1>
+                                <p
+                                    className={`text-xl ${theme.textSecondary} leading-relaxed`}
+                                >
+                                    An independent software studio specializing
+                                    in system utilities, developer tooling, and
+                                    innovative applications built with
+                                    industry-standard technologies.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-4">
+                                <a
+                                    href="#projects"
+                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.buttonPrimary} font-medium rounded-lg
+                            transition-all duration-200 shadow-sm hover:shadow-md`}
+                                >
+                                    View Portfolio
+                                    <ArrowRight className="w-4 h-4" />
+                                </a>
+                                <a
+                                    href="mailto:contact@nf-software.com"
+                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.buttonSecondary} font-medium rounded-lg
+                            border transition-all duration-200`}
+                                >
+                                    <Mail className="w-4 h-4" />
+                                    Get in Touch
+                                </a>
+                                <a
+                                    href="https://github.com/NoamFav"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.buttonSecondary} font-medium rounded-lg
+                            border transition-all duration-200`}
+                                >
+                                    <Github className="w-4 h-4" />
+                                    GitHub
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Stats Grid */}
+                        <div className="grid grid-cols-2 gap-4">
+                            {stats.map((stat, index) => {
+                                const Icon = stat.icon;
+                                return (
+                                    <div
+                                        key={index}
+                                        className={`${theme.bgCard} rounded-xl p-6 border ${theme.cardBorder}
+                                            transition-all duration-200 hover:shadow-md`}
+                                    >
+                                        <Icon
+                                            className={`w-8 h-8 ${theme.textSecondary} mb-4`}
+                                        />
+                                        <div
+                                            className={`text-3xl font-bold ${theme.text} mb-1`}
+                                        >
+                                            {stat.value}
+                                        </div>
+                                        <div
+                                            className={`text-sm font-semibold ${theme.text} mb-1`}
+                                        >
+                                            {stat.label}
+                                        </div>
+                                        <div
+                                            className={`text-xs ${theme.textTertiary}`}
+                                        >
+                                            {stat.sublabel}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {/* Capabilities Section */}
+            <section
+                id="capabilities"
+                className={`relative py-24 px-6 ${theme.sectionBg} border-y ${theme.sectionBorder} transition-colors duration-200`}
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16 space-y-4">
+                        <div
+                            className={`inline-flex items-center gap-2 px-4 py-2 ${theme.badge} rounded-full`}
+                        >
+                            <Target
+                                className={`w-4 h-4 ${theme.textSecondary}`}
+                            />
+                            <span
+                                className={`text-sm font-medium ${theme.badgeText}`}
+                            >
+                                Core Competencies
+                            </span>
+                        </div>
+                        <h2
+                            className={`text-4xl md:text-5xl font-bold ${theme.text}`}
+                        >
+                            Technical Capabilities
+                        </h2>
+                        <p
+                            className={`text-lg ${theme.textSecondary} max-w-2xl mx-auto`}
+                        >
+                            Specialized expertise across multiple domains of
+                            software development
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {capabilities.map((capability, index) => {
+                            const Icon = capability.icon;
                             return (
                                 <div
                                     key={index}
-                                    className="relative group"
-                                    style={{
-                                        animationDelay: `${index * 0.1}s`,
-                                    }}
+                                    className={`${theme.bgCard} rounded-xl p-6 border ${theme.cardBorder}
+                                          transition-all duration-200 hover:shadow-sm`}
                                 >
                                     <div
-                                        className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-2xl blur-xl
-                                opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                    />
-                                    <div
-                                        className="relative bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10
-                                hover:border-white/20 transition-all duration-300"
+                                        className={`w-12 h-12 ${darkMode ? "bg-white" : "bg-slate-900"} rounded-lg flex items-center justify-center mb-4 transition-colors duration-200`}
                                     >
-                                        <Icon className="w-8 h-8 text-cyan-400 mb-4" />
-                                        <div className="text-4xl font-black mb-2 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                                            {stat.value}
-                                        </div>
-                                        <div className="text-slate-400 font-medium">
-                                            {stat.label}
-                                        </div>
+                                        <Icon
+                                            className={`w-6 h-6 ${darkMode ? "text-slate-900" : "text-white"}`}
+                                        />
                                     </div>
+                                    <h3
+                                        className={`text-lg font-bold ${theme.text} mb-2`}
+                                    >
+                                        {capability.title}
+                                    </h3>
+                                    <p
+                                        className={`text-sm ${theme.textSecondary} leading-relaxed`}
+                                    >
+                                        {capability.description}
+                                    </p>
                                 </div>
                             );
                         })}
                     </div>
-
-                    {/* Scroll Indicator */}
-                    <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-                        <ChevronDown className="w-8 h-8 text-slate-500" />
-                    </div>
                 </div>
             </section>
-
             {/* Projects Section */}
-            <section id="projects" className="relative py-32 px-6">
+            <section id="projects" className="relative py-24 px-6">
                 <div className="max-w-7xl mx-auto">
-                    {/* Section Header */}
                     <div className="text-center mb-16 space-y-4">
                         <div
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 backdrop-blur-xl rounded-full
-                          border border-purple-500/20 mb-4"
+                            className={`inline-flex items-center gap-2 px-4 py-2 ${theme.badge} rounded-full`}
                         >
-                            <Layers className="w-4 h-4 text-purple-400" />
-                            <span className="text-sm font-mono text-purple-400">
-                                PROJECT PORTFOLIO
+                            <Layers
+                                className={`w-4 h-4 ${theme.textSecondary}`}
+                            />
+                            <span
+                                className={`text-sm font-medium ${theme.badgeText}`}
+                            >
+                                Portfolio
                             </span>
                         </div>
-                        <h2 className="text-5xl md:text-6xl font-black">
-                            <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                                Our Creations
-                            </span>
+                        <h2
+                            className={`text-4xl md:text-5xl font-bold ${theme.text}`}
+                        >
+                            Featured Projects
                         </h2>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                            A collection of innovative tools, games, and
-                            platforms built with cutting-edge technologies
+                        <p
+                            className={`text-lg ${theme.textSecondary} max-w-2xl mx-auto`}
+                        >
+                            A selection of production-ready tools and
+                            applications demonstrating technical expertise
                         </p>
                     </div>
 
                     {/* Category Filter */}
-                    <div className="flex flex-wrap justify-center gap-3 mb-12">
-                        {categories.map((cat) => {
-                            const Icon = cat.icon;
-                            return (
-                                <button
-                                    key={cat.id}
-                                    onClick={() => setActiveCategory(cat.id)}
-                                    className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2
-                            ${
-                                activeCategory === cat.id
-                                    ? "bg-gradient-to-r from-cyan-500 to-purple-500 shadow-lg shadow-cyan-500/30"
-                                    : "bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10"
-                            }`}
-                                >
-                                    <Icon className="w-4 h-4" />
-                                    {cat.label}
-                                </button>
-                            );
-                        })}
+                    <div className="flex flex-wrap justify-center gap-2 mb-12">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat.id}
+                                onClick={() => setActiveCategory(cat.id)}
+                                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
+                          ${
+                              activeCategory === cat.id
+                                  ? `${theme.buttonPrimary} shadow-sm`
+                                  : `${theme.buttonSecondary} border`
+                          }`}
+                            >
+                                {cat.label}
+                            </button>
+                        ))}
                     </div>
 
                     {/* Projects Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredProjects.map((project, index) => (
+                        {filteredProjects.map((project) => (
                             <div
                                 key={project.title}
-                                className="group relative"
-                                style={{
-                                    animation:
-                                        "fadeInUp 0.6s ease-out forwards",
-                                    animationDelay: `${index * 0.1}s`,
-                                    opacity: 0,
-                                }}
+                                className={`${theme.bgCard} rounded-xl border ${theme.cardBorder}
+                            hover:shadow-lg transition-all duration-200 overflow-hidden group`}
                             >
-                                <div
-                                    className={`absolute inset-0 bg-gradient-to-r ${project.color} rounded-2xl blur-xl
-                              opacity-0 group-hover:opacity-30 transition-opacity duration-500`}
-                                />
-                                <div
-                                    className="relative bg-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10
-                              hover:border-white/20 transition-all duration-300 h-full flex flex-col"
-                                >
-                                    {/* Status Bar */}
-                                    <div
-                                        className={`h-1 bg-gradient-to-r ${project.color}`}
-                                    />
-
-                                    <div className="p-6 flex-1 flex flex-col">
-                                        {/* Header */}
-                                        <div className="flex items-start justify-between mb-4">
-                                            <h3 className="text-2xl font-bold group-hover:text-cyan-400 transition-colors">
+                                {/* Header */}
+                                <div className={`p-6 border-b ${theme.border}`}>
+                                    <div className="flex items-start justify-between mb-3">
+                                        <div className="flex-1">
+                                            <div
+                                                className={`text-xs font-semibold ${theme.textTertiary} uppercase tracking-wider mb-2`}
+                                            >
+                                                {project.type}
+                                            </div>
+                                            <h3
+                                                className={`text-xl font-bold ${theme.text} transition-colors`}
+                                            >
                                                 {project.title}
                                             </h3>
-                                            {project.status === "completed" ? (
-                                                <span className="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold">
-                                                    ✓ Complete
-                                                </span>
-                                            ) : project.status === "active" ? (
-                                                <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-full text-xs font-semibold flex items-center gap-1">
-                                                    <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-                                                    Active
-                                                </span>
-                                            ) : (
-                                                <span className="px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-semibold">
-                                                    Planning
-                                                </span>
-                                            )}
                                         </div>
+                                        {project.status === "completed" ? (
+                                            <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-xs font-semibold">
+                                                <CheckCircle className="w-3 h-3" />
+                                                Complete
+                                            </span>
+                                        ) : project.status === "active" ? (
+                                            <span className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-semibold">
+                                                <Clock className="w-3 h-3" />
+                                                Active
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className={`px-3 py-1 ${theme.badge} ${theme.badgeText} rounded-full text-xs font-semibold`}
+                                            >
+                                                Planning
+                                            </span>
+                                        )}
+                                    </div>
 
-                                        {/* Description */}
-                                        <p className="text-slate-400 mb-4 flex-1">
-                                            {project.description}
-                                        </p>
+                                    <p
+                                        className={`text-sm ${theme.textSecondary} leading-relaxed`}
+                                    >
+                                        {project.description}
+                                    </p>
+                                </div>
 
-                                        {/* Progress Bar */}
-                                        <div className="mb-4">
-                                            <div className="flex justify-between text-sm mb-2">
-                                                <span className="text-slate-500 font-medium">
-                                                    Progress
-                                                </span>
-                                                <span className="text-slate-400 font-bold">
-                                                    {project.progress}%
-                                                </span>
-                                            </div>
-                                            <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                                                <div
-                                                    className={`h-full bg-gradient-to-r ${project.color} transition-all duration-500`}
-                                                    style={{
-                                                        width: `${project.progress}%`,
-                                                    }}
-                                                />
-                                            </div>
+                                {/* Body */}
+                                <div className="p-6 space-y-4">
+                                    {/* Progress */}
+                                    <div>
+                                        <div className="flex justify-between text-xs font-medium mb-2">
+                                            <span
+                                                className={theme.textTertiary}
+                                            >
+                                                Development Progress
+                                            </span>
+                                            <span className={theme.text}>
+                                                {project.progress}%
+                                            </span>
                                         </div>
-
-                                        {/* Tech Stack */}
-                                        <div className="flex flex-wrap gap-2">
-                                            {project.tech.map((tech, i) => (
-                                                <span
-                                                    key={i}
-                                                    className="px-3 py-1 bg-white/5 rounded-lg text-xs font-mono text-slate-300"
-                                                >
-                                                    {tech}
-                                                </span>
-                                            ))}
+                                        <div
+                                            className={`h-1.5 ${theme.progressBg} rounded-full overflow-hidden`}
+                                        >
+                                            <div
+                                                className={`h-full ${theme.progressBar} transition-all duration-500`}
+                                                style={{
+                                                    width: `${project.progress}%`,
+                                                }}
+                                            />
                                         </div>
+                                    </div>
+
+                                    {/* Tech Stack */}
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.tech.map((tech, i) => (
+                                            <span
+                                                key={i}
+                                                className={`px-2.5 py-1 ${theme.badge} border ${theme.border} rounded text-xs font-medium ${theme.badgeText}`}
+                                            >
+                                                {tech}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
@@ -468,69 +630,96 @@ const NfSoftwareHero = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Footer CTA */}
-            <section className="relative py-32 px-6">
+            {/* CTA Section */}
+            <section
+                className={`relative py-24 px-6 ${theme.ctaBg} ${darkMode ? "text-white" : "text-white"}`}
+            >
                 <div className="max-w-4xl mx-auto text-center space-y-8">
-                    <div
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 backdrop-blur-xl rounded-full
-                        border border-cyan-500/20 mb-4"
-                    >
-                        <Shield className="w-4 h-4 text-cyan-400" />
-                        <span className="text-sm font-mono text-cyan-400">
-                            INDEPENDENT & INNOVATIVE
-                        </span>
-                    </div>
-
-                    <h2 className="text-5xl md:text-6xl font-black">
-                        <span className="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-                            Ready to Collaborate?
-                        </span>
+                    <h2 className="text-4xl md:text-5xl font-bold">
+                        Let's Build Something Together
                     </h2>
 
-                    <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-                        NoamFav-Software is open to partnerships, custom
-                        development, and innovative project collaborations
+                    <p
+                        className={`text-xl ${darkMode ? "text-slate-300" : "text-slate-300"} max-w-2xl mx-auto leading-relaxed`}
+                    >
+                        Available for consulting, custom development, and
+                        strategic partnerships. Let's discuss how we can work
+                        together on your next project.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 justify-center pt-8">
+                    <div className="flex flex-wrap gap-4 justify-center pt-4">
                         <a
                             href="mailto:contact@nf-software.com"
-                            className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold
-                        hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105
-                        flex items-center gap-2"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 font-semibold rounded-lg
+                        hover:bg-slate-100 transition-all duration-200 shadow-lg hover:shadow-xl"
                         >
                             Start a Conversation
-                            <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                            <ArrowRight className="w-5 h-5" />
+                        </a>
+                        <a
+                            href="https://github.com/NoamFav"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-slate-800 text-white font-semibold rounded-lg
+                        border border-slate-700 hover:bg-slate-700 transition-all duration-200"
+                        >
+                            <Github className="w-5 h-5" />
+                            View on GitHub
                         </a>
                     </div>
-
-                    {/* Footer Note */}
-                    <p className="text-sm text-slate-500 pt-12">
-                        © {new Date().getFullYear()} NoamFav-Software. All
-                        projects and trademarks pending.
-                        <br />
-                        <span className="text-slate-600">
-                            Building the future, one commit at a time.
-                        </span>
-                    </p>
                 </div>
             </section>
+            {/* Footer */}
+            <footer
+                className={`${theme.footerBg} border-t ${theme.border} py-12 px-6 transition-colors duration-200`}
+            >
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="flex items-center gap-3">
+                            <div
+                                className={`w-10 h-10 ${darkMode ? "bg-white" : "bg-slate-900"} rounded-lg flex items-center justify-center transition-colors duration-200`}
+                            >
+                                <Code
+                                    className={`w-6 h-6 ${darkMode ? "text-slate-900" : "text-white"}`}
+                                />
+                            </div>
+                            <div>
+                                <div className={`font-bold ${theme.text}`}>
+                                    NoamFav Software
+                                </div>
+                                <div
+                                    className={`text-sm ${theme.textTertiary}`}
+                                >
+                                    © {new Date().getFullYear()} All rights
+                                    reserved
+                                </div>
+                            </div>
+                        </div>
 
-            <style>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+                        <div className="flex items-center gap-6">
+                            <a
+                                href="mailto:contact@nf-software.com"
+                                className={`text-sm ${theme.textSecondary} hover:${theme.text} transition-colors`}
+                            >
+                                Contact
+                            </a>
+                            <a
+                                href="https://github.com/NoamFav"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`text-sm ${theme.textSecondary} hover:${theme.text} transition-colors`}
+                            >
+                                GitHub
+                            </a>
+                            <span className={`text-sm ${theme.textTertiary}`}>
+                                Trademark pending
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 };
 
-export default NfSoftwareHero;
+export default Hero;
