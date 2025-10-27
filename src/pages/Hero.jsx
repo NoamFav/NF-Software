@@ -1,5 +1,5 @@
 // ============================================================================
-// FILE: src/pages/Hero.jsx - COMPLETE VERSION
+// FILE: src/pages/Hero.jsx - COMPLETE VERSION WITH STATUS HANDLING
 // ============================================================================
 import React from "react";
 import {
@@ -41,10 +41,10 @@ const Hero = () => {
     }, []);
 
     const stats = [
-        { label: "Projects Delivered", value: "50+", icon: Rocket },
-        { label: "Lines of Code", value: "500K+", icon: Code },
-        { label: "Active Users", value: "10K+", icon: Users },
-        { label: "GitHub Stars", value: "2.5K+", icon: Star },
+        { label: "Projects Delivered", value: "10+", icon: Rocket },
+        { label: "Lines of Code", value: "100K+", icon: Code },
+        { label: "Active Users", value: "20+", icon: Users },
+        { label: "GitHub Stars", value: "20+", icon: Star },
     ];
 
     return (
@@ -308,18 +308,42 @@ const Hero = () => {
                                     </div>
 
                                     <div className="flex gap-4 pt-4">
-                                        <button
-                                            className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
-                                        >
-                                            Learn More
-                                            <ArrowRight className="w-5 h-5" />
-                                        </button>
-                                        {product.status === "Live" && (
+                                        {product.status === "Live" ? (
+                                            <>
+                                                <button
+                                                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                                                >
+                                                    <Download className="w-5 h-5" />
+                                                    Download
+                                                </button>
+                                                <button
+                                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                >
+                                                    Learn More
+                                                    <ArrowRight className="w-5 h-5" />
+                                                </button>
+                                            </>
+                                        ) : product.status === "Beta" ? (
+                                            <>
+                                                <button
+                                                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                                                >
+                                                    <Star className="w-5 h-5" />
+                                                    Join Beta
+                                                </button>
+                                                <button
+                                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                >
+                                                    Learn More
+                                                    <ArrowRight className="w-5 h-5" />
+                                                </button>
+                                            </>
+                                        ) : (
                                             <button
-                                                className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full cursor-default opacity-75`}
                                             >
-                                                <Download className="w-5 h-5" />
-                                                Download
+                                                <Sparkles className="w-5 h-5" />
+                                                Coming Soon
                                             </button>
                                         )}
                                     </div>

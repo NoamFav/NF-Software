@@ -46,6 +46,16 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                     >
                         Products
                     </Link>
+                    <Link
+                        to="/contact"
+                        className={`text-sm ${
+                            isActive("/products")
+                                ? theme.text + " font-medium"
+                                : theme.textSecondary + " hover:" + theme.text
+                        } transition`}
+                    >
+                        Contact Me
+                    </Link>
                     <button
                         onClick={toggleDarkMode}
                         className={`p-2 rounded-full ${darkMode ? "bg-gray-800" : "bg-gray-100"} transition ${theme.hoverBg}`}

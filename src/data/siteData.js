@@ -2,10 +2,10 @@
 // FILE: src/data/siteData.js
 // ============================================================================
 export const stats = [
-    { label: "Open Source Projects", value: "7" },
-    { label: "GitHub Stars", value: "2.5K+" },
-    { label: "Active Users", value: "10K+" },
-    { label: "Years Building", value: "5+" },
+    { label: "Open Source Projects", value: "10+" },
+    { label: "GitHub Stars", value: "20+" },
+    { label: "Active Users", value: "20+" },
+    { label: "Years Building", value: "2+" },
 ];
 
 export const timeline = [
