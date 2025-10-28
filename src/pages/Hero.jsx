@@ -1,10 +1,9 @@
 // ============================================================================
-// FILE: src/pages/Hero.jsx - COMPLETE VERSION WITH STATUS HANDLING
+// FILE: src/pages/Hero.jsx - OPTIMIZED VERSION
 // ============================================================================
-import React from "react";
+import React, { useMemo } from "react";
 import {
     ArrowRight,
-    Github,
     Mail,
     Sparkles,
     Zap,
@@ -17,10 +16,11 @@ import {
     Download,
     Code,
     Users,
-    Linkedin,
-    Twitter,
     ChevronRight,
 } from "lucide-react";
+import { SiX, SiGithub } from "@icons-pack/react-simple-icons";
+import { FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { suites } from "../data/products";
@@ -93,20 +93,20 @@ const Hero = () => {
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
-                        <a
-                            href="/products"
+                        <Link
+                            to="/products"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
                         >
                             Explore Products
                             <ArrowRight className="w-5 h-5" />
-                        </a>
+                        </Link>
                         <a
                             href="https://github.com/NoamFav"
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`inline-flex items-center gap-2 px-8 py-4 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-200"} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
                         >
-                            <Github className="w-5 h-5" />
+                            <SiGithub className="w-5 h-5" />
                             View on GitHub
                         </a>
                     </div>
@@ -115,13 +115,13 @@ const Hero = () => {
                         <div className="flex items-center gap-2">
                             <CheckCircle className="w-5 h-5 text-green-500" />
                             <span className={`text-sm ${theme.textSecondary}`}>
-                                Trusted by 100+ teams
+                                Trusted by 10+ teams
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
                             <Star className="w-5 h-5 text-yellow-500" />
                             <span className={`text-sm ${theme.textSecondary}`}>
-                                2.5K+ GitHub stars
+                                20+ GitHub stars
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -212,9 +212,13 @@ const Hero = () => {
                             <div className="absolute inset-0">
                                 <img
                                     src={suite.image}
-                                    alt={`${suite.name} – ${suite.tagline}`}
+                                    alt=""
+                                    aria-hidden="true"
+                                    decoding="async"
+                                    fetchpriority={sIdx === 0 ? "high" : undefined}
+                                    loading={sIdx === 0 ? undefined : "lazy"}
+                                    sizes="(min-width: 1024px) 100vw, 100vw"
                                     className="w-full h-full object-cover"
-                                    loading="lazy"
                                 />
                                 <div className="absolute inset-0 bg-black/40" />
                             </div>
@@ -245,8 +249,8 @@ const Hero = () => {
                         </section>
 
                         {/* Suite tools */}
-                        {suite.tools.map((tool, tIdx) => {
-                            const index = sIdx * 100 + tIdx; // stable alternating pattern across suites
+                        {(suite?.tools ?? []).slice(0, 3).map((tool, tIdx) => {
+                            const index = sIdx * 100 + tIdx;
                             const textOnLeft = index % 2 === 0;
                             const clip = textOnLeft ? RIGHT_SLASH : LEFT_BACKSL;
 
@@ -256,7 +260,7 @@ const Hero = () => {
 
                             return (
                                 <section
-                                    key={`${suite.id}-${tool.name}`}
+                                    key={`${suite.id}-${tool?.name}`}
                                     id={slug}
                                     data-animate
                                     className="relative min-h-screen flex items-center overflow-hidden"
@@ -268,9 +272,12 @@ const Hero = () => {
                                         >
                                             <img
                                                 src={suite.image}
-                                                alt={`${tool?.name ?? ""} – ${tool?.tagline ?? ""}`}
-                                                className="w-full h-full object-cover"
+                                                alt=""
+                                                aria-hidden="true"
+                                                decoding="async"
                                                 loading="lazy"
+                                                sizes="(min-width: 1024px) 100vw, 100vw"
+                                                className="w-full h-full object-cover"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                                         </div>
@@ -288,21 +295,18 @@ const Hero = () => {
                                         >
                                             <div className="space-y-4">
                                                 <div className="flex items-center gap-3 flex-wrap">
-                                                    {/* Tool name badge with the suite gradient */}
                                                     <div
                                                         className={`inline-block px-4 py-1 bg-gradient-to-r ${suite.gradient} rounded-full text-white text-sm font-semibold`}
                                                     >
                                                         {tool?.name}
                                                     </div>
 
-                                                    {/* Status */}
                                                     <span
                                                         className={`px-3 py-1 rounded-full text-xs font-medium border ${theme.textSecondary} ${theme.cardBg} ${theme.border}`}
                                                     >
                                                         {tool?.status}
                                                     </span>
 
-                                                    {/* Suite tag */}
                                                     <span
                                                         className={`px-3 py-1 rounded-full text-xs font-medium border ${theme.textSecondary} ${theme.cardBg} ${theme.border}`}
                                                     >
@@ -323,7 +327,6 @@ const Hero = () => {
                                                 </p>
                                             </div>
 
-                                            {/* Features */}
                                             <div className="space-y-3">
                                                 {(tool?.features ?? []).map(
                                                     (feature, i) => (
@@ -354,7 +357,6 @@ const Hero = () => {
                                                 )}
                                             </div>
 
-                                            {/* Tech tags */}
                                             <div className="flex flex-wrap gap-2">
                                                 {(tool?.tech ?? []).map(
                                                     (tech) => (
@@ -368,7 +370,6 @@ const Hero = () => {
                                                 )}
                                             </div>
 
-                                            {/* CTA buttons */}
                                             <div className="flex flex-wrap gap-4 pt-4">
                                                 {tool?.status === "Live" ? (
                                                     <>
@@ -384,7 +385,7 @@ const Hero = () => {
                                                             Learn More
                                                             <ArrowRight className="w-5 h-5" />
                                                         </button>
-                                                        {tool.github && (
+                                                        {tool?.github && (
                                                             <a
                                                                 href={`https://github.com/NoamFav/${tool.name}`}
                                                                 target="_blank"
@@ -410,7 +411,7 @@ const Hero = () => {
                                                             Learn More
                                                             <ArrowRight className="w-5 h-5" />
                                                         </button>
-                                                        {tool.github && (
+                                                        {tool?.github && (
                                                             <a
                                                                 href={`https://github.com/NoamFav/${tool.name}`}
                                                                 target="_blank"
@@ -488,7 +489,8 @@ const Hero = () => {
                                 <div className="flex items-center gap-4">
                                     <img
                                         src={testimonial.avatar}
-                                        alt={testimonial.name}
+                                        alt={`${testimonial.name} avatar`}
+                                        loading="lazy"
                                         className="w-12 h-12 rounded-full object-cover"
                                     />
                                     <div>
@@ -562,7 +564,7 @@ const Hero = () => {
                                     rel="noopener noreferrer"
                                     className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
-                                    <Github className="w-5 h-5" />
+                                    <SiGithub className="w-5 h-5" />
                                     Explore Projects
                                 </a>
                             </div>
@@ -573,8 +575,9 @@ const Hero = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
+                                    aria-label="GitHub"
                                 >
-                                    <Github className="w-5 h-5" />
+                                    <SiGithub className="w-5 h-5" />
                                     <span className="text-sm">GitHub</span>
                                 </a>
                                 <a
@@ -582,8 +585,9 @@ const Hero = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
+                                    aria-label="LinkedIn"
                                 >
-                                    <Linkedin className="w-5 h-5" />
+                                    <FaLinkedin className="w-5 h-5" />
                                     <span className="text-sm">LinkedIn</span>
                                 </a>
                                 <a
@@ -591,8 +595,9 @@ const Hero = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
+                                    aria-label="Twitter"
                                 >
-                                    <Twitter className="w-5 h-5" />
+                                    <SiX className="w-5 h-5" />
                                     <span className="text-sm">Twitter</span>
                                 </a>
                                 <a

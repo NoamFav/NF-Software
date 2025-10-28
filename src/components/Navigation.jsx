@@ -59,7 +59,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                     <Link
                         to="/contact"
                         className={`text-sm ${
-                            isActive("/products")
+                            isActive("/contact")
                                 ? theme.text + " font-medium"
                                 : theme.textSecondary + " hover:" + theme.text
                         } transition`}

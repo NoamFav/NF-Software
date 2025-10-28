@@ -1,10 +1,9 @@
 // ============================================================================
-// FILE: src/pages/Contact.jsx - COMPLETE VERSION
+// FILE: src/pages/Contact.jsx - OPTIMIZED VERSION
 // ============================================================================
 import { useState } from "react";
 import {
     Mail,
-    Github,
     Sparkles,
     Send,
     Building,
@@ -18,6 +17,7 @@ import {
     Loader,
     Clock,
 } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 
@@ -50,11 +50,15 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Check honeypot
+        if (e.target.company_website.value) {
+            return; // Likely spam
+        }
+        
         setIsSubmitting(true);
         setStatus({ type: "", message: "" });
 
-        // Here you would integrate with your backend or service like Formspree, EmailJS, etc.
-        // For now, we'll simulate a submission
         setTimeout(() => {
             setStatus({
                 type: "success",
@@ -63,7 +67,6 @@ const Contact = () => {
             });
             setIsSubmitting(false);
 
-            // Reset form
             setFormData({
                 name: "",
                 email: "",
@@ -75,7 +78,6 @@ const Contact = () => {
                 attachments: [],
             });
 
-            // Clear file input
             const fileInput = document.getElementById("file-upload");
             if (fileInput) fileInput.value = "";
         }, 2000);
@@ -83,7 +85,6 @@ const Contact = () => {
 
     return (
         <>
-            {/* Hero Section */}
             <section className="relative pt-32 pb-20 px-6 overflow-hidden">
                 <div className="absolute inset-0">
                     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
@@ -114,7 +115,6 @@ const Contact = () => {
                 </div>
             </section>
 
-            {/* Contact Info Cards */}
             <section className="relative px-6 pb-20" data-animate>
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -137,7 +137,7 @@ const Contact = () => {
                         <div
                             className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-purple-500/50 transition-all duration-300`}
                         >
-                            <Github className="w-10 h-10 text-purple-500 mb-4" />
+                            <SiGithub className="w-10 h-10 text-purple-500 mb-4" />
                             <h3
                                 className={`text-lg font-semibold ${theme.text} mb-2`}
                             >
@@ -169,14 +169,16 @@ const Contact = () => {
                 </div>
             </section>
 
-            {/* Contact Form */}
             <section className="relative px-6 pb-32" data-animate>
                 <div className="max-w-4xl mx-auto">
                     <form
                         onSubmit={handleSubmit}
                         className={`${theme.cardBg} rounded-3xl p-8 md:p-12 border ${theme.border}`}
+                        aria-busy={isSubmitting}
                     >
-                        {/* Status Message */}
+                        {/* Honeypot field */}
+                        <input type="text" name="company_website" className="hidden" tabIndex={-1} autoComplete="off" />
+
                         {status.message && (
                             <div
                                 className={`mb-8 p-4 rounded-lg flex items-start gap-3 ${
@@ -198,7 +200,6 @@ const Contact = () => {
                             </div>
                         )}
 
-                        {/* Personal Information */}
                         <div className="mb-8">
                             <h3
                                 className={`text-2xl font-bold ${theme.text} mb-6`}
@@ -208,6 +209,7 @@ const Contact = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label
+                                        htmlFor="full-name"
                                         className={`block text-sm font-medium ${theme.text} mb-2`}
                                     >
                                         Full Name{" "}
@@ -219,10 +221,13 @@ const Contact = () => {
                                         />
                                         <input
                                             type="text"
+                                            id="full-name"
                                             name="name"
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
+                                            aria-required="true"
+                                            aria-invalid={!formData.name ? "true" : "false"}
                                             className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                             placeholder="John Doe"
                                         />
@@ -230,6 +235,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <label
+                                        htmlFor="email-address"
                                         className={`block text-sm font-medium ${theme.text} mb-2`}
                                     >
                                         Email Address{" "}
@@ -241,10 +247,14 @@ const Contact = () => {
                                         />
                                         <input
                                             type="email"
+                                            id="email-address"
                                             name="email"
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
+                                            aria-required="true"
+                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                            aria-invalid={!formData.email ? "true" : "false"}
                                             className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                             placeholder="john@example.com"
                                         />
@@ -253,21 +263,23 @@ const Contact = () => {
                             </div>
                         </div>
 
-                        {/* Project Type & Company */}
                         <div className="mb-8">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label
+                                        htmlFor="project-type"
                                         className={`block text-sm font-medium ${theme.text} mb-2`}
                                     >
                                         Project Type{" "}
                                         <span className="text-red-500">*</span>
                                     </label>
                                     <select
+                                        id="project-type"
                                         name="projectType"
                                         value={formData.projectType}
                                         onChange={handleChange}
                                         required
+                                        aria-required="true"
                                         className={`w-full px-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                     >
                                         <option value="personal">
@@ -284,6 +296,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <label
+                                        htmlFor="company-name"
                                         className={`block text-sm font-medium ${theme.text} mb-2`}
                                     >
                                         Company Name (Optional)
@@ -294,6 +307,7 @@ const Contact = () => {
                                         />
                                         <input
                                             type="text"
+                                            id="company-name"
                                             name="company"
                                             value={formData.company}
                                             onChange={handleChange}
@@ -305,7 +319,6 @@ const Contact = () => {
                             </div>
                         </div>
 
-                        {/* Timeline & Budget */}
                         <div className="mb-8">
                             <h3
                                 className={`text-2xl font-bold ${theme.text} mb-6`}
@@ -315,6 +328,7 @@ const Contact = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label
+                                        htmlFor="timeframe"
                                         className={`block text-sm font-medium ${theme.text} mb-2`}
                                     >
                                         Expected Timeframe{" "}
@@ -325,10 +339,12 @@ const Contact = () => {
                                             className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
                                         />
                                         <select
+                                            id="timeframe"
                                             name="timeframe"
                                             value={formData.timeframe}
                                             onChange={handleChange}
                                             required
+                                            aria-required="true"
                                             className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                         >
                                             <option value="">
@@ -351,6 +367,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <label
+                                        htmlFor="budget"
                                         className={`block text-sm font-medium ${theme.text} mb-2`}
                                     >
                                         Budget Range{" "}
@@ -361,10 +378,12 @@ const Contact = () => {
                                             className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
                                         />
                                         <select
+                                            id="budget"
                                             name="budget"
                                             value={formData.budget}
                                             onChange={handleChange}
                                             required
+                                            aria-required="true"
                                             className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                         >
                                             <option value="">
@@ -388,9 +407,9 @@ const Contact = () => {
                             </div>
                         </div>
 
-                        {/* Project Description */}
                         <div className="mb-8">
                             <label
+                                htmlFor="description"
                                 className={`block text-sm font-medium ${theme.text} mb-2`}
                             >
                                 Project Description{" "}
@@ -401,10 +420,12 @@ const Contact = () => {
                                     className={`absolute left-3 top-3 w-5 h-5 ${theme.textSecondary}`}
                                 />
                                 <textarea
+                                    id="description"
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
                                     required
+                                    aria-required="true"
                                     rows={8}
                                     className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition`}
                                     placeholder="Tell me about your project, goals, key features, technical requirements, and any specific challenges you're facing..."
@@ -418,7 +439,6 @@ const Contact = () => {
                             </p>
                         </div>
 
-                        {/* File Upload */}
                         <div className="mb-8">
                             <label
                                 className={`block text-sm font-medium ${theme.text} mb-2`}
@@ -435,6 +455,7 @@ const Contact = () => {
                                     className="hidden"
                                     id="file-upload"
                                     accept="image/*,.pdf,.doc,.docx"
+                                    aria-label="Upload files"
                                 />
                                 <label
                                     htmlFor="file-upload"
@@ -482,7 +503,6 @@ const Contact = () => {
                             </div>
                         </div>
 
-                        {/* Submit Button */}
                         <button
                             type="submit"
                             disabled={isSubmitting}
@@ -512,7 +532,6 @@ const Contact = () => {
                 </div>
             </section>
 
-            {/* FAQ Section */}
             <section className="relative px-6 pb-32" data-animate>
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">

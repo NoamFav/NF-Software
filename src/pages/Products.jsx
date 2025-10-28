@@ -1,10 +1,9 @@
 // ============================================================================
-// FILE: src/pages/Products.jsx - UPDATED WITH SUITE STRUCTURE
+// FILE: src/pages/Products.jsx
 // ============================================================================
 import { useState, useEffect } from "react";
 import {
     ArrowRight,
-    Github,
     CheckCircle,
     Filter,
     ChevronRight,
@@ -15,6 +14,7 @@ import {
     GraduationCap,
     FolderTree,
 } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { suites, standaloneTools } from "../data/products";
@@ -31,6 +31,27 @@ const Products = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const fmt = (n) =>
+        (n ?? n === 0)
+            ? new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "EUR",
+                  maximumFractionDigits: 0,
+              }).format(n)
+            : "—";
+    const Btn = ({ href, children, className }) => {
+        const disabled = !href || href === "#";
+        return (
+            <a
+                href={disabled ? undefined : href}
+                aria-disabled={disabled}
+                onClick={(e) => disabled && e.preventDefault()}
+                className={`${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+            >
+                {children}
+            </a>
+        );
+    };
     const getIconComponent = (iconName) => {
         const icons = {
             Code,
@@ -39,7 +60,7 @@ const Products = () => {
             GraduationCap,
             FolderTree,
         };
-        return icons[iconName] || Code;
+        return icons[iconName] ?? Code;
     };
 
     const allTools = suites.flatMap((suite) =>
@@ -62,6 +83,9 @@ const Products = () => {
                 return "border-gray-500/50 text-gray-500 bg-gray-500/10";
         }
     };
+
+    const getCheckoutHref = (sku) =>
+        sku ? `/checkout?sku=${encodeURIComponent(sku)}` : "#";
 
     return (
         <>
@@ -155,7 +179,7 @@ const Products = () => {
                         return (
                             <div
                                 key={suite.id}
-                                id={suite.id}
+                                id={suite.slug}
                                 data-animate
                                 className="mb-24"
                             >
@@ -209,12 +233,11 @@ const Products = () => {
                                                     <div
                                                         className={`text-3xl font-bold ${theme.text}`}
                                                     >
-                                                        $
-                                                        {
-                                                            suite.pricing
-                                                                .individual
-                                                                .annual
-                                                        }
+                                                        {fmt(
+                                                            suite.plans
+                                                                ?.individual
+                                                                .annual,
+                                                        )}
                                                         /yr
                                                     </div>
                                                 </div>
@@ -227,15 +250,22 @@ const Products = () => {
                                                     <div
                                                         className={`text-2xl font-bold ${theme.text}`}
                                                     >
-                                                        $
-                                                        {
-                                                            suite.pricing
-                                                                .individual
-                                                                .oneTime
-                                                        }
+                                                        {fmt(
+                                                            suite.plans
+                                                                ?.individual
+                                                                .oneTime,
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <button
+                                                    onClick={() =>
+                                                        (window.location.href =
+                                                            getCheckoutHref(
+                                                                suite.plans
+                                                                    .individual
+                                                                    .skuAnnual,
+                                                            ))
+                                                    }
                                                     className={`w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
                                                 >
                                                     Get Suite
@@ -285,7 +315,7 @@ const Products = () => {
                                                 </div>
 
                                                 <div className="space-y-2">
-                                                    {tool.features.map(
+                                                    {(tool.features ?? []).map(
                                                         (feature, i) => (
                                                             <div
                                                                 key={i}
@@ -295,11 +325,13 @@ const Products = () => {
                                                                 <span
                                                                     className={`text-sm ${theme.textSecondary}`}
                                                                 >
-                                                                    {
-                                                                        feature.split(
-                                                                            " - ",
-                                                                        )[0]
-                                                                    }
+                                                                    {feature.includes(
+                                                                        " - ",
+                                                                    )
+                                                                        ? feature.split(
+                                                                              " - ",
+                                                                          )[0]
+                                                                        : feature}
                                                                 </span>
                                                             </div>
                                                         ),
@@ -307,14 +339,16 @@ const Products = () => {
                                                 </div>
 
                                                 <div className="flex flex-wrap gap-2">
-                                                    {tool.tech.map((t) => (
-                                                        <span
-                                                            key={t}
-                                                            className={`px-2 py-1 rounded text-xs ${theme.textTertiary} border ${theme.border}`}
-                                                        >
-                                                            {t}
-                                                        </span>
-                                                    ))}
+                                                    {(tool.tech ?? []).map(
+                                                        (t) => (
+                                                            <span
+                                                                key={t}
+                                                                className={`px-2 py-1 rounded text-xs ${theme.textTertiary} border ${theme.border}`}
+                                                            >
+                                                                {t}
+                                                            </span>
+                                                        ),
+                                                    )}
                                                 </div>
 
                                                 <div
@@ -331,11 +365,10 @@ const Products = () => {
                                                         <span
                                                             className={`font-semibold ${theme.text}`}
                                                         >
-                                                            $
-                                                            {
-                                                                tool.individual
-                                                                    .annual
-                                                            }
+                                                            {fmt(
+                                                                tool.plan
+                                                                    ?.annual,
+                                                            )}
                                                             /yr
                                                         </span>
                                                     </div>
@@ -350,11 +383,10 @@ const Products = () => {
                                                         <span
                                                             className={`font-semibold ${theme.text}`}
                                                         >
-                                                            $
-                                                            {
-                                                                tool.individual
-                                                                    .oneTime
-                                                            }
+                                                            {fmt(
+                                                                tool.plan
+                                                                    ?.oneTime,
+                                                            )}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -366,10 +398,28 @@ const Products = () => {
                                                         rel="noopener noreferrer"
                                                         className={`flex items-center justify-center gap-2 px-4 py-2 ${theme.cardBg} border ${theme.border} rounded-lg text-sm font-medium hover:border-blue-500/50 transition`}
                                                     >
-                                                        <Github className="w-4 h-4" />
+                                                        <SiGithub className="w-4 h-4" />
                                                         View on GitHub
                                                     </a>
                                                 )}
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-2 pt-2">
+                                                <Btn
+                                                    className={`text-center px-4 py-2.5 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
+                                                    href={getCheckoutHref(
+                                                        tool.plan?.skuAnnual,
+                                                    )}
+                                                >
+                                                    Subscribe
+                                                </Btn>
+                                                <Btn
+                                                    className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} font-semibold rounded-lg hover:border-blue-500/50 hover:scale-[1.02] transition-all duration-300`}
+                                                    href={getCheckoutHref(
+                                                        tool.plan?.skuOneTime,
+                                                    )}
+                                                >
+                                                    Buy Once
+                                                </Btn>
                                             </div>
                                         </div>
                                     ))}
@@ -424,25 +474,25 @@ const Products = () => {
                                                         {tool.description}
                                                     </p>
                                                     <div className="space-y-2 mb-4">
-                                                        {tool.features.map(
-                                                            (f, i) => (
-                                                                <div
-                                                                    key={i}
-                                                                    className="flex items-start gap-2"
+                                                        {(
+                                                            tool.features ?? []
+                                                        ).map((f, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="flex items-start gap-2"
+                                                            >
+                                                                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span
+                                                                    className={`text-sm ${theme.textSecondary}`}
                                                                 >
-                                                                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                                                                    <span
-                                                                        className={`text-sm ${theme.textSecondary}`}
-                                                                    >
-                                                                        {
-                                                                            f.split(
-                                                                                " - ",
-                                                                            )[0]
-                                                                        }
-                                                                    </span>
-                                                                </div>
-                                                            ),
-                                                        )}
+                                                                    {
+                                                                        f.split(
+                                                                            " - ",
+                                                                        )[0]
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                     <div
                                                         className={`flex justify-between text-sm pt-4 border-t ${theme.border}`}
@@ -452,11 +502,10 @@ const Products = () => {
                                                                 theme.textSecondary
                                                             }
                                                         >
-                                                            $
-                                                            {
-                                                                tool.individual
-                                                                    .annual
-                                                            }
+                                                            {fmt(
+                                                                tool.plan
+                                                                    ?.annual,
+                                                            )}
                                                             /yr
                                                         </span>
                                                         <span
@@ -464,13 +513,32 @@ const Products = () => {
                                                                 theme.textSecondary
                                                             }
                                                         >
-                                                            $
-                                                            {
-                                                                tool.individual
-                                                                    .oneTime
-                                                            }{" "}
+                                                            {fmt(
+                                                                tool.plan
+                                                                    ?.oneTime,
+                                                            )}{" "}
                                                             one-time
                                                         </span>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-2 pt-2">
+                                                        <Btn
+                                                            className={`text-center px-4 py-2.5 bg-gradient-to-r ${tool.gradient} text-white rounded-lg`}
+                                                            href={getCheckoutHref(
+                                                                tool.plan
+                                                                    ?.skuAnnual,
+                                                            )}
+                                                        >
+                                                            Subscribe
+                                                        </Btn>
+                                                        <Btn
+                                                            className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} rounded-lg`}
+                                                            href={getCheckoutHref(
+                                                                tool.plan
+                                                                    ?.skuOneTime,
+                                                            )}
+                                                        >
+                                                            Buy Once
+                                                        </Btn>
                                                     </div>
                                                 </div>
                                             );
@@ -512,7 +580,7 @@ const Products = () => {
                                 rel="noopener noreferrer"
                                 className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition`}
                             >
-                                <Github className="w-5 h-5" />
+                                <SiGithub className="w-5 h-5" />
                                 Explore on GitHub
                             </a>
                         </div>

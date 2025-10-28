@@ -12,6 +12,7 @@
         "deploy": "gh-pages -d dist"
     },
     "dependencies": {
+        "@icons-pack/react-simple-icons": "^13.8.0",
         "@tailwindcss/postcss": "^4.0.7",
         "eslint-plugin-react": "^7.37.4",
         "framer-motion": "^12.4.7",

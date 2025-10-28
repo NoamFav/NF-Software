@@ -40,7 +40,7 @@ const Layout = ({ children }) => {
             <Footer theme={theme} />
 
             {/* Global Styles */}
-            <style jsx>{`
+            <style>{`
                 @keyframes gradient {
                     0%,
                     100% {

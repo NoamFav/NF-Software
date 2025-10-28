@@ -1,10 +1,9 @@
 // ============================================================================
-// FILE: src/pages/Pricing.jsx - NEW PRICING PAGE
+// FILE: src/pages/Pricing.jsx
 // ============================================================================
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import {
     Check,
-    X as XIcon,
     Shield,
     Users,
     Download,
@@ -26,7 +25,14 @@ const Pricing = () => {
     const { darkMode } = useDarkMode();
     const theme = getTheme(darkMode);
     const [selectedPlan, setSelectedPlan] = useState("individual");
-
+    const fmt = (n) =>
+        (n ?? n === 0)
+            ? new Intl.NumberFormat(undefined, {
+                  style: "currency",
+                  currency: "EUR",
+                  maximumFractionDigits: 0,
+              }).format(n)
+            : "—";
     const getIconComponent = (iconName) => {
         const icons = {
             Code: Code,
@@ -38,7 +44,16 @@ const Pricing = () => {
         const IconComponent = icons[iconName];
         return IconComponent || icons.Code;
     };
-
+    const getCheckoutHref = (sku) =>
+        sku ? `/checkout?sku=${encodeURIComponent(sku)}` : "#";
+    const suiteSkuFor = (suite, selectedPlan) => {
+        if (selectedPlan === "individual")
+            return suite.plans?.individual?.skuAnnual;
+        if (selectedPlan === "professional")
+            return suite.plans?.professional?.sku; // annual-only
+        if (selectedPlan === "enterprise") return suite.plans?.enterprise?.sku; // annual-only
+        return null;
+    };
     return (
         <>
             {/* Hero Section */}
@@ -91,13 +106,13 @@ const Pricing = () => {
                         ))}
                     </div>
 
-                    {/* Suite Pricing Cards */}
+                    {/* suite.plans Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                         {suites.map((suite) => {
                             const IconComponent = getIconComponent(suite.icon);
                             return (
                                 <div
-                                    key={suite.id}
+                                    key={suite.slug}
                                     data-animate
                                     className={`${theme.cardBg} rounded-3xl p-8 border ${theme.border} hover:border-blue-500/50 transition-all duration-300`}
                                 >
@@ -125,12 +140,11 @@ const Pricing = () => {
                                                     <div
                                                         className={`text-4xl font-bold ${theme.text}`}
                                                     >
-                                                        $
-                                                        {
-                                                            suite.pricing
-                                                                .individual
-                                                                .annual
-                                                        }
+                                                        {fmt(
+                                                            suite.plans
+                                                                ?.individual
+                                                                .annual,
+                                                        )}
                                                         <span className="text-lg">
                                                             /yr
                                                         </span>
@@ -145,12 +159,11 @@ const Pricing = () => {
                                                     <div
                                                         className={`text-3xl font-bold ${theme.text}`}
                                                     >
-                                                        $
-                                                        {
-                                                            suite.pricing
-                                                                .individual
-                                                                .oneTime
-                                                        }
+                                                        {fmt(
+                                                            suite.plans
+                                                                ?.individual
+                                                                .oneTime,
+                                                        )}
                                                     </div>
                                                 </div>
                                             </>
@@ -165,11 +178,11 @@ const Pricing = () => {
                                                 <div
                                                     className={`text-4xl font-bold ${theme.text}`}
                                                 >
-                                                    $
-                                                    {
-                                                        suite.pricing
-                                                            .professional.annual
-                                                    }
+                                                    {fmt(
+                                                        suite.plans
+                                                            ?.professional
+                                                            .annual,
+                                                    )}
                                                     <span className="text-lg">
                                                         /yr
                                                     </span>
@@ -189,19 +202,18 @@ const Pricing = () => {
                                                 >
                                                     Annual (
                                                     {
-                                                        suite.pricing.enterprise
-                                                            .users
+                                                        suite.plans.enterprise
+                                                            .seats
                                                     }{" "}
-                                                    users)
+                                                    seats)
                                                 </div>
                                                 <div
                                                     className={`text-4xl font-bold ${theme.text}`}
                                                 >
-                                                    $
-                                                    {
-                                                        suite.pricing.enterprise
-                                                            .annual
-                                                    }
+                                                    {fmt(
+                                                        suite.plans?.enterprise
+                                                            .annual,
+                                                    )}
                                                     <span className="text-lg">
                                                         /yr
                                                     </span>
@@ -216,11 +228,14 @@ const Pricing = () => {
                                         )}
                                     </div>
 
-                                    <button
-                                        className={`w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition mb-4`}
+                                    <a
+                                        href={getCheckoutHref(
+                                            suiteSkuFor(suite, selectedPlan),
+                                        )}
+                                        className={`block text-center w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition mb-4`}
                                     >
                                         Get {suite.name}
-                                    </button>
+                                    </a>
 
                                     <div className="space-y-2">
                                         <div
@@ -300,10 +315,9 @@ const Pricing = () => {
                                             suite.icon,
                                         );
                                         return (
-                                            <>
+                                            <Fragment key={suite.slug}>
                                                 {/* Suite Row */}
                                                 <tr
-                                                    key={suite.id}
                                                     className={`border-b ${theme.border} ${theme.hoverBg}`}
                                                 >
                                                     <td className="p-4">
@@ -339,12 +353,11 @@ const Pricing = () => {
                                                         <span
                                                             className={`font-semibold ${theme.text}`}
                                                         >
-                                                            $
-                                                            {
-                                                                suite.pricing
-                                                                    .individual
-                                                                    .annual
-                                                            }
+                                                            {fmt(
+                                                                suite.plans
+                                                                    ?.individual
+                                                                    .annual,
+                                                            )}
                                                             /yr
                                                         </span>
                                                     </td>
@@ -352,12 +365,11 @@ const Pricing = () => {
                                                         <span
                                                             className={`font-semibold ${theme.text}`}
                                                         >
-                                                            $
-                                                            {
-                                                                suite.pricing
-                                                                    .individual
-                                                                    .oneTime
-                                                            }
+                                                            {fmt(
+                                                                suite.plans
+                                                                    ?.individual
+                                                                    .oneTime,
+                                                            )}
                                                         </span>
                                                     </td>
                                                     <td className="p-4">
@@ -366,11 +378,13 @@ const Pricing = () => {
                                                         </span>
                                                     </td>
                                                 </tr>
-
                                                 {/* Tool Rows */}
                                                 {suite.tools.map((tool) => (
                                                     <tr
-                                                        key={tool.name}
+                                                        key={
+                                                            tool.slug ||
+                                                            tool.name
+                                                        }
                                                         className={`border-b ${theme.border} ${theme.hoverBg}`}
                                                     >
                                                         <td className="p-4 pl-16">
@@ -398,12 +412,10 @@ const Pricing = () => {
                                                                     theme.text
                                                                 }
                                                             >
-                                                                $
-                                                                {
-                                                                    tool
-                                                                        .individual
-                                                                        .annual
-                                                                }
+                                                                {fmt(
+                                                                    tool.plan
+                                                                        ?.annual,
+                                                                )}
                                                                 /yr
                                                             </span>
                                                         </td>
@@ -413,12 +425,10 @@ const Pricing = () => {
                                                                     theme.text
                                                                 }
                                                             >
-                                                                $
-                                                                {
-                                                                    tool
-                                                                        .individual
-                                                                        .oneTime
-                                                                }
+                                                                {fmt(
+                                                                    tool.plan
+                                                                        ?.oneTime,
+                                                                )}
                                                             </span>
                                                         </td>
                                                         <td className="p-4">
@@ -438,7 +448,7 @@ const Pricing = () => {
                                                         </td>
                                                     </tr>
                                                 ))}
-                                            </>
+                                            </Fragment>
                                         );
                                     })}
 
@@ -484,8 +494,7 @@ const Pricing = () => {
                                                     <span
                                                         className={theme.text}
                                                     >
-                                                        $
-                                                        {tool.individual.annual}
+                                                        {fmt(tool.plan?.annual)}
                                                         /yr
                                                     </span>
                                                 </td>
@@ -493,11 +502,9 @@ const Pricing = () => {
                                                     <span
                                                         className={theme.text}
                                                     >
-                                                        $
-                                                        {
-                                                            tool.individual
-                                                                .oneTime
-                                                        }
+                                                        {fmt(
+                                                            tool.plan?.oneTime,
+                                                        )}
                                                     </span>
                                                 </td>
                                                 <td className="p-4">

@@ -1,9 +1,8 @@
 // ============================================================================
-// FILE: src/pages/About.jsx - COMPLETE VERSION
+// FILE: src/pages/About.jsx - COMPLETE OPTIMIZED VERSION
 // ============================================================================
 import {
     ArrowRight,
-    Github,
     Mail,
     Sparkles,
     Zap,
@@ -21,6 +20,8 @@ import {
     CheckCircle,
     ExternalLink,
 } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
+import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { stats, timeline, principles, process } from "../data/siteData";
@@ -100,20 +101,20 @@ const About = () => {
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
-                        <a
-                            href="/products"
+                        <Link
+                            to="/products"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
                         >
                             Explore Products
                             <ArrowRight className="w-5 h-5" />
-                        </a>
+                        </Link>
                         <a
                             href="https://github.com/NoamFav"
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`inline-flex items-center gap-2 px-8 py-4 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-200"} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
                         >
-                            <Github className="w-5 h-5" />
+                            <SiGithub className="w-5 h-5" />
                             View on GitHub
                         </a>
                     </div>
@@ -197,9 +198,12 @@ const About = () => {
                     >
                         <img
                             src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80"
-                            alt="Technology abstract background"
-                            className="w-full h-full object-cover"
+                            alt=""
+                            aria-hidden="true"
+                            decoding="async"
                             loading="lazy"
+                            sizes="(min-width: 1024px) 100vw, 100vw"
+                            className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
@@ -303,9 +307,12 @@ const About = () => {
                     >
                         <img
                             src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80"
-                            alt="Team collaboration background"
-                            className="w-full h-full object-cover"
+                            alt=""
+                            aria-hidden="true"
+                            decoding="async"
                             loading="lazy"
+                            sizes="(min-width: 1024px) 100vw, 100vw"
+                            className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
@@ -544,7 +551,7 @@ const About = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
                         >
-                            <Github className="w-5 h-5" />
+                            <SiGithub className="w-5 h-5" />
                             Explore on GitHub
                             <ExternalLink className="w-4 h-4" />
                         </a>
@@ -599,14 +606,14 @@ const About = () => {
                                     <Mail className="w-5 h-5" />
                                     Get in Touch
                                 </a>
-                                <a
-                                    href="/products"
+                                <Link
+                                    to="/products"
                                     className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Package className="w-5 h-5" />
                                     Explore Products
                                     <ArrowRight className="w-4 h-4" />
-                                </a>
+                                </Link>
                             </div>
 
                             <div className="flex flex-wrap items-center justify-center gap-6 pt-12">
@@ -615,19 +622,20 @@ const About = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
+                                    aria-label="GitHub"
                                 >
-                                    <Github className="w-5 h-5" />
+                                    <SiGithub className="w-5 h-5" />
                                     <span className="text-sm">GitHub</span>
                                 </a>
-                                <a
-                                    href="/testimonials"
+                                <Link
+                                    to="/testimonials"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
                                 >
                                     <Star className="w-5 h-5" />
                                     <span className="text-sm">
                                         Testimonials
                                     </span>
-                                </a>
+                                </Link>
                                 <a
                                     href="mailto:contact@nf-software.com"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
