@@ -207,7 +207,7 @@ export const suites = [
                     "Cross-platform - Linux, macOS, Windows, BSD",
                 ],
                 tech: ["C", "POSIX", "IOKit", "procfs"],
-                status: "Live",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -534,7 +534,7 @@ export const standaloneTools = [
             "Metadata extraction - Smart categorization",
         ],
         tech: ["Go", "fsnotify", "YAML", "Tesseract OCR"],
-        status: "Live",
+        status: "In Development",
         gradient: "from-orange-500 to-red-500",
         icon: "FolderTree",
         license: {
