@@ -118,7 +118,7 @@ const Products = () => {
                             className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border ${theme.blobBlue}/20 mb-6 animate-fade-in`}
                         >
                             <Package
-                                className={`w-4 h-4 ${theme.blobBlue} animate-pulse`}
+                                className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                             />
                             <span className="text-sm font-medium">
                                 4 Suites, 16+ Tools

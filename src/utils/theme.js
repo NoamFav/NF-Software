@@ -29,6 +29,8 @@ export const getTheme = (darkMode) => ({
     blobPurple: "bg-purple-500",
     blobPink: "bg-pink-500",
 
+    textBlue: "text-blue-500",
+
     // Cursor glow gradient
     cursorGlow: darkMode ? "rgba(99,102,241,.15)" : "rgba(99,102,241,.08)",
 
