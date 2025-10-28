@@ -1,7 +1,7 @@
 // ============================================================================
-// FILE: src/pages/Hero.jsx - OPTIMIZED VERSION
+// FILE: src/pages/Hero.jsx
 // ============================================================================
-import React, { useMemo } from "react";
+import React from "react";
 import {
     ArrowRight,
     Mail,
@@ -215,7 +215,9 @@ const Hero = () => {
                                     alt=""
                                     aria-hidden="true"
                                     decoding="async"
-                                    fetchpriority={sIdx === 0 ? "high" : undefined}
+                                    fetchpriority={
+                                        sIdx === 0 ? "high" : undefined
+                                    }
                                     loading={sIdx === 0 ? undefined : "lazy"}
                                     sizes="(min-width: 1024px) 100vw, 100vw"
                                     className="w-full h-full object-cover"
