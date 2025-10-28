@@ -104,7 +104,7 @@ const Hero = () => {
                             href="https://github.com/NoamFav"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`inline-flex items-center gap-2 px-8 py-4 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-200"} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
+                            className={`inline-flex items-center gap-2 px-8 py-4 ${theme.bgButton} border ${theme.borderButton} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
                         >
                             <SiGithub className="w-5 h-5" />
                             View on GitHub
@@ -138,7 +138,7 @@ const Hero = () => {
                         className={`w-6 h-10 rounded-full border-2 ${theme.border} flex items-start justify-center p-2`}
                     >
                         <div
-                            className={`w-1.5 h-1.5 ${darkMode ? "bg-white" : "bg-black"} rounded-full animate-pulse`}
+                            className={`w-1.5 h-1.5 ${theme.bgPrimary} rounded-full animate-pulse`}
                         />
                     </div>
                 </div>
@@ -621,7 +621,7 @@ const Hero = () => {
                     onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    className={`fixed bottom-8 right-8 p-4 ${darkMode ? "bg-white text-black" : "bg-black text-white"} rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50`}
+                    className={`fixed bottom-8 right-8 p-4 ${theme.bgPrimary} ${theme.textPrimary} rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50`}
                     aria-label="Scroll to top"
                 >
                     <ChevronRight className="w-6 h-6 -rotate-90" />

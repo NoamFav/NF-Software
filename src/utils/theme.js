@@ -1,21 +1,42 @@
-// ============================================================================
-// FILE: src/utils/theme.js
-// ============================================================================
 export const getTheme = (darkMode) => ({
+    // Backgrounds
     bg: darkMode ? "bg-black" : "bg-white",
-    text: darkMode ? "text-white" : "text-gray-900",
-    textSecondary: darkMode ? "text-gray-400" : "text-gray-600",
-    textTertiary: "text-gray-500",
-    navBg: darkMode ? "bg-black/80" : "bg-white/80",
-    border: darkMode ? "border-gray-800" : "border-gray-200",
     cardBg: darkMode ? "bg-gray-900" : "bg-gray-50",
+    navBg: darkMode ? "bg-black/80" : "bg-white/80",
     hoverBg: darkMode ? "hover:bg-gray-800" : "hover:bg-gray-100",
 
-    // brand accents
-    accentText: "text-brand-500",
-    accentBg: "bg-brand-500",
-    accentRing: "ring-brand-500/40",
-    successBadge: "border-leaf-500/50 text-leaf-500 bg-leaf-500/10",
-    gradient: "from-brand-500 via-brand-400 to-brand-300",
-    gradientDeep: "from-brand-700 to-brand-500",
+    // Text colors
+    text: darkMode ? "text-white" : "text-gray-900",
+    textSecondary: darkMode ? "text-gray-400" : "text-gray-600",
+    textTertiary: darkMode ? "text-gray-500" : "text-gray-500",
+
+    // Borders
+    border: darkMode ? "border-gray-800" : "border-gray-200",
+
+    // Input/Form elements
+    bgInput: darkMode ? "bg-black" : "bg-white",
+
+    // Buttons
+    bgButton: darkMode ? "bg-gray-800" : "bg-gray-100",
+    borderButton: darkMode ? "border-gray-700" : "border-gray-200",
+
+    // Primary button (inverted)
+    bgPrimary: darkMode ? "bg-white" : "bg-black",
+    textPrimary: darkMode ? "text-black" : "text-white",
+
+    // Gradient blobs (decorative backgrounds)
+    blobBlue: "bg-blue-500",
+    blobPurple: "bg-purple-500",
+    blobPink: "bg-pink-500",
+
+    // Cursor glow gradient
+    cursorGlow: darkMode ? "rgba(99,102,241,.15)" : "rgba(99,102,241,.08)",
+
+    // Primary gradients (commonly used)
+    gradientPrimary: "from-blue-500 to-purple-500",
+    gradientSecondary: "from-purple-500 to-pink-500",
+    gradientAccent: "from-blue-500 via-purple-500 to-pink-500",
+
+    // Badge/Tag gradients
+    badgeGradient: "from-blue-500/10 to-purple-500/10",
 });

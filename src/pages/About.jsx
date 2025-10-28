@@ -1,5 +1,5 @@
 // ============================================================================
-// FILE: src/pages/About.jsx - COMPLETE OPTIMIZED VERSION
+// FILE: src/pages/About.jsx
 // ============================================================================
 import {
     ArrowRight,
@@ -112,7 +112,7 @@ const About = () => {
                             href="https://github.com/NoamFav"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`inline-flex items-center gap-2 px-8 py-4 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-200"} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
+                            className={`inline-flex items-center gap-2 px-8 py-4 ${theme.bgButton} border ${theme.borderButton} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
                         >
                             <SiGithub className="w-5 h-5" />
                             View on GitHub
@@ -125,7 +125,7 @@ const About = () => {
                         className={`w-6 h-10 rounded-full border-2 ${theme.border} flex items-start justify-center p-2`}
                     >
                         <div
-                            className={`w-1.5 h-1.5 ${darkMode ? "bg-white" : "bg-black"} rounded-full animate-pulse`}
+                            className={`w-1.5 h-1.5 ${theme.bgPrimary} rounded-full animate-pulse`}
                         />
                     </div>
                 </div>
@@ -429,7 +429,7 @@ const About = () => {
                             </div>
                         </div>
 
-                        <div className="pt-8 border-t border-gray-800">
+                        <div className={`pt-8 border-t ${theme.border}`}>
                             <p
                                 className={`text-center ${theme.textSecondary} leading-relaxed`}
                             >
@@ -485,22 +485,22 @@ const About = () => {
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span
-                                    className={`px-3 py-1 ${darkMode ? "bg-gray-800" : "bg-gray-200"} rounded-lg text-sm ${theme.textSecondary}`}
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
                                 >
                                     Rust
                                 </span>
                                 <span
-                                    className={`px-3 py-1 ${darkMode ? "bg-gray-800" : "bg-gray-200"} rounded-lg text-sm ${theme.textSecondary}`}
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
                                 >
                                     Go
                                 </span>
                                 <span
-                                    className={`px-3 py-1 ${darkMode ? "bg-gray-800" : "bg-gray-200"} rounded-lg text-sm ${theme.textSecondary}`}
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
                                 >
                                     React
                                 </span>
                                 <span
-                                    className={`px-3 py-1 ${darkMode ? "bg-gray-800" : "bg-gray-200"} rounded-lg text-sm ${theme.textSecondary}`}
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
                                 >
                                     C#
                                 </span>

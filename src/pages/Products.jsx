@@ -594,7 +594,7 @@ const Products = () => {
                     onClick={() =>
                         window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    className={`fixed bottom-8 right-8 p-4 ${darkMode ? "bg-white text-black" : "bg-black text-white"} rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50`}
+                    className={`fixed bottom-8 right-8 p-4 ${theme.bgPrimary} ${theme.textPrimary} rounded-full shadow-2xl hover:scale-110 transition-all duration-300 z-50`}
                     aria-label="Scroll to top"
                 >
                     <ChevronRight className="w-6 h-6 -rotate-90" />

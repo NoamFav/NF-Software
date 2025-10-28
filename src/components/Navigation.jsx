@@ -68,7 +68,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                     </Link>
                     <button
                         onClick={toggleDarkMode}
-                        className={`p-2 rounded-full ${darkMode ? "bg-gray-800" : "bg-gray-100"} transition ${theme.hoverBg}`}
+                        className={`p-2 rounded-full ${theme.bgButton} transition ${theme.hoverBg}`}
                         aria-label="Toggle theme"
                     >
                         {darkMode ? (
@@ -79,7 +79,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                     </button>
                     <a
                         href="mailto:contact@nf-software.com"
-                        className={`px-6 py-2.5 ${darkMode ? "bg-white text-black" : "bg-black text-white"} rounded-full text-sm font-medium hover:opacity-90 transition transform hover:scale-105`}
+                        className={`px-6 py-2.5 ${theme.bgPrimary} ${theme.textPrimary} rounded-full text-sm font-medium hover:opacity-90 transition transform hover:scale-105`}
                     >
                         Contact
                     </a>
@@ -135,7 +135,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                         </Link>
                         <a
                             href="mailto:contact@nf-software.com"
-                            className={`block w-full text-center px-6 py-2.5 ${darkMode ? "bg-white text-black" : "bg-black text-white"} rounded-full text-sm font-medium`}
+                            className={`block w-full text-center px-6 py-2.5 ${theme.bgPrimary} ${theme.textPrimary} rounded-full text-sm font-medium`}
                         >
                             Contact
                         </a>

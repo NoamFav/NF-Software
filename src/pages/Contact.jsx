@@ -1,5 +1,5 @@
 // ============================================================================
-// FILE: src/pages/Contact.jsx - OPTIMIZED VERSION
+// FILE: src/pages/Contact.jsx
 // ============================================================================
 import { useState } from "react";
 import {
@@ -50,12 +50,12 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Check honeypot
         if (e.target.company_website.value) {
             return; // Likely spam
         }
-        
+
         setIsSubmitting(true);
         setStatus({ type: "", message: "" });
 
@@ -177,7 +177,13 @@ const Contact = () => {
                         aria-busy={isSubmitting}
                     >
                         {/* Honeypot field */}
-                        <input type="text" name="company_website" className="hidden" tabIndex={-1} autoComplete="off" />
+                        <input
+                            type="text"
+                            name="company_website"
+                            className="hidden"
+                            tabIndex={-1}
+                            autoComplete="off"
+                        />
 
                         {status.message && (
                             <div
@@ -227,7 +233,11 @@ const Contact = () => {
                                             onChange={handleChange}
                                             required
                                             aria-required="true"
-                                            aria-invalid={!formData.name ? "true" : "false"}
+                                            aria-invalid={
+                                                !formData.name
+                                                    ? "true"
+                                                    : "false"
+                                            }
                                             className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                             placeholder="John Doe"
                                         />
@@ -254,7 +264,11 @@ const Contact = () => {
                                             required
                                             aria-required="true"
                                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                            aria-invalid={!formData.email ? "true" : "false"}
+                                            aria-invalid={
+                                                !formData.email
+                                                    ? "true"
+                                                    : "false"
+                                            }
                                             className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                             placeholder="john@example.com"
                                         />
@@ -280,7 +294,7 @@ const Contact = () => {
                                         onChange={handleChange}
                                         required
                                         aria-required="true"
-                                        className={`w-full px-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
+                                        className={`w-full px-4 py-3 ${theme.bgInput} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
                                     >
                                         <option value="personal">
                                             Personal Project
