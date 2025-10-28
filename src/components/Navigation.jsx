@@ -47,6 +47,16 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                         Products
                     </Link>
                     <Link
+                        to="/pricing"
+                        className={`text-sm ${
+                            isActive("/pricing")
+                                ? theme.text + " font-medium"
+                                : theme.textSecondary + " hover:" + theme.text
+                        } transition`}
+                    >
+                        Pricing
+                    </Link>
+                    <Link
                         to="/contact"
                         className={`text-sm ${
                             isActive("/products")
@@ -110,11 +120,18 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                             Products
                         </Link>
                         <Link
-                            to="/testimonials"
+                            to="/pricing"
                             className={`block text-sm ${theme.textSecondary}`}
                             onClick={() => setMobileMenuOpen(false)}
                         >
-                            Testimonials
+                            Pricing
+                        </Link>
+                        <Link
+                            to="/contact"
+                            className={`block text-sm ${theme.textSecondary}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            Contact me
                         </Link>
                         <a
                             href="mailto:contact@nf-software.com"

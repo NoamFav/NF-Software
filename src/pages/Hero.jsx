@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
-import { products } from "../data/products";
+import { suites } from "../data/products";
 import { testimonials } from "../data/testimonials";
 
 const Hero = () => {
@@ -201,165 +201,247 @@ const Hero = () => {
                         performance, and built to last.
                     </p>
                 </div>
-                {products.map((product, index) => {
-                    const textOnLeft = index % 2 === 0;
-                    const clip = textOnLeft ? RIGHT_SLASH : LEFT_BACKSL;
-
-                    return (
+                {suites.map((suite, sIdx) => (
+                    <div key={suite.id} className="relative">
+                        {/* Suite header */}
                         <section
-                            key={product.title}
-                            id={product.title
-                                .toLowerCase()
-                                .replace(/\s+/g, "-")}
+                            id={suite.id}
+                            className="relative min-h-[60vh] flex items-center overflow-hidden"
                             data-animate
-                            className="relative min-h-screen flex items-center overflow-hidden"
                         >
-                            <div className="absolute inset-0 pointer-events-none">
-                                <div
-                                    className="absolute inset-0 will-change-[clip-path]"
-                                    style={{ clipPath: clip }}
-                                >
-                                    <img
-                                        src={product.image}
-                                        alt={`${product.title} – ${product.tagline}`}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                                </div>
+                            <div className="absolute inset-0">
+                                <img
+                                    src={suite.image}
+                                    alt={`${suite.name} – ${suite.tagline}`}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                />
+                                <div className="absolute inset-0 bg-black/40" />
                             </div>
 
-                            <div
-                                className={`relative z-10 max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full ${
-                                    textOnLeft ? "" : "lg:flex-row-reverse"
-                                }`}
-                            >
+                            <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
                                 <div
-                                    className={`space-y-8 ${
-                                        textOnLeft
-                                            ? "lg:pr-16"
-                                            : "lg:pl-16 lg:order-2"
-                                    }`}
+                                    className="inline-block px-4 py-1 bg-gradient-to-r rounded-full text-white text-sm font-semibold
+                        from-gray-900/40 to-gray-900/20 border border-white/10 backdrop-blur"
                                 >
-                                    <div className="space-y-4">
-                                        <div className="flex items-center gap-3 flex-wrap">
-                                            <div
-                                                className={`inline-block px-4 py-1 bg-gradient-to-r ${product.gradient} rounded-full text-white text-sm font-semibold`}
-                                            >
-                                                {product.title}
-                                            </div>
-                                            <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium border ${theme.textSecondary} ${theme.cardBg} ${theme.border}`}
-                                            >
-                                                {product.status}
-                                            </span>
-                                        </div>
-
-                                        <h2
-                                            className={`text-4xl md:text-5xl font-bold ${theme.text} leading-tight`}
-                                        >
-                                            {product.tagline}
-                                        </h2>
-
-                                        <p
-                                            className={`text-lg ${theme.textSecondary} leading-relaxed`}
-                                        >
-                                            {product.description}
-                                        </p>
-                                    </div>
-
-                                    <div className="space-y-3">
-                                        {product.features.map((feature, i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center gap-3 group"
-                                            >
-                                                <div
-                                                    className={`w-8 h-8 rounded-full bg-gradient-to-r ${product.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}
-                                                >
-                                                    {i === 0 && (
-                                                        <Zap className="w-4 h-4 text-white" />
-                                                    )}
-                                                    {i === 1 && (
-                                                        <Shield className="w-4 h-4 text-white" />
-                                                    )}
-                                                    {i === 2 && (
-                                                        <Target className="w-4 h-4 text-white" />
-                                                    )}
-                                                </div>
-                                                <span
-                                                    className={`text-base font-medium ${theme.text}`}
-                                                >
-                                                    {feature}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.technologies.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className={`px-3 py-1 ${theme.cardBg} rounded-lg text-sm ${theme.textSecondary} border ${theme.border}`}
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    <div className="flex gap-4 pt-4">
-                                        {product.status === "Live" ? (
-                                            <>
-                                                <button
-                                                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
-                                                >
-                                                    <Download className="w-5 h-5" />
-                                                    Download
-                                                </button>
-                                                <button
-                                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
-                                                >
-                                                    Learn More
-                                                    <ArrowRight className="w-5 h-5" />
-                                                </button>
-                                            </>
-                                        ) : product.status === "Beta" ? (
-                                            <>
-                                                <button
-                                                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
-                                                >
-                                                    <Star className="w-5 h-5" />
-                                                    Join Beta
-                                                </button>
-                                                <button
-                                                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
-                                                >
-                                                    Learn More
-                                                    <ArrowRight className="w-5 h-5" />
-                                                </button>
-                                            </>
-                                        ) : (
-                                            <button
-                                                className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full cursor-default opacity-75`}
-                                            >
-                                                <Sparkles className="w-5 h-5" />
-                                                Coming Soon
-                                            </button>
-                                        )}
-                                    </div>
+                                    Suite
                                 </div>
-
-                                <div
-                                    className={`hidden lg:block ${
-                                        textOnLeft
-                                            ? "lg:pl-16"
-                                            : "lg:pr-16 lg:order-1"
-                                    }`}
-                                />
+                                <h2
+                                    className={`mt-4 text-4xl md:text-5xl font-bold ${theme.text}`}
+                                >
+                                    {suite.name}
+                                </h2>
+                                <p
+                                    className={`mt-3 text-lg max-w-2xl ${theme.textSecondary}`}
+                                >
+                                    {suite.tagline}
+                                </p>
+                                <p
+                                    className={`mt-1 text-base max-w-3xl ${theme.textSecondary}`}
+                                >
+                                    {suite.description}
+                                </p>
                             </div>
                         </section>
-                    );
-                })}
+
+                        {/* Suite tools */}
+                        {suite.tools.map((tool, tIdx) => {
+                            const index = sIdx * 100 + tIdx; // stable alternating pattern across suites
+                            const textOnLeft = index % 2 === 0;
+                            const clip = textOnLeft ? RIGHT_SLASH : LEFT_BACKSL;
+
+                            const slug = `${suite.id}-${(tool?.name ?? "tool")
+                                .toLowerCase()
+                                .replace(/\s+/g, "-")}`;
+
+                            return (
+                                <section
+                                    key={`${suite.id}-${tool.name}`}
+                                    id={slug}
+                                    data-animate
+                                    className="relative min-h-screen flex items-center overflow-hidden"
+                                >
+                                    <div className="absolute inset-0 pointer-events-none">
+                                        <div
+                                            className="absolute inset-0 will-change-[clip-path]"
+                                            style={{ clipPath: clip }}
+                                        >
+                                            <img
+                                                src={suite.image}
+                                                alt={`${tool?.name ?? ""} – ${tool?.tagline ?? ""}`}
+                                                className="w-full h-full object-cover"
+                                                loading="lazy"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        className={`relative z-10 max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full ${
+                                            textOnLeft
+                                                ? ""
+                                                : "lg:flex-row-reverse"
+                                        }`}
+                                    >
+                                        <div
+                                            className={`space-y-8 ${textOnLeft ? "lg:pr-16" : "lg:pl-16 lg:order-2"}`}
+                                        >
+                                            <div className="space-y-4">
+                                                <div className="flex items-center gap-3 flex-wrap">
+                                                    {/* Tool name badge with the suite gradient */}
+                                                    <div
+                                                        className={`inline-block px-4 py-1 bg-gradient-to-r ${suite.gradient} rounded-full text-white text-sm font-semibold`}
+                                                    >
+                                                        {tool?.name}
+                                                    </div>
+
+                                                    {/* Status */}
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-xs font-medium border ${theme.textSecondary} ${theme.cardBg} ${theme.border}`}
+                                                    >
+                                                        {tool?.status}
+                                                    </span>
+
+                                                    {/* Suite tag */}
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-xs font-medium border ${theme.textSecondary} ${theme.cardBg} ${theme.border}`}
+                                                    >
+                                                        {suite.name}
+                                                    </span>
+                                                </div>
+
+                                                <h3
+                                                    className={`text-4xl md:text-5xl font-bold ${theme.text} leading-tight`}
+                                                >
+                                                    {tool?.tagline}
+                                                </h3>
+
+                                                <p
+                                                    className={`text-lg ${theme.textSecondary} leading-relaxed`}
+                                                >
+                                                    {tool?.description}
+                                                </p>
+                                            </div>
+
+                                            {/* Features */}
+                                            <div className="space-y-3">
+                                                {(tool?.features ?? []).map(
+                                                    (feature, i) => (
+                                                        <div
+                                                            key={i}
+                                                            className="flex items-center gap-3 group"
+                                                        >
+                                                            <div
+                                                                className={`w-8 h-8 rounded-full bg-gradient-to-r ${suite.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}
+                                                            >
+                                                                {i === 0 && (
+                                                                    <Zap className="w-4 h-4 text-white" />
+                                                                )}
+                                                                {i === 1 && (
+                                                                    <Shield className="w-4 h-4 text-white" />
+                                                                )}
+                                                                {i === 2 && (
+                                                                    <Target className="w-4 h-4 text-white" />
+                                                                )}
+                                                            </div>
+                                                            <span
+                                                                className={`text-base font-medium ${theme.text}`}
+                                                            >
+                                                                {feature}
+                                                            </span>
+                                                        </div>
+                                                    ),
+                                                )}
+                                            </div>
+
+                                            {/* Tech tags */}
+                                            <div className="flex flex-wrap gap-2">
+                                                {(tool?.tech ?? []).map(
+                                                    (tech) => (
+                                                        <span
+                                                            key={tech}
+                                                            className={`px-3 py-1 ${theme.cardBg} rounded-lg text-sm ${theme.textSecondary} border ${theme.border}`}
+                                                        >
+                                                            {tech}
+                                                        </span>
+                                                    ),
+                                                )}
+                                            </div>
+
+                                            {/* CTA buttons */}
+                                            <div className="flex flex-wrap gap-4 pt-4">
+                                                {tool?.status === "Live" ? (
+                                                    <>
+                                                        <button
+                                                            className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                                                        >
+                                                            <Download className="w-5 h-5" />
+                                                            Download
+                                                        </button>
+                                                        <button
+                                                            className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                        >
+                                                            Learn More
+                                                            <ArrowRight className="w-5 h-5" />
+                                                        </button>
+                                                        {tool.github && (
+                                                            <a
+                                                                href={`https://github.com/NoamFav/${tool.name}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                            >
+                                                                GitHub
+                                                                <ArrowRight className="w-5 h-5" />
+                                                            </a>
+                                                        )}
+                                                    </>
+                                                ) : tool?.status === "Beta" ? (
+                                                    <>
+                                                        <button
+                                                            className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
+                                                        >
+                                                            <Star className="w-5 h-5" />
+                                                            Join Beta
+                                                        </button>
+                                                        <button
+                                                            className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                        >
+                                                            Learn More
+                                                            <ArrowRight className="w-5 h-5" />
+                                                        </button>
+                                                        {tool.github && (
+                                                            <a
+                                                                href={`https://github.com/NoamFav/${tool.name}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
+                                                            >
+                                                                GitHub
+                                                                <ArrowRight className="w-5 h-5" />
+                                                            </a>
+                                                        )}
+                                                    </>
+                                                ) : (
+                                                    <button
+                                                        className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full cursor-default opacity-75`}
+                                                    >
+                                                        <Sparkles className="w-5 h-5" />
+                                                        Coming Soon
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            className={`hidden lg:block ${textOnLeft ? "lg:pl-16" : "lg:pr-16 lg:order-1"}`}
+                                        />
+                                    </div>
+                                </section>
+                            );
+                        })}
+                    </div>
+                ))}
             </section>
 
             {/* Testimonials Section */}

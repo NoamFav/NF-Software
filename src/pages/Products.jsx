@@ -1,35 +1,23 @@
 // ============================================================================
-// FILE: src/pages/Products.jsx - COMPLETE VERSION
+// FILE: src/pages/Products.jsx - UPDATED WITH SUITE STRUCTURE
 // ============================================================================
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import {
     ArrowRight,
     Github,
-    Mail,
-    Sparkles,
     CheckCircle,
-    Shield,
-    Star,
-    Rocket,
-    Download,
     Filter,
-    Bell,
-    Book,
     ChevronRight,
-    Users,
+    Package,
+    Code,
+    Cpu,
+    Brain,
+    GraduationCap,
+    FolderTree,
 } from "lucide-react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
-import { products } from "../data/products";
-import {
-    Sparkles as SparklesIcon,
-    Cpu,
-    GitBranch,
-    Search,
-    Gamepad2,
-    GraduationCap,
-    BarChart3,
-} from "lucide-react";
+import { suites, standaloneTools } from "../data/products";
 
 const Products = () => {
     const { darkMode } = useDarkMode();
@@ -37,137 +25,42 @@ const Products = () => {
     const [activeFilter, setActiveFilter] = useState("All");
     const [scrollY, setScrollY] = useState(0);
 
-    const RIGHT_SLASH = "polygon(60% 0, 100% 0, 100% 100%, 50% 100%)";
-    const LEFT_BACKSL = "polygon(0 0, 40% 0, 50% 100%, 0 100%)";
-
-    React.useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => setScrollY(window.scrollY);
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const iconMap = {
-        Iris: SparklesIcon,
-        "Sysmon-CLI": Cpu,
-        Zvezda: GitBranch,
-        CodeGrep: Search,
-        ShadowedHunter: Gamepad2,
-        BitVoyager: GraduationCap,
-        "SysDash Ultra": BarChart3,
+    const getIconComponent = (iconName) => {
+        const icons = {
+            Code,
+            Cpu,
+            Brain,
+            GraduationCap,
+            FolderTree,
+        };
+        return icons[iconName] || Code;
     };
 
-    const productsWithIcons = products.map((product) => ({
-        ...product,
-        icon: iconMap[product.title] || SparklesIcon,
-    }));
-
-    const filters = ["All", "Live", "Beta", "In Development"];
-
-    const filteredProducts =
-        activeFilter === "All"
-            ? productsWithIcons
-            : productsWithIcons.filter((p) => p.status === activeFilter);
-
-    const slugify = (str) =>
-        str
-            .toLowerCase()
-            .replace(/\s+/g, "-")
-            .replace(/[^\w-]/g, "");
+    const allTools = suites.flatMap((suite) =>
+        suite.tools.map((tool) => ({
+            ...tool,
+            suite: suite.name,
+            suiteGradient: suite.gradient,
+        })),
+    );
 
     const getStatusColor = (status) => {
         switch (status) {
             case "Live":
-                return "border-green-500/50 text-green-500";
+                return "border-green-500/50 text-green-500 bg-green-500/10";
             case "Beta":
-                return "border-yellow-500/50 text-yellow-500";
+                return "border-yellow-500/50 text-yellow-500 bg-yellow-500/10";
             case "In Development":
-                return "border-blue-500/50 text-blue-500";
+                return "border-blue-500/50 text-blue-500 bg-blue-500/10";
             default:
-                return "border-gray-500/50 text-gray-500";
+                return "border-gray-500/50 text-gray-500 bg-gray-500/10";
         }
-    };
-
-    const getCTAButtons = (product) => {
-        const buttons = [];
-
-        if (product.status === "Live") {
-            buttons.push(
-                <button
-                    key="download"
-                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
-                >
-                    <Download className="w-5 h-5" />
-                    Download
-                </button>,
-            );
-            buttons.push(
-                <a
-                    key="docs"
-                    href="#"
-                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
-                >
-                    <Book className="w-5 h-5" />
-                    Documentation
-                </a>,
-            );
-        } else if (product.status === "Beta") {
-            buttons.push(
-                <button
-                    key="waitlist"
-                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
-                >
-                    <Bell className="w-5 h-5" />
-                    Join Waitlist
-                </button>,
-            );
-            buttons.push(
-                <a
-                    key="learn"
-                    href="#"
-                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
-                >
-                    <ArrowRight className="w-5 h-5" />
-                    Learn More
-                </a>,
-            );
-        } else {
-            buttons.push(
-                <button
-                    key="notify"
-                    className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${product.gradient} text-white font-semibold rounded-full hover:shadow-xl transition-all duration-300 transform hover:scale-105`}
-                >
-                    <Bell className="w-5 h-5" />
-                    Notify Me
-                </button>,
-            );
-            buttons.push(
-                <a
-                    key="learn"
-                    href="#"
-                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
-                >
-                    <ArrowRight className="w-5 h-5" />
-                    Learn More
-                </a>,
-            );
-        }
-
-        if (product.github) {
-            buttons.push(
-                <a
-                    key="github"
-                    href="https://github.com/NoamFav"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-2 px-6 py-3 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300`}
-                >
-                    <Github className="w-5 h-5" />
-                    GitHub
-                </a>,
-            );
-        }
-
-        return buttons;
     };
 
     return (
@@ -185,9 +78,9 @@ const Products = () => {
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="text-center space-y-6 mb-12">
                         <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full border border-blue-500/20 mb-6">
-                            <Rocket className="w-4 h-4 text-blue-500" />
+                            <Package className="w-4 h-4 text-blue-500" />
                             <span className="text-sm font-medium">
-                                7 Products, Built for Professionals
+                                4 Suites, 16+ Tools
                             </span>
                         </div>
 
@@ -204,396 +97,430 @@ const Products = () => {
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Each product is crafted with precision, designed for
-                            performance, and built to last. No compromises on
-                            quality, speed, or user experience.
+                            Four complete suites covering development, system
+                            monitoring, AI assistance, and experimental tools.
+                            Each tool is crafted with precision and built to
+                            last.
                         </p>
                     </div>
 
                     {/* Filters */}
                     <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
                         <Filter className="w-5 h-5 text-gray-500" />
-                        {filters.map((filter) => (
-                            <button
-                                key={filter}
-                                onClick={() => setActiveFilter(filter)}
-                                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                                    activeFilter === filter
-                                        ? `bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg`
-                                        : `${theme.cardBg} ${theme.textSecondary} border ${theme.border} ${theme.hoverBg}`
-                                }`}
-                            >
-                                {filter}
-                                {filter !== "All" && (
-                                    <span className="ml-2 opacity-60">
-                                        (
-                                        {
-                                            productsWithIcons.filter(
-                                                (p) => p.status === filter,
-                                            ).length
-                                        }
-                                        )
-                                    </span>
-                                )}
-                            </button>
-                        ))}
+                        {["All", "Live", "Beta", "In Development"].map(
+                            (filter) => (
+                                <button
+                                    key={filter}
+                                    onClick={() => setActiveFilter(filter)}
+                                    className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                                        activeFilter === filter
+                                            ? `bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg`
+                                            : `${theme.cardBg} ${theme.textSecondary} border ${theme.border} ${theme.hoverBg}`
+                                    }`}
+                                >
+                                    {filter}
+                                    {filter !== "All" && (
+                                        <span className="ml-2 opacity-60">
+                                            (
+                                            {
+                                                allTools.filter(
+                                                    (p) => p.status === filter,
+                                                ).length
+                                            }
+                                            )
+                                        </span>
+                                    )}
+                                </button>
+                            ),
+                        )}
                     </div>
                 </div>
             </section>
 
-            {/* Product Sections */}
-            <section className="relative">
-                {filteredProducts.map((product, index) => {
-                    const textOnLeft = index % 2 === 0;
-                    const clip = textOnLeft ? RIGHT_SLASH : LEFT_BACKSL;
-
-                    return (
-                        <section
-                            key={product.title}
-                            id={slugify(product.title)}
-                            data-animate
-                            className="relative min-h-screen flex items-center overflow-hidden"
-                        >
-                            {/* Angled Image Background */}
-                            <div className="absolute inset-0 pointer-events-none">
-                                <div
-                                    className="absolute inset-0 will-change-[clip-path]"
-                                    style={{ clipPath: clip }}
-                                >
-                                    <img
-                                        src={product.image}
-                                        alt={`${product.title} - ${product.tagline}`}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                                </div>
-                            </div>
-
-                            {/* Content */}
-                            <div
-                                className={`relative z-10 max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full ${
-                                    textOnLeft ? "" : "lg:flex-row-reverse"
-                                }`}
-                            >
-                                {/* Text Side */}
-                                <div
-                                    className={`space-y-8 ${
-                                        textOnLeft
-                                            ? "lg:pr-16"
-                                            : "lg:pl-16 lg:order-2"
-                                    }`}
-                                >
-                                    <div className="space-y-4">
-                                        <div className="flex items-center gap-3 flex-wrap">
-                                            <div
-                                                className={`inline-flex items-center gap-2 px-4 py-1 bg-gradient-to-r ${product.gradient} rounded-full text-white text-sm font-semibold`}
-                                            >
-                                                <product.icon className="w-4 h-4" />
-                                                {product.title}
-                                            </div>
-                                            <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(product.status)}`}
-                                            >
-                                                {product.status}
-                                            </span>
-                                        </div>
-
-                                        <h2
-                                            className={`text-4xl md:text-5xl font-bold ${theme.text} leading-tight`}
-                                        >
-                                            {product.tagline}
-                                        </h2>
-
-                                        <p
-                                            className={`text-lg ${theme.textSecondary} leading-relaxed`}
-                                        >
-                                            {product.description}
-                                        </p>
-                                    </div>
-
-                                    {/* Features */}
-                                    <div className="space-y-4">
-                                        {product.features.map((feature, i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-start gap-3 group"
-                                            >
-                                                <div
-                                                    className={`w-6 h-6 rounded-full bg-gradient-to-r ${product.gradient} flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform`}
-                                                >
-                                                    <CheckCircle className="w-4 h-4 text-white" />
-                                                </div>
-                                                <div>
-                                                    <span
-                                                        className={`text-base font-medium ${theme.text}`}
-                                                    >
-                                                        {
-                                                            feature.split(
-                                                                " - ",
-                                                            )[0]
-                                                        }
-                                                    </span>
-                                                    {feature.includes(
-                                                        " - ",
-                                                    ) && (
-                                                        <span
-                                                            className={`text-sm ${theme.textSecondary} ml-2`}
-                                                        >
-                                                            {
-                                                                feature.split(
-                                                                    " - ",
-                                                                )[1]
-                                                            }
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Audience */}
-                                    <div
-                                        className={`flex items-center gap-3 px-4 py-3 ${theme.cardBg} rounded-lg border ${theme.border}`}
-                                    >
-                                        <Users className="w-5 h-5 text-blue-500" />
-                                        <div>
-                                            <div
-                                                className={`text-xs ${theme.textTertiary} uppercase tracking-wider`}
-                                            >
-                                                Built For
-                                            </div>
-                                            <div
-                                                className={`text-sm font-medium ${theme.text}`}
-                                            >
-                                                {product.audience}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Technologies */}
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.technologies.map((tech) => (
-                                            <span
-                                                key={tech}
-                                                className={`px-3 py-1 ${theme.cardBg} rounded-lg text-sm ${theme.textSecondary} border ${theme.border}`}
-                                            >
-                                                {tech}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {/* CTA Buttons */}
-                                    <div className="flex flex-wrap gap-4 pt-4">
-                                        {getCTAButtons(product)}
-                                    </div>
-                                </div>
-
-                                {/* Spacer */}
-                                <div
-                                    className={`hidden lg:block ${
-                                        textOnLeft
-                                            ? "lg:pl-16"
-                                            : "lg:pr-16 lg:order-1"
-                                    }`}
-                                />
-                            </div>
-                        </section>
-                    );
-                })}
-            </section>
-
-            {/* Comparison Grid */}
-            <section
-                data-animate
-                className="relative py-32 px-6 overflow-hidden"
-            >
+            {/* Suites Section */}
+            <section className="relative pb-20 px-6">
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center space-y-6 mb-16">
-                        <h2
-                            className={`text-4xl md:text-5xl font-bold ${theme.text}`}
-                        >
-                            Compare Products
-                        </h2>
-                        <p
-                            className={`text-lg ${theme.textSecondary} max-w-2xl mx-auto`}
-                        >
-                            Find the right tool for your needs. Each product
-                            excels in its domain.
-                        </p>
-                    </div>
+                    {suites.map((suite) => {
+                        const IconComponent = getIconComponent(suite.icon);
+                        const suiteTools =
+                            activeFilter === "All"
+                                ? suite.tools
+                                : suite.tools.filter(
+                                      (t) => t.status === activeFilter,
+                                  );
 
-                    <div
-                        className={`${theme.cardBg} rounded-2xl border ${theme.border} overflow-x-auto`}
-                    >
-                        <table className="w-full">
-                            <thead>
-                                <tr
-                                    className={`border-b ${theme.border} ${theme.text}`}
+                        if (suiteTools.length === 0 && activeFilter !== "All")
+                            return null;
+
+                        return (
+                            <div
+                                key={suite.id}
+                                id={suite.id}
+                                data-animate
+                                className="mb-24"
+                            >
+                                {/* Suite Header Card */}
+                                <div
+                                    className={`${theme.cardBg} rounded-3xl p-8 border ${theme.border} mb-8 hover:border-blue-500/50 transition-all duration-300`}
                                 >
-                                    <th className="text-left p-6 font-semibold">
-                                        Product
-                                    </th>
-                                    <th className="text-left p-6 font-semibold">
-                                        Status
-                                    </th>
-                                    <th className="text-left p-6 font-semibold">
-                                        Best For
-                                    </th>
-                                    <th className="text-left p-6 font-semibold">
-                                        Key Strength
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {productsWithIcons.map((product) => (
-                                    <tr
-                                        key={product.title}
-                                        className={`border-b ${theme.border} last:border-0 ${theme.hoverBg} transition`}
-                                    >
-                                        <td className="p-6">
+                                    <div className="flex items-start justify-between flex-wrap gap-6">
+                                        <div className="space-y-4 flex-1">
                                             <div className="flex items-center gap-3">
-                                                <div
-                                                    className={`w-10 h-10 rounded-lg bg-gradient-to-r ${product.gradient} flex items-center justify-center`}
-                                                >
-                                                    <product.icon className="w-5 h-5 text-white" />
+                                                <IconComponent className="w-12 h-12 text-blue-500" />
+                                                <div>
+                                                    <h2
+                                                        className={`text-3xl font-bold ${theme.text}`}
+                                                    >
+                                                        {suite.name}
+                                                    </h2>
+                                                    <p
+                                                        className={`${theme.textSecondary}`}
+                                                    >
+                                                        {suite.tagline}
+                                                    </p>
                                                 </div>
+                                            </div>
+                                            <p
+                                                className={`text-lg ${theme.textSecondary}`}
+                                            >
+                                                {suite.description}
+                                            </p>
+                                            <div className="flex flex-wrap gap-2">
+                                                {suite.tools.map((tool) => (
+                                                    <span
+                                                        key={tool.name}
+                                                        className={`px-3 py-1 ${theme.cardBg} border ${theme.border} rounded-lg text-sm`}
+                                                    >
+                                                        {tool.name}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div
+                                            className={`${darkMode ? "bg-black" : "bg-white"} rounded-2xl p-6 border ${theme.border} min-w-[280px]`}
+                                        >
+                                            <div className="space-y-4">
                                                 <div>
                                                     <div
-                                                        className={`font-semibold ${theme.text}`}
+                                                        className={`text-sm ${theme.textTertiary} mb-1`}
                                                     >
-                                                        {product.title}
+                                                        Individual (Annual)
                                                     </div>
                                                     <div
+                                                        className={`text-3xl font-bold ${theme.text}`}
+                                                    >
+                                                        $
+                                                        {
+                                                            suite.pricing
+                                                                .individual
+                                                                .annual
+                                                        }
+                                                        /yr
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div
+                                                        className={`text-sm ${theme.textTertiary} mb-1`}
+                                                    >
+                                                        One-Time License
+                                                    </div>
+                                                    <div
+                                                        className={`text-2xl font-bold ${theme.text}`}
+                                                    >
+                                                        $
+                                                        {
+                                                            suite.pricing
+                                                                .individual
+                                                                .oneTime
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    className={`w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
+                                                >
+                                                    Get Suite
+                                                </button>
+                                                <a
+                                                    href="#/pricing"
+                                                    className={`block text-center text-sm ${theme.textSecondary} hover:${theme.text} transition`}
+                                                >
+                                                    View all pricing options →
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Tools Grid */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {suiteTools.map((tool) => (
+                                        <div
+                                            key={tool.name}
+                                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
+                                        >
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <h3
+                                                            className={`text-xl font-bold ${theme.text}`}
+                                                        >
+                                                            {tool.name}
+                                                        </h3>
+                                                        <span
+                                                            className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(tool.status)}`}
+                                                        >
+                                                            {tool.status}
+                                                        </span>
+                                                    </div>
+                                                    <p
+                                                        className={`text-sm ${theme.textSecondary} mb-2`}
+                                                    >
+                                                        {tool.tagline}
+                                                    </p>
+                                                    <p
                                                         className={`text-sm ${theme.textSecondary}`}
                                                     >
-                                                        {product.tagline}
+                                                        {tool.description}
+                                                    </p>
+                                                </div>
+
+                                                <div className="space-y-2">
+                                                    {tool.features.map(
+                                                        (feature, i) => (
+                                                            <div
+                                                                key={i}
+                                                                className="flex items-start gap-2"
+                                                            >
+                                                                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                <span
+                                                                    className={`text-sm ${theme.textSecondary}`}
+                                                                >
+                                                                    {
+                                                                        feature.split(
+                                                                            " - ",
+                                                                        )[0]
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        ),
+                                                    )}
+                                                </div>
+
+                                                <div className="flex flex-wrap gap-2">
+                                                    {tool.tech.map((t) => (
+                                                        <span
+                                                            key={t}
+                                                            className={`px-2 py-1 rounded text-xs ${theme.textTertiary} border ${theme.border}`}
+                                                        >
+                                                            {t}
+                                                        </span>
+                                                    ))}
+                                                </div>
+
+                                                <div
+                                                    className={`pt-4 border-t ${theme.border} space-y-2`}
+                                                >
+                                                    <div className="flex justify-between text-sm">
+                                                        <span
+                                                            className={
+                                                                theme.textSecondary
+                                                            }
+                                                        >
+                                                            Annual
+                                                        </span>
+                                                        <span
+                                                            className={`font-semibold ${theme.text}`}
+                                                        >
+                                                            $
+                                                            {
+                                                                tool.individual
+                                                                    .annual
+                                                            }
+                                                            /yr
+                                                        </span>
+                                                    </div>
+                                                    <div className="flex justify-between text-sm">
+                                                        <span
+                                                            className={
+                                                                theme.textSecondary
+                                                            }
+                                                        >
+                                                            One-Time
+                                                        </span>
+                                                        <span
+                                                            className={`font-semibold ${theme.text}`}
+                                                        >
+                                                            $
+                                                            {
+                                                                tool.individual
+                                                                    .oneTime
+                                                            }
+                                                        </span>
                                                     </div>
                                                 </div>
+
+                                                {tool.github && (
+                                                    <a
+                                                        href="https://github.com/NoamFav"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`flex items-center justify-center gap-2 px-4 py-2 ${theme.cardBg} border ${theme.border} rounded-lg text-sm font-medium hover:border-blue-500/50 transition`}
+                                                    >
+                                                        <Github className="w-4 h-4" />
+                                                        View on GitHub
+                                                    </a>
+                                                )}
                                             </div>
-                                        </td>
-                                        <td className="p-6">
-                                            <span
-                                                className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(product.status)}`}
-                                            >
-                                                {product.status}
-                                            </span>
-                                        </td>
-                                        <td className="p-6">
-                                            <span
-                                                className={`text-sm ${theme.textSecondary}`}
-                                            >
-                                                {product.audience}
-                                            </span>
-                                        </td>
-                                        <td className="p-6">
-                                            <span
-                                                className={`text-sm ${theme.text}`}
-                                            >
-                                                {
-                                                    product.features[0].split(
-                                                        " - ",
-                                                    )[0]
-                                                }
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })}
+
+                    {/* Standalone Tools */}
+                    {(activeFilter === "All" ||
+                        standaloneTools.some(
+                            (t) => t.status === activeFilter,
+                        )) &&
+                        standaloneTools.length > 0 && (
+                            <div data-animate className="mb-24">
+                                <h2
+                                    className={`text-3xl font-bold ${theme.text} mb-8`}
+                                >
+                                    Standalone Tools
+                                </h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {standaloneTools
+                                        .filter(
+                                            (tool) =>
+                                                activeFilter === "All" ||
+                                                tool.status === activeFilter,
+                                        )
+                                        .map((tool) => {
+                                            const IconComponent =
+                                                getIconComponent(tool.icon);
+                                            return (
+                                                <div
+                                                    key={tool.name}
+                                                    className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-orange-500/50 transition-all duration-300`}
+                                                >
+                                                    <IconComponent className="w-10 h-10 text-orange-500 mb-4" />
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <h3
+                                                            className={`text-xl font-bold ${theme.text}`}
+                                                        >
+                                                            {tool.name}
+                                                        </h3>
+                                                        <span
+                                                            className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(tool.status)}`}
+                                                        >
+                                                            {tool.status}
+                                                        </span>
+                                                    </div>
+                                                    <p
+                                                        className={`text-sm ${theme.textSecondary} mb-4`}
+                                                    >
+                                                        {tool.description}
+                                                    </p>
+                                                    <div className="space-y-2 mb-4">
+                                                        {tool.features.map(
+                                                            (f, i) => (
+                                                                <div
+                                                                    key={i}
+                                                                    className="flex items-start gap-2"
+                                                                >
+                                                                    <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                                                    <span
+                                                                        className={`text-sm ${theme.textSecondary}`}
+                                                                    >
+                                                                        {
+                                                                            f.split(
+                                                                                " - ",
+                                                                            )[0]
+                                                                        }
+                                                                    </span>
+                                                                </div>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                    <div
+                                                        className={`flex justify-between text-sm pt-4 border-t ${theme.border}`}
+                                                    >
+                                                        <span
+                                                            className={
+                                                                theme.textSecondary
+                                                            }
+                                                        >
+                                                            $
+                                                            {
+                                                                tool.individual
+                                                                    .annual
+                                                            }
+                                                            /yr
+                                                        </span>
+                                                        <span
+                                                            className={
+                                                                theme.textSecondary
+                                                            }
+                                                        >
+                                                            $
+                                                            {
+                                                                tool.individual
+                                                                    .oneTime
+                                                            }{" "}
+                                                            one-time
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+                        )}
                 </div>
             </section>
 
             {/* CTA Section */}
-            <section className="relative py-32 px-6">
+            <section data-animate className="relative py-32 px-6">
                 <div className="max-w-5xl mx-auto">
                     <div
-                        className={`${theme.cardBg} rounded-3xl p-12 md:p-20 text-center space-y-8 border ${theme.border} relative overflow-hidden`}
+                        className={`${theme.cardBg} rounded-3xl p-12 md:p-20 text-center space-y-8 border ${theme.border}`}
                     >
-                        <div className="absolute inset-0 opacity-10">
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    backgroundImage: `radial-gradient(circle at 2px 2px, ${darkMode ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)"} 1px, transparent 0)`,
-                                    backgroundSize: "32px 32px",
-                                }}
-                            />
-                        </div>
-
-                        <div className="relative z-10">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full border border-blue-500/20 mb-6">
-                                <Sparkles className="w-4 h-4 text-blue-500" />
-                                <span className="text-sm font-medium">
-                                    Start Building Today
-                                </span>
-                            </div>
-
-                            <h2
-                                className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
+                        <h2
+                            className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
+                        >
+                            Ready to elevate your workflow?
+                        </h2>
+                        <p
+                            className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto`}
+                        >
+                            Join developers who trust NF Software for their
+                            mission-critical tools.
+                        </p>
+                        <div className="flex flex-wrap gap-4 justify-center">
+                            <a
+                                href="#/pricing"
+                                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl transition"
                             >
-                                Ready to elevate your workflow?
-                            </h2>
-
-                            <p
-                                className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto mb-8`}
+                                View Pricing
+                                <ArrowRight className="w-5 h-5" />
+                            </a>
+                            <a
+                                href="https://github.com/NoamFav"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition`}
                             >
-                                Join thousands of developers and teams who trust
-                                NF Software for their mission-critical tools.
-                                Download now or get in touch.
-                            </p>
-
-                            <div className="flex flex-wrap gap-4 justify-center">
-                                <a
-                                    href="https://github.com/NoamFav"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
-                                >
-                                    <Github className="w-5 h-5" />
-                                    Explore on GitHub
-                                </a>
-                                <a
-                                    href="mailto:contact@nf-software.com"
-                                    className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
-                                >
-                                    <Mail className="w-5 h-5" />
-                                    Contact Sales
-                                </a>
-                            </div>
-
-                            <div className="flex flex-wrap items-center justify-center gap-8 pt-12">
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle className="w-5 h-5 text-green-500" />
-                                    <span
-                                        className={`text-sm ${theme.textSecondary}`}
-                                    >
-                                        Open Source
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Star className="w-5 h-5 text-yellow-500" />
-                                    <span
-                                        className={`text-sm ${theme.textSecondary}`}
-                                    >
-                                        Community Driven
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Shield className="w-5 h-5 text-blue-500" />
-                                    <span
-                                        className={`text-sm ${theme.textSecondary}`}
-                                    >
-                                        Enterprise Ready
-                                    </span>
-                                </div>
-                            </div>
+                                <Github className="w-5 h-5" />
+                                Explore on GitHub
+                            </a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Scroll to Top Button */}
+            {/* Scroll to Top */}
             {scrollY > 500 && (
                 <button
                     onClick={() =>
