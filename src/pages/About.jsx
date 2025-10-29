@@ -530,7 +530,7 @@ const About = () => {
                             <h3
                                 className={`text-2xl font-bold ${theme.text} mb-4`}
                             >
-                                2.5K+ GitHub Stars
+                                20+ GitHub Stars
                             </h3>
                             <p
                                 className={`${theme.textSecondary} mb-6 leading-relaxed`}
@@ -645,15 +645,6 @@ const About = () => {
                                     <SiGithub className="w-5 h-5" />
                                     <span className="text-sm">GitHub</span>
                                 </a>
-                                <Link
-                                    to="/testimonials"
-                                    className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
-                                >
-                                    <Star className="w-5 h-5" />
-                                    <span className="text-sm">
-                                        Testimonials
-                                    </span>
-                                </Link>
                                 <a
                                     href="mailto:contact@nf-software.com"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}

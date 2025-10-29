@@ -44,6 +44,8 @@ const Pricing = () => {
         const IconComponent = icons[iconName];
         return IconComponent || icons.Code;
     };
+
+    /*
     const getCheckoutHref = (sku) =>
         sku ? `/checkout?sku=${encodeURIComponent(sku)}` : "#";
     const suiteSkuFor = (suite, selectedPlan) => {
@@ -54,6 +56,8 @@ const Pricing = () => {
         if (selectedPlan === "enterprise") return suite.plans?.enterprise?.sku; // annual-only
         return null;
     };
+    */
+
     return (
         <>
             {/* Hero Section */}
@@ -245,14 +249,15 @@ const Pricing = () => {
                                         )}
                                     </div>
 
-                                    <a
-                                        href={getCheckoutHref(
-                                            suiteSkuFor(suite, selectedPlan),
-                                        )}
-                                        className={`block text-center w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition mb-4`}
+                                    <button
+                                        onClick={() => {
+                                            const message = `Checkout coming soon!\n\nInterested in ${suite.name}?\nContact us at contact@nf-software.com`;
+                                            alert(message);
+                                        }}
+                                        className={`block text-center w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition mb-4 cursor-pointer`}
                                     >
                                         Get {suite.name}
-                                    </a>
+                                    </button>
 
                                     <div className="space-y-2">
                                         <div

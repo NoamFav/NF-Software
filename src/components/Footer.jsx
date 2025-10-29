@@ -11,7 +11,7 @@ const Footer = ({ theme }) => {
         company: [
             { label: "About", href: "/about" },
             { label: "Products", href: "/products" },
-            { label: "Pricing", href: "/pricings" },
+            { label: "Pricing", href: "/pricing" },
             { label: "Contact Me", href: "/contact" },
         ],
     };
