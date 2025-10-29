@@ -1,27 +1,27 @@
 export const getTheme = (darkMode) => ({
     // Backgrounds
-    bg: darkMode ? "bg-black" : "bg-white",
-    cardBg: darkMode ? "bg-gray-900" : "bg-gray-50",
+    bg: darkMode ? "bg-black" : "bg-zinc-50",
+    cardBg: darkMode ? "bg-gray-900" : "bg-white shadow-sm ring-1 ring-black/5",
     navBg: darkMode ? "bg-black/80" : "bg-white/80",
-    hoverBg: darkMode ? "hover:bg-gray-800" : "hover:bg-gray-100",
+    hoverBg: darkMode ? "hover:bg-gray-800" : "hover:bg-black/5",
 
     // Text colors
-    text: darkMode ? "text-white" : "text-gray-900",
+    text: darkMode ? "text-white" : "text-gray-700",
     textSecondary: darkMode ? "text-gray-400" : "text-gray-600",
-    textTertiary: darkMode ? "text-gray-500" : "text-gray-500",
+    textTertiary: "text-gray-500",
 
     // Borders
-    border: darkMode ? "border-gray-800" : "border-gray-200",
+    border: darkMode ? "border-gray-800" : "border-black/10",
 
     // Input/Form elements
     bgInput: darkMode ? "bg-black" : "bg-white",
 
     // Buttons
     bgButton: darkMode ? "bg-gray-800" : "bg-gray-100",
-    borderButton: darkMode ? "border-gray-700" : "border-gray-200",
+    borderButton: darkMode ? "border-gray-700" : "border-black/10",
 
-    // Primary button (inverted)
-    bgPrimary: darkMode ? "bg-white" : "bg-black",
+    // Primary button
+    bgPrimary: darkMode ? "bg-white" : "bg-neutral-900",
     textPrimary: darkMode ? "text-black" : "text-white",
 
     // Gradient blobs (decorative backgrounds)
