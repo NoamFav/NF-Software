@@ -46,7 +46,7 @@ export const suites = [
                     "Zvezda integration - Seamless workflow",
                 ],
                 tech: ["Go", "Python", "OpenAI API"],
-                status: "Live",
+                status: "Beta",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -58,7 +58,7 @@ export const suites = [
                     skuAnnual: "tool_auto-commit_annual_001",
                     skuOneTime: "tool_auto-commit_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "zvezda",
@@ -72,7 +72,7 @@ export const suites = [
                     "GitHub integration - Native API support",
                 ],
                 tech: ["Go", "Bubble Tea", "Lipgloss"],
-                status: "Beta",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -84,7 +84,7 @@ export const suites = [
                     skuAnnual: "tool_zvezda_annual_001",
                     skuOneTime: "tool_zvezda_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "repoops",
@@ -110,7 +110,7 @@ export const suites = [
                     skuAnnual: "tool_repoops_annual_001",
                     skuOneTime: "tool_repoops_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "CodeGrep",
@@ -124,7 +124,7 @@ export const suites = [
                     "Fast indexing - 100K+ files in seconds",
                 ],
                 tech: ["Rust", "Tree-sitter", "Regex"],
-                status: "Beta",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -136,7 +136,7 @@ export const suites = [
                     skuAnnual: "tool_code-grep_annual_001",
                     skuOneTime: "tool_code-grep_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "NFvim Suite",
@@ -162,7 +162,7 @@ export const suites = [
                     skuAnnual: "tool_nfvim-suite_annual_001",
                     skuOneTime: "tool_nfvim-suite_onetime_001",
                 },
-                github: true,
+                github: false,
             },
         ],
     },
@@ -219,7 +219,7 @@ export const suites = [
                     skuAnnual: "tool_sysmon-cli_annual_001",
                     skuOneTime: "tool_sysmon-cli_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "SysDash Ultra",
@@ -233,7 +233,7 @@ export const suites = [
                     "GPU metrics - Complete system view",
                 ],
                 tech: ["Rust", "SwiftUI", "WebGL"],
-                status: "Beta",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -245,7 +245,7 @@ export const suites = [
                     skuAnnual: "tool_sysdash-ultra_annual_001",
                     skuOneTime: "tool_sysdash-ultra_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "NetViz Pro",
@@ -271,7 +271,7 @@ export const suites = [
                     skuAnnual: "tool_netviz-pro_annual_001",
                     skuOneTime: "tool_netviz-pro_onetime_001",
                 },
-                github: true,
+                github: false,
             },
         ],
     },
@@ -316,7 +316,7 @@ export const suites = [
                     "Contextual memory - Learns your workflow",
                 ],
                 tech: ["Rust", "Go", "Whisper.cpp", "Coqui TTS"],
-                status: "Beta",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -328,7 +328,7 @@ export const suites = [
                     skuAnnual: "tool_iris-core_annual_001",
                     skuOneTime: "tool_iris-core_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "Iris Voice CLI",
@@ -354,7 +354,7 @@ export const suites = [
                     skuAnnual: "tool_iris-voice-cli_annual_001",
                     skuOneTime: "tool_iris-voice-cli_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "Iris Factory",
@@ -380,7 +380,7 @@ export const suites = [
                     skuAnnual: "tool_iris-factory_annual_001",
                     skuOneTime: "tool_iris-factory_onetime_001",
                 },
-                github: true,
+                github: false,
             },
             {
                 name: "Iris Memory",
@@ -394,7 +394,7 @@ export const suites = [
                     "User adaptation - Personalized AI",
                 ],
                 tech: ["MongoDB", "Go"],
-                status: "Beta",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -406,7 +406,7 @@ export const suites = [
                     skuAnnual: "tool_iris-memory_annual_001",
                     skuOneTime: "tool_iris-memory_onetime_001",
                 },
-                github: true,
+                github: false,
             },
         ],
     },
@@ -466,32 +466,6 @@ export const suites = [
                 github: false,
             },
             {
-                name: "Thynkly",
-                slug: "thynkly",
-                tagline: "AI Knowledge Mapping",
-                description:
-                    "Knowledge management blending note-taking, mind mapping, and AI-assisted flashcard generation.",
-                features: [
-                    "Mind mapping - Visual knowledge graphs",
-                    "AI assistance - Smart content generation",
-                    "Spaced repetition - Optimized learning",
-                ],
-                tech: ["React", "Flask", "Python", "SQLite"],
-                status: "Beta",
-                license: {
-                    devices: 1,
-                    offlineActivation: true,
-                    upgradeDiscount: 0.4,
-                },
-                plan: {
-                    annual: 8,
-                    oneTime: 19,
-                    skuAnnual: "tool_thynkly_annual_001",
-                    skuOneTime: "tool_thynkly_onetime_001",
-                },
-                github: false,
-            },
-            {
                 name: "WorkTime",
                 slug: "worktime",
                 tagline: "Intelligent Productivity Tracker",
@@ -503,7 +477,7 @@ export const suites = [
                     "Screen Time API - Native integration",
                 ],
                 tech: ["Swift", "SwiftUI", "CoreData"],
-                status: "Beta",
+                status: "In Development",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -548,7 +522,7 @@ export const standaloneTools = [
             skuAnnual: "tool_autosort_annual_001",
             skuOneTime: "tool_autosort_onetime_001",
         },
-        github: true,
+        github: false,
     },
 ];
 

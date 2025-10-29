@@ -530,7 +530,17 @@ const Pricing = () => {
                                                     </span>
                                                 </td>
                                                 <td className="p-4">
-                                                    <span className="px-2 py-1 rounded-full text-xs bg-green-500/20 text-green-500">
+                                                    <span
+                                                        className={`px-2 py-1 rounded-full text-xs ${
+                                                            tool.status ===
+                                                            "Live"
+                                                                ? "bg-green-500/20 text-green-500"
+                                                                : tool.status ===
+                                                                    "Beta"
+                                                                  ? "bg-yellow-500/20 text-yellow-500"
+                                                                  : "bg-blue-500/20 text-blue-500"
+                                                        }`}
+                                                    >
                                                         {tool.status}
                                                     </span>
                                                 </td>
