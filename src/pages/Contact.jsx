@@ -1,4 +1,7 @@
-import { useState } from "react";
+// ============================================================================
+// FILE: src/pages/Contact.jsx
+// ============================================================================
+import React, { useState, useEffect } from "react";
 import {
     Mail,
     Sparkles,
@@ -17,19 +20,135 @@ import {
     Globe,
     Target,
     Users,
-    Zap,
     Code,
-    Smartphone,
-    Database,
     X,
 } from "lucide-react";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
+import {
+    projectTypes,
+    commonFeatures,
+    teamSizes,
+    timeframes,
+    budgetRanges,
+    designOptions,
+    hostingOptions,
+    faqData,
+    contactInfo,
+    FORM_ENDPOINT,
+} from "../data/contact";
+
+const STORAGE_KEY = "contact_form_draft";
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_FILES = 8;
+const MAX_FIELD_SIZE = 256 * 1024; // 256KB
+
+// Field character limits
+const LIMITS = {
+    name: 100,
+    email: 150,
+    phone: 30,
+    company: 150,
+    website: 200,
+    industry: 100,
+    description: 5000,
+    goals: 3000,
+    targetAudience: 2000,
+    technicalRequirements: 3000,
+    designPreferences: 2000,
+};
+
+const InputField = React.memo(function InputField({
+    icon: Icon,
+    label,
+    name,
+    type = "text",
+    required = false,
+    placeholder,
+    maxLength,
+    theme,
+    value,
+    onChange,
+    error,
+}) {
+    return (
+        <div>
+            <label className={`block text-sm font-medium mb-2 ${theme.text}`}>
+                {label} {required && <span className="text-red-400">*</span>}
+            </label>
+            <div className="relative">
+                <Icon
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                />
+                <input
+                    type={type}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    required={required}
+                    maxLength={maxLength}
+                    className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${error ? "border-red-500" : theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                    placeholder={placeholder}
+                />
+            </div>
+            {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+            {maxLength && (
+                <p className={`mt-1 text-xs ${theme.textSecondary}`}>
+                    {(value ?? "").length}/{maxLength}
+                </p>
+            )}
+        </div>
+    );
+});
+
+const TextAreaField = React.memo(function TextAreaField({
+    icon: Icon,
+    label,
+    name,
+    rows = 4,
+    required = false,
+    placeholder,
+    maxLength,
+    theme,
+    value,
+    onChange,
+    error,
+}) {
+    return (
+        <div>
+            <label className={`block text-sm font-medium mb-2 ${theme.text}`}>
+                {label} {required && <span className="text-red-400">*</span>}
+            </label>
+            <div className="relative">
+                <Icon
+                    className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
+                />
+                <textarea
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    required={required}
+                    maxLength={maxLength}
+                    rows={rows}
+                    className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${error ? "border-red-500" : theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
+                    placeholder={placeholder}
+                />
+            </div>
+            {error && <p className="mt-1 text-xs text-red-400">{error}</p>}
+            {maxLength && (
+                <p className={`mt-1 text-xs ${theme.textSecondary}`}>
+                    {(value ?? "").length}/{maxLength}
+                </p>
+            )}
+        </div>
+    );
+});
+
 const Contact = () => {
     const { darkMode } = useDarkMode();
     const theme = getTheme(darkMode);
 
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         name: "",
         email: "",
         phone: "",
@@ -49,35 +168,157 @@ const Contact = () => {
         hasDesign: "no",
         needsHosting: "unsure",
         attachments: [],
-    });
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
     const [status, setStatus] = useState({ type: "", message: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
+    const [errors, setErrors] = useState({});
 
-    const projectTypes = [
-        { value: "web-app", label: "Web Application", icon: Globe },
-        { value: "mobile-app", label: "Mobile App", icon: Smartphone },
-        { value: "api", label: "API/Backend", icon: Database },
-        { value: "fullstack", label: "Full-Stack Solution", icon: Code },
-        { value: "other", label: "Other", icon: Zap },
-    ];
+    // Load saved form data on mount
+    useEffect(() => {
+        try {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
+                const parsed = JSON.parse(savedData);
+                setFormData({ ...initialFormData, ...parsed, attachments: [] });
+                setCurrentStep(parsed.currentStep || 1);
+            }
+        } catch (error) {
+            console.error("Error loading saved form data:", error);
+        }
+    }, []);
 
-    const commonFeatures = [
-        "User Authentication",
-        "Payment Integration",
-        "Admin Dashboard",
-        "Real-time Updates",
-        "API Integration",
-        "Database Design",
-        "Cloud Deployment",
-        "Mobile Responsive",
-        "Analytics",
-        "Email Notifications",
-    ];
+    // Save form data on change (debounced)
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            try {
+                const dataToSave = { ...formData, currentStep };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+            } catch (error) {
+                console.error("Error saving form data:", error);
+            }
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [formData, currentStep]);
+
+    const F = ({
+        icon,
+        label,
+        name,
+        type = "text",
+        required = false,
+        placeholder,
+        maxLength,
+    }) => (
+        <InputField
+            icon={icon}
+            label={label}
+            name={name}
+            type={type}
+            required={required}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            theme={theme}
+            value={formData[name] ?? ""}
+            onChange={handleChange}
+            error={errors[name]}
+        />
+    );
+
+    const T = ({
+        icon,
+        label,
+        name,
+        rows = 4,
+        required = false,
+        placeholder,
+        maxLength,
+    }) => (
+        <TextAreaField
+            icon={icon}
+            label={label}
+            name={name}
+            rows={rows}
+            required={required}
+            placeholder={placeholder}
+            maxLength={maxLength}
+            theme={theme}
+            value={formData[name] ?? ""}
+            onChange={handleChange}
+            error={errors[name]}
+        />
+    );
+
+    const validateField = (name, value) => {
+        if (LIMITS[name] && value.length > LIMITS[name]) {
+            return `Maximum ${LIMITS[name]} characters`;
+        }
+        if (
+            name === "email" &&
+            value &&
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        ) {
+            return "Invalid email format";
+        }
+        if (name === "website" && value && !/^https?:\/\/.+/.test(value)) {
+            return "Must start with http:// or https://";
+        }
+        return null;
+    };
+
+    const validateStep = (step) => {
+        const newErrors = {};
+
+        if (step === 1) {
+            if (!formData.name.trim()) newErrors.name = "Name is required";
+            if (!formData.email.trim()) newErrors.email = "Email is required";
+            const emailError = validateField("email", formData.email);
+            if (emailError) newErrors.email = emailError;
+        } else if (step === 2) {
+            if (!formData.description.trim())
+                newErrors.description = "Description is required";
+            if (!formData.timeframe)
+                newErrors.timeframe = "Timeframe is required";
+            if (!formData.budget) newErrors.budget = "Budget is required";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        // Character limit check
+        if (LIMITS[name] && value.length > LIMITS[name]) {
+            setErrors((prev) => ({
+                ...prev,
+                [name]: `Maximum ${LIMITS[name]} characters`,
+            }));
+            return;
+        }
+
+        // Field size check (bytes)
+        if (new Blob([value]).size > MAX_FIELD_SIZE) {
+            setErrors((prev) => ({
+                ...prev,
+                [name]: "Field content too large",
+            }));
+            return;
+        }
+
         setFormData((prev) => ({ ...prev, [name]: value }));
+
+        // Clear error when user starts typing
+        if (errors[name]) {
+            setErrors((prev) => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
+        }
     };
 
     const handleFeatureToggle = (feature) => {
@@ -91,10 +332,40 @@ const Contact = () => {
 
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
-        setFormData((prev) => ({
-            ...prev,
-            attachments: [...prev.attachments, ...files],
-        }));
+        const validFiles = [];
+        const fileErrors = [];
+
+        // Check total file count
+        if (formData.attachments.length + files.length > MAX_FILES) {
+            setStatus({
+                type: "error",
+                message: `Maximum ${MAX_FILES} files allowed`,
+            });
+            return;
+        }
+
+        // Validate each file
+        files.forEach((file) => {
+            if (file.size > MAX_FILE_SIZE) {
+                fileErrors.push(`${file.name} exceeds 10MB limit`);
+            } else {
+                validFiles.push(file);
+            }
+        });
+
+        if (fileErrors.length > 0) {
+            setStatus({
+                type: "error",
+                message: fileErrors.join(", "),
+            });
+        }
+
+        if (validFiles.length > 0) {
+            setFormData((prev) => ({
+                ...prev,
+                attachments: [...prev.attachments, ...validFiles],
+            }));
+        }
     };
 
     const removeFile = (index) => {
@@ -104,43 +375,92 @@ const Contact = () => {
         }));
     };
 
+    const clearDraft = () => {
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+        } catch (error) {
+            console.error("Error clearing draft:", error);
+        }
+    };
+
+    const handleStepChange = (nextStep) => {
+        if (nextStep > currentStep) {
+            if (!validateStep(currentStep)) {
+                setStatus({
+                    type: "error",
+                    message: "Please fill in all required fields correctly",
+                });
+                return;
+            }
+        }
+        setCurrentStep(nextStep);
+        setStatus({ type: "", message: "" });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (e.target.company_website.value) return;
+        if (e.target.company_website.value) return; // Honeypot
+
+        if (!validateStep(currentStep)) {
+            setStatus({
+                type: "error",
+                message: "Please fill in all required fields correctly",
+            });
+            return;
+        }
 
         setIsSubmitting(true);
         setStatus({ type: "", message: "" });
 
-        setTimeout(() => {
+        try {
+            const submitData = new FormData();
+
+            // Add form fields
+            Object.keys(formData).forEach((key) => {
+                if (key === "attachments") return;
+                if (key === "features") {
+                    submitData.append(key, JSON.stringify(formData[key]));
+                } else {
+                    submitData.append(key, formData[key]);
+                }
+            });
+
+            // Add files
+            formData.attachments.forEach((file, index) => {
+                submitData.append(`attachment_${index}`, file);
+            });
+
+            const response = await fetch(FORM_ENDPOINT, {
+                method: "POST",
+                body: submitData,
+            });
+
+            if (response.ok) {
+                setStatus({
+                    type: "success",
+                    message:
+                        "Thank you! Your detailed project inquiry has been received. I'll review everything and get back to you within 24-48 hours with a comprehensive proposal.",
+                });
+
+                // Clear form and draft
+                setFormData(initialFormData);
+                setCurrentStep(1);
+                clearDraft();
+
+                const fileInput = document.getElementById("file-upload");
+                if (fileInput) fileInput.value = "";
+            } else {
+                throw new Error("Failed to submit form");
+            }
+        } catch (error) {
             setStatus({
-                type: "success",
-                message:
-                    "Thank you! Your detailed project inquiry has been received. I'll review everything and get back to you within 24-48 hours with a comprehensive proposal.",
+                type: "error",
+                message: `Sorry, there was an error submitting your form. Please try again or email me directly at ${contactInfo.email}`,
             });
+            console.error("Form submission error:", error);
+        } finally {
             setIsSubmitting(false);
-            setCurrentStep(1);
-            setFormData({
-                name: "",
-                email: "",
-                phone: "",
-                company: "",
-                website: "",
-                projectType: "web-app",
-                industry: "",
-                teamSize: "",
-                timeframe: "",
-                budget: "",
-                description: "",
-                goals: "",
-                technicalRequirements: "",
-                designPreferences: "",
-                targetAudience: "",
-                features: [],
-                hasDesign: "no",
-                needsHosting: "unsure",
-                attachments: [],
-            });
-        }, 2000);
+        }
     };
 
     const steps = [
@@ -168,7 +488,7 @@ const Contact = () => {
                         className={`absolute top-1/3 right-1/4 w-96 h-96 ${theme.blobPurple} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000`}
                     />
                     <div
-                        className={`absolute bottom-1/4 left-1/2 w-96 h-96 ${theme.blobPink} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000 `}
+                        className={`absolute bottom-1/4 left-1/2 w-96 h-96 ${theme.blobPink} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000`}
                     />
                 </div>
 
@@ -191,9 +511,10 @@ const Contact = () => {
                     <p
                         className={`text-xl ${theme.textSecondary} max-w-2xl mx-auto`}
                     >
-                        Share your vision and requirements. I'll provide a
-                        detailed estimate with timeline, deliverables, and
-                        pricing in EUR.
+                        Share your vision and requirements. From micro
+                        automation scripts (€20+) to enterprise solutions
+                        (€50K+), I'll provide a detailed estimate with timeline,
+                        deliverables, and pricing in EUR.
                     </p>
                 </div>
             </section>
@@ -202,48 +523,55 @@ const Contact = () => {
             <section className="px-6 pb-12">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div
-                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-blue-500/50 transition-all duration-300 group`}
-                        >
-                            <Mail className="w-10 h-10 text-blue-400 mb-4 group-hover:scale-110 transition-transform" />
-                            <h3
-                                className={`text-lg font-semibold mb-2 ${theme.text}`}
+                        {[
+                            {
+                                icon: Mail,
+                                title: "Email",
+                                content: contactInfo.email,
+                                color: "blue",
+                                href: `mailto:${contactInfo.email}`,
+                            },
+                            {
+                                icon: Clock,
+                                title: "Response Time",
+                                content: contactInfo.responseTime,
+                                color: "purple",
+                            },
+                            {
+                                icon: Globe,
+                                title: "Location",
+                                content: contactInfo.location,
+                                color: "pink",
+                            },
+                        ].map((item, i) => (
+                            <div
+                                key={i}
+                                className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-${item.color}-500/50 transition-all duration-300 group`}
                             >
-                                Email
-                            </h3>
-                            <a
-                                href="mailto:contact@nf-software.com"
-                                className={`text-sm ${theme.textSecondary} hover:text-blue-400 transition`}
-                            >
-                                contact@nf-software.com
-                            </a>
-                        </div>
-                        <div
-                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-purple-500/50 transition-all duration-300 group`}
-                        >
-                            <Clock className="w-10 h-10 text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
-                            <h3
-                                className={`text-lg font-semibold mb-2 ${theme.text}`}
-                            >
-                                Response Time
-                            </h3>
-                            <p className={`text-sm ${theme.textSecondary}`}>
-                                24-48 hours
-                            </p>
-                        </div>
-                        <div
-                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-pink-500/50 transition-all duration-300 group`}
-                        >
-                            <Globe className="w-10 h-10 text-pink-400 mb-4 group-hover:scale-110 transition-transform" />
-                            <h3
-                                className={`text-lg font-semibold mb-2 ${theme.text}`}
-                            >
-                                Location
-                            </h3>
-                            <p className={`text-sm ${theme.textSecondary}`}>
-                                Europe (CET/CEST)
-                            </p>
-                        </div>
+                                <item.icon
+                                    className={`w-10 h-10 text-${item.color}-400 mb-4 group-hover:scale-110 transition-transform`}
+                                />
+                                <h3
+                                    className={`text-lg font-semibold mb-2 ${theme.text}`}
+                                >
+                                    {item.title}
+                                </h3>
+                                {item.href ? (
+                                    <a
+                                        href={item.href}
+                                        className={`text-sm ${theme.textSecondary} hover:text-${item.color}-400 transition`}
+                                    >
+                                        {item.content}
+                                    </a>
+                                ) : (
+                                    <p
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        {item.content}
+                                    </p>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -277,7 +605,7 @@ const Contact = () => {
                                     </div>
                                     {index < steps.length - 1 && (
                                         <div
-                                            className={`flex-1 h-1 mx-4 ${currentStep > step.number ? `bg-gradient-to-r ${theme.gradientPrimary}` : `${theme.bgButton}`}`}
+                                            className={`flex-1 h-1 mx-4 ${currentStep > step.number ? `bg-gradient-to-r ${theme.gradientPrimary}` : theme.bgButton}`}
                                         />
                                     )}
                                 </div>
@@ -339,123 +667,54 @@ const Contact = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label
-                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                        >
-                                            Full Name{" "}
-                                            <span className="text-red-400">
-                                                *
-                                            </span>
-                                        </label>
-                                        <div className="relative">
-                                            <User
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                            />
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                value={formData.name}
-                                                onChange={handleChange}
-                                                required
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
-                                                placeholder="John Doe"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                        >
-                                            Email Address{" "}
-                                            <span className="text-red-400">
-                                                *
-                                            </span>
-                                        </label>
-                                        <div className="relative">
-                                            <Mail
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                            />
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                                required
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
-                                                placeholder="john@example.com"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                        >
-                                            Phone Number (Optional)
-                                        </label>
-                                        <div className="relative">
-                                            <Phone
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                            />
-                                            <input
-                                                type="tel"
-                                                name="phone"
-                                                value={formData.phone}
-                                                onChange={handleChange}
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
-                                                placeholder="+31 6 1234 5678"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                        >
-                                            Company Name (Optional)
-                                        </label>
-                                        <div className="relative">
-                                            <Building
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                            />
-                                            <input
-                                                type="text"
-                                                name="company"
-                                                value={formData.company}
-                                                onChange={handleChange}
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
-                                                placeholder="Your Company"
-                                            />
-                                        </div>
-                                    </div>
-
+                                    {F({
+                                        icon: User,
+                                        label: "Full Name",
+                                        name: "name",
+                                        required: true,
+                                        placeholder: "John Doe",
+                                        maxLength: LIMITS.name,
+                                    })}
+                                    {F({
+                                        icon: Mail,
+                                        label: "Email Address",
+                                        name: "email",
+                                        required: true,
+                                        type: "email",
+                                        placeholder: "john@example.com",
+                                        maxLength: LIMITS.email,
+                                    })}
+                                    {F({
+                                        icon: Phone,
+                                        label: "Phone Number (Optional)",
+                                        name: "phone",
+                                        type: "tel",
+                                        placeholder: "+31 6 1234 5678",
+                                        maxLength: LIMITS.phone,
+                                    })}
+                                    {F({
+                                        icon: Building,
+                                        label: "Company Name (Optional)",
+                                        name: "company",
+                                        placeholder: "Your Company",
+                                        maxLength: LIMITS.company,
+                                    })}
                                     <div className="md:col-span-2">
-                                        <label
-                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                        >
-                                            Website (Optional)
-                                        </label>
-                                        <div className="relative">
-                                            <Globe
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                            />
-                                            <input
-                                                type="url"
-                                                name="website"
-                                                value={formData.website}
-                                                onChange={handleChange}
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
-                                                placeholder="https://yourcompany.com"
-                                            />
-                                        </div>
-                                    </div>
+                                        {F({
+                                            icon: Globe,
+                                            label: "Website (Optional)",
+                                            name: "website",
+                                            type: "url",
+                                            placeholder:
+                                                "https://yourcompany.com",
+                                            maxLength: LIMITS.website,
+                                        })}
+                                    </div>{" "}
                                 </div>
 
                                 <button
                                     type="button"
-                                    onClick={() => setCurrentStep(2)}
+                                    onClick={() => handleStepChange(2)}
                                     className={`w-full py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                 >
                                     Continue to Project Details
@@ -522,21 +781,14 @@ const Contact = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label
-                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                        >
-                                            Industry/Sector (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="industry"
-                                            value={formData.industry}
-                                            onChange={handleChange}
-                                            className={`w-full px-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
-                                            placeholder="e.g., E-commerce, Healthcare, Finance"
-                                        />
-                                    </div>
+                                    {F({
+                                        icon: Building,
+                                        label: "Industry/Sector (Optional)",
+                                        name: "industry",
+                                        placeholder:
+                                            "e.g., E-commerce, Healthcare",
+                                        maxLength: LIMITS.industry,
+                                    })}
 
                                     <div>
                                         <label
@@ -550,21 +802,14 @@ const Contact = () => {
                                             onChange={handleChange}
                                             className={`w-full px-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
                                         >
-                                            <option value="">
-                                                Select team size
-                                            </option>
-                                            <option value="solo">
-                                                Solo Founder
-                                            </option>
-                                            <option value="small">
-                                                2-10 people
-                                            </option>
-                                            <option value="medium">
-                                                11-50 people
-                                            </option>
-                                            <option value="large">
-                                                50+ people
-                                            </option>
+                                            {teamSizes.map((size) => (
+                                                <option
+                                                    key={size.value}
+                                                    value={size.value}
+                                                >
+                                                    {size.label}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
 
@@ -579,35 +824,30 @@ const Contact = () => {
                                         </label>
                                         <div className="relative">
                                             <Calendar
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary} pointer-events-none`}
                                             />
                                             <select
                                                 name="timeframe"
                                                 value={formData.timeframe}
                                                 onChange={handleChange}
                                                 required
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.selectBg} border ${errors.timeframe ? "border-red-500" : theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none`}
                                             >
-                                                <option value="">
-                                                    Select timeframe
-                                                </option>
-                                                <option value="urgent">
-                                                    ASAP (1-2 weeks)
-                                                </option>
-                                                <option value="short">
-                                                    Short-term (1-2 months)
-                                                </option>
-                                                <option value="medium">
-                                                    Medium-term (3-6 months)
-                                                </option>
-                                                <option value="long">
-                                                    Long-term (6+ months)
-                                                </option>
-                                                <option value="flexible">
-                                                    Flexible
-                                                </option>
+                                                {timeframes.map((tf) => (
+                                                    <option
+                                                        key={tf.value}
+                                                        value={tf.value}
+                                                    >
+                                                        {tf.label}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
+                                        {errors.timeframe && (
+                                            <p className="mt-1 text-xs text-red-400">
+                                                {errors.timeframe}
+                                            </p>
+                                        )}
                                     </div>
 
                                     <div>
@@ -621,78 +861,54 @@ const Contact = () => {
                                         </label>
                                         <div className="relative">
                                             <Euro
-                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary} pointer-events-none`}
                                             />
                                             <select
                                                 name="budget"
                                                 value={formData.budget}
                                                 onChange={handleChange}
                                                 required
-                                                className={`w-full pl-12 pr-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.selectBg} border ${errors.budget ? "border-red-500" : theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition appearance-none`}
                                             >
-                                                <option value="">
-                                                    Select budget range
-                                                </option>
-                                                <option value="small">
-                                                    €1,000 - €5,000
-                                                </option>
-                                                <option value="medium">
-                                                    €5,000 - €15,000
-                                                </option>
-                                                <option value="large">
-                                                    €15,000 - €50,000
-                                                </option>
-                                                <option value="enterprise">
-                                                    €50,000+
-                                                </option>
-                                                <option value="discuss">
-                                                    Prefer to discuss
-                                                </option>
+                                                {budgetRanges.map((budget) => (
+                                                    <option
+                                                        key={budget.value}
+                                                        value={budget.value}
+                                                    >
+                                                        {budget.label}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
+                                        {errors.budget && (
+                                            <p className="mt-1 text-xs text-red-400">
+                                                {errors.budget}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label
-                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                    >
-                                        Project Description{" "}
-                                        <span className="text-red-400">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <FileText
-                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <textarea
-                                            name="description"
-                                            value={formData.description}
-                                            onChange={handleChange}
-                                            required
-                                            rows={6}
-                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
-                                            placeholder="Describe your project in detail. What problem does it solve? What are the key features? What makes it unique?"
-                                        />
-                                    </div>
-                                    <p
-                                        className={`mt-2 text-xs ${theme.textSecondary}`}
-                                    >
-                                        Be specific about your vision and
-                                        requirements
-                                    </p>
-                                </div>
+                                {T({
+                                    icon: FileText,
+                                    label: "Project Description",
+                                    name: "description",
+                                    required: true,
+                                    rows: 6,
+                                    placeholder: "Describe your project…",
+                                    maxLength: LIMITS.description,
+                                })}
 
                                 <div className="flex gap-4">
                                     <button
                                         type="button"
-                                        onClick={() => setCurrentStep(1)}
+                                        onClick={() => handleStepChange(1)}
                                         className={`flex-1 py-4 px-6 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} ${theme.text} font-semibold rounded-xl transition-all duration-300`}
                                     >
                                         Back
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => setCurrentStep(3)}
+                                        onClick={() => handleStepChange(3)}
                                         className={`flex-1 py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                     >
                                         Continue to Requirements
@@ -748,70 +964,32 @@ const Contact = () => {
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label
-                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                    >
-                                        Project Goals & Success Metrics
-                                    </label>
-                                    <div className="relative">
-                                        <Target
-                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <textarea
-                                            name="goals"
-                                            value={formData.goals}
-                                            onChange={handleChange}
-                                            rows={4}
-                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
-                                            placeholder="What are your main objectives? How will you measure success? (e.g., 10,000 users in 6 months, 95% uptime, etc.)"
-                                        />
-                                    </div>
-                                </div>
+                                {T({
+                                    icon: Target,
+                                    label: "Project Goals & Success Metrics",
+                                    name: "goals",
+                                    placeholder:
+                                        "Objectives and how you'll measure success",
+                                    maxLength: LIMITS.goals,
+                                })}
 
-                                <div>
-                                    <label
-                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                    >
-                                        Target Audience
-                                    </label>
-                                    <div className="relative">
-                                        <Users
-                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <textarea
-                                            name="targetAudience"
-                                            value={formData.targetAudience}
-                                            onChange={handleChange}
-                                            rows={3}
-                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
-                                            placeholder="Who will use this? (e.g., age range, profession, technical expertise)"
-                                        />
-                                    </div>
-                                </div>
+                                {T({
+                                    icon: Users,
+                                    label: "Target Audience",
+                                    name: "targetAudience",
+                                    rows: 3,
+                                    placeholder: "Who will use this?",
+                                    maxLength: LIMITS.targetAudience,
+                                })}
 
-                                <div>
-                                    <label
-                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                    >
-                                        Technical Requirements & Integrations
-                                    </label>
-                                    <div className="relative">
-                                        <Code
-                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <textarea
-                                            name="technicalRequirements"
-                                            value={
-                                                formData.technicalRequirements
-                                            }
-                                            onChange={handleChange}
-                                            rows={4}
-                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
-                                            placeholder="Any specific technologies, platforms, or third-party integrations? (e.g., Stripe, AWS, specific frameworks)"
-                                        />
-                                    </div>
-                                </div>
+                                {T({
+                                    icon: Code,
+                                    label: "Technical Requirements & Integrations",
+                                    name: "technicalRequirements",
+                                    placeholder:
+                                        "Stripe, AWS, frameworks, etc.",
+                                    maxLength: LIMITS.technicalRequirements,
+                                })}
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
@@ -826,15 +1004,14 @@ const Contact = () => {
                                             onChange={handleChange}
                                             className={`w-full px-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
                                         >
-                                            <option value="no">
-                                                No, need full design
-                                            </option>
-                                            <option value="partial">
-                                                Have wireframes/mockups
-                                            </option>
-                                            <option value="yes">
-                                                Complete design ready
-                                            </option>
+                                            {designOptions.map((option) => (
+                                                <option
+                                                    key={option.value}
+                                                    value={option.value}
+                                                >
+                                                    {option.label}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
 
@@ -850,15 +1027,14 @@ const Contact = () => {
                                             onChange={handleChange}
                                             className={`w-full px-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
                                         >
-                                            <option value="unsure">
-                                                Not sure yet
-                                            </option>
-                                            <option value="yes">
-                                                Yes, full deployment
-                                            </option>
-                                            <option value="no">
-                                                No, I'll handle it
-                                            </option>
+                                            {hostingOptions.map((option) => (
+                                                <option
+                                                    key={option.value}
+                                                    value={option.value}
+                                                >
+                                                    {option.label}
+                                                </option>
+                                            ))}
                                         </select>
                                     </div>
                                 </div>
@@ -866,14 +1042,14 @@ const Contact = () => {
                                 <div className="flex gap-4">
                                     <button
                                         type="button"
-                                        onClick={() => setCurrentStep(2)}
+                                        onClick={() => handleStepChange(2)}
                                         className={`flex-1 py-4 px-6 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} ${theme.text} font-semibold rounded-xl transition-all duration-300`}
                                     >
                                         Back
                                     </button>
                                     <button
                                         type="button"
-                                        onClick={() => setCurrentStep(4)}
+                                        onClick={() => handleStepChange(4)}
                                         className={`flex-1 py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                     >
                                         Continue to Final Details
@@ -899,21 +1075,14 @@ const Contact = () => {
                                     </p>
                                 </div>
 
-                                <div>
-                                    <label
-                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
-                                    >
-                                        Design Preferences & Inspiration
-                                    </label>
-                                    <textarea
-                                        name="designPreferences"
-                                        value={formData.designPreferences}
-                                        onChange={handleChange}
-                                        rows={4}
-                                        className={`w-full px-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
-                                        placeholder="Any design preferences, color schemes, or reference websites you like? (e.g., 'Modern and minimal like Stripe', 'Bold and colorful like Spotify')"
-                                    />
-                                </div>
+                                {T({
+                                    icon: FileText,
+                                    label: "Design Preferences & Inspiration",
+                                    name: "designPreferences",
+                                    placeholder:
+                                        "e.g., 'Modern and minimal like Stripe'",
+                                    maxLength: LIMITS.designPreferences,
+                                })}
 
                                 <div>
                                     <label
@@ -954,9 +1123,7 @@ const Contact = () => {
                                             <p
                                                 className={`text-xs ${theme.textSecondary}`}
                                             >
-                                                Supported: Images, PDFs,
-                                                Documents, Figma files (max 10MB
-                                                each)
+                                                Max {MAX_FILES} files, 10MB each
                                             </p>
                                         </label>
                                     </div>
@@ -1021,43 +1188,27 @@ const Contact = () => {
                                     <ul
                                         className={`space-y-2 text-sm ${theme.textSecondary}`}
                                     >
-                                        <li className="flex items-start gap-2">
-                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                                            <span>
-                                                I'll review your requirements in
-                                                detail (24-48 hours)
-                                            </span>
-                                        </li>
-                                        <li className="flex items-start gap-2">
-                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                                            <span>
-                                                You'll receive a comprehensive
-                                                proposal with timeline,
-                                                milestones, and pricing in EUR
-                                            </span>
-                                        </li>
-                                        <li className="flex items-start gap-2">
-                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                                            <span>
-                                                We can schedule a call to
-                                                discuss any questions or
-                                                refinements
-                                            </span>
-                                        </li>
-                                        <li className="flex items-start gap-2">
-                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
-                                            <span>
-                                                Once approved, we'll kick off
-                                                with a detailed project roadmap
-                                            </span>
-                                        </li>
+                                        {[
+                                            "I'll review your requirements in detail (24-48 hours)",
+                                            "You'll receive a comprehensive proposal with timeline, milestones, and pricing in EUR",
+                                            "We can schedule a call to discuss any questions or refinements",
+                                            "Once approved, we'll kick off with a detailed project roadmap",
+                                        ].map((item, i) => (
+                                            <li
+                                                key={i}
+                                                className="flex items-start gap-2"
+                                            >
+                                                <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
 
                                 <div className="flex gap-4">
                                     <button
                                         type="button"
-                                        onClick={() => setCurrentStep(3)}
+                                        onClick={() => handleStepChange(3)}
                                         className={`flex-1 py-4 px-6 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} ${theme.text} font-semibold rounded-xl transition-all duration-300`}
                                     >
                                         Back
@@ -1109,44 +1260,7 @@ const Contact = () => {
                     </div>
 
                     <div className="grid gap-6">
-                        {[
-                            {
-                                question: "What's included in your proposal?",
-                                answer: "You'll receive a detailed breakdown including project timeline with milestones, comprehensive feature list, technology stack recommendations, pricing in EUR (with payment schedule options), and estimated delivery dates. I also include potential challenges and how we'll address them.",
-                            },
-                            {
-                                question: "How do you calculate pricing?",
-                                answer: "Pricing is based on project complexity, required features, timeline, and ongoing support needs. I offer both fixed-price packages for well-defined projects and flexible hourly rates for evolving requirements. All prices are in EUR and include regular check-ins and revisions.",
-                            },
-                            {
-                                question:
-                                    "What information helps you provide the most accurate estimate?",
-                                answer: "The more details, the better! Specific feature requirements, user flow descriptions, design references, technical constraints, target launch date, and any existing systems to integrate with. Wireframes or mockups are incredibly helpful but not required.",
-                            },
-                            {
-                                question:
-                                    "Do you work with startups on equity/revenue share?",
-                                answer: "I primarily work on paid projects, but I'm open to discussing hybrid arrangements (partial payment + equity) for exceptional early-stage startups with strong potential. This is evaluated case-by-case.",
-                            },
-                            {
-                                question: "What's your development process?",
-                                answer: "I follow an agile approach with 1-2 week sprints, regular demos, and iterative feedback. You'll have access to staging environments, GitHub repositories, and regular progress updates. Communication is key - I use Slack, email, and video calls as needed.",
-                            },
-                            {
-                                question: "Do you provide post-launch support?",
-                                answer: "Yes! I offer flexible maintenance packages including bug fixes, security updates, performance optimization, and feature additions. We can discuss ongoing support needs during the proposal phase.",
-                            },
-                            {
-                                question:
-                                    "Can you work with my existing development team?",
-                                answer: "Absolutely! I'm experienced in collaborating with in-house teams, providing technical leadership, code reviews, or handling specific components. I adapt to your team's workflow and tools.",
-                            },
-                            {
-                                question:
-                                    "What if my project requirements change?",
-                                answer: "Change is natural in software development. For fixed-price projects, we'll discuss scope adjustments and pricing impacts. For hourly projects, you have full flexibility to pivot as needed. Clear communication ensures we stay aligned.",
-                            },
-                        ].map((faq, index) => (
+                        {faqData.map((faq, index) => (
                             <div
                                 key={index}
                                 className={`${theme.cardBg} rounded-xl p-6 border ${theme.border} ${theme.hoverBorder} transition-all`}
@@ -1173,7 +1287,7 @@ const Contact = () => {
                                 Still have questions?
                             </p>
                             <a
-                                href="mailto:contact@nf-software.com"
+                                href={`mailto:${contactInfo.email}`}
                                 className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                             >
                                 <Mail className="w-5 h-5" />
