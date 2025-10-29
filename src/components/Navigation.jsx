@@ -135,6 +135,17 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                         >
                             Contact me
                         </Link>
+                        <button
+                            onClick={toggleDarkMode}
+                            className={`p-2 rounded-full ${theme.bgButton} transition ${theme.hoverBg}`}
+                            aria-label="Toggle theme"
+                        >
+                            {darkMode ? (
+                                <Sun className="w-4 h-4" />
+                            ) : (
+                                <Moon className="w-4 h-4" />
+                            )}
+                        </button>
                         <a
                             href="mailto:contact@nf-software.com"
                             className={`block w-full text-center px-6 py-2.5 ${theme.bgPrimary} ${theme.textPrimary} rounded-full text-sm font-medium`}

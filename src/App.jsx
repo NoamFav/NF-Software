@@ -9,6 +9,9 @@ import About from "./pages/About";
 import Products from "./pages/Products";
 import Contact from "./pages/Contact";
 import Pricing from "./pages/Pricing";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import NotFound from "./pages/NotFound";
 
 function App() {
     return (
@@ -21,6 +24,9 @@ function App() {
                         <Route path="/products" element={<Products />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/pricing" element={<Pricing />} />
+                        <Route path="/privacy" element={<PrivacyPolicy />} />
+                        <Route path="/terms" element={<TermsOfService />} />
+                        <Route path="*" element={<NotFound />} />
                     </Routes>
                 </Layout>
             </DarkModeProvider>
