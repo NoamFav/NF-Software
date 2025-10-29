@@ -3,14 +3,16 @@
 // ============================================================================
 import { Code, Mail } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
+import { Link } from "react-router-dom";
 
 const Footer = ({ theme }) => {
     const footerLinks = {
         products: ["Iris", "Sysmon-CLI", "Zvezda", "CodeGrep"],
         company: [
             { label: "About", href: "/about" },
-            { label: "Testimonials", href: "/testimonials" },
-            { label: "Contact", href: "mailto:contact@nf-software.com" },
+            { label: "Products", href: "/products" },
+            { label: "Pricing", href: "/pricings" },
+            { label: "Contact Me", href: "/contact" },
         ],
     };
 
@@ -61,12 +63,12 @@ const Footer = ({ theme }) => {
                         <ul className="space-y-2">
                             {footerLinks.products.map((product) => (
                                 <li key={product}>
-                                    <a
-                                        href={`/products#${product.toLowerCase()}`}
+                                    <Link
+                                        to={`/products#${product.toLowerCase()}`}
                                         className={`text-sm ${theme.textSecondary} hover:${theme.text} transition`}
                                     >
                                         {product}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -80,12 +82,12 @@ const Footer = ({ theme }) => {
                         <ul className="space-y-2">
                             {footerLinks.company.map((link) => (
                                 <li key={link.label}>
-                                    <a
-                                        href={link.href}
+                                    <Link
+                                        to={link.href}
                                         className={`text-sm ${theme.textSecondary} hover:${theme.text} transition`}
                                     >
                                         {link.label}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -100,18 +102,18 @@ const Footer = ({ theme }) => {
                         © 2025 NF Software. All rights reserved.
                     </div>
                     <div className="flex items-center gap-6">
-                        <a
-                            href="#"
+                        <Link
+                            to="/privacy"
                             className={`text-sm ${theme.textSecondary} hover:${theme.text} transition`}
                         >
                             Privacy Policy
-                        </a>
-                        <a
-                            href="#"
+                        </Link>
+                        <Link
+                            to="/terms"
                             className={`text-sm ${theme.textSecondary} hover:${theme.text} transition`}
                         >
                             Terms of Service
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
