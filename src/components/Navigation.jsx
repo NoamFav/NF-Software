@@ -66,7 +66,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                                 : theme.textSecondary + " hover:" + theme.text
                         } transition`}
                     >
-                        Contact Me
+                        Start Your Project
                     </Link>
                     <button
                         onClick={toggleDarkMode}
