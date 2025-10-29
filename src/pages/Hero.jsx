@@ -245,17 +245,17 @@ const Hero = () => {
                                     Suite
                                 </div>
                                 <h2
-                                    className={`mt-4 text-4xl md:text-5xl font-bold ${theme.text}`}
+                                    className={`mt-4 text-4xl md:text-5xl font-bold text-white`}
                                 >
                                     {suite.name}
                                 </h2>
                                 <p
-                                    className={`mt-3 text-lg max-w-2xl ${theme.textSecondary}`}
+                                    className={`mt-3 text-lg max-w-2xl text-gray-600`}
                                 >
                                     {suite.tagline}
                                 </p>
                                 <p
-                                    className={`mt-1 text-base max-w-3xl ${theme.textSecondary}`}
+                                    className={`mt-1 text-base max-w-3xl text-gray-600`}
                                 >
                                     {suite.description}
                                 </p>
