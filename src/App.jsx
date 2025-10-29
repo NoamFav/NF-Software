@@ -1,5 +1,5 @@
 // ============================================================================
-// FILE: src/App.jsx - UPDATED
+// FILE: src/App.jsx
 // ============================================================================
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import DarkModeProvider from "./providers/DarkModeProvider";
