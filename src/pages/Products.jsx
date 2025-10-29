@@ -39,19 +39,7 @@ const Products = () => {
                   maximumFractionDigits: 0,
               }).format(n)
             : "—";
-    const Btn = ({ href, children, className }) => {
-        const disabled = !href || href === "#";
-        return (
-            <a
-                href={disabled ? undefined : href}
-                aria-disabled={disabled}
-                onClick={(e) => disabled && e.preventDefault()}
-                className={`${className} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-            >
-                {children}
-            </a>
-        );
-    };
+
     const getIconComponent = (iconName) => {
         const icons = {
             Code,
@@ -84,8 +72,8 @@ const Products = () => {
         }
     };
 
-    const getCheckoutHref = (sku) =>
-        sku ? `/checkout?sku=${encodeURIComponent(sku)}` : "#";
+    //   const getCheckoutHref = (sku) =>
+    //     sku ? `/checkout?sku=${encodeURIComponent(sku)}` : "#";
 
     return (
         <>
@@ -277,14 +265,10 @@ const Products = () => {
                                                     </div>
                                                 </div>
                                                 <button
-                                                    onClick={() =>
-                                                        (window.location.href =
-                                                            getCheckoutHref(
-                                                                suite.plans
-                                                                    .individual
-                                                                    .skuAnnual,
-                                                            ))
-                                                    }
+                                                    onClick={() => {
+                                                        const message = `Checkout coming soon!\n\nInterested in ${suite.name}?\nContact us at contact@nf-software.com`;
+                                                        alert(message);
+                                                    }}
                                                     className={`w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
                                                 >
                                                     Get Suite
@@ -423,22 +407,26 @@ const Products = () => {
                                                 )}
                                             </div>
                                             <div className="grid grid-cols-2 gap-2 pt-2">
-                                                <Btn
-                                                    className={`text-center px-4 py-2.5 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
-                                                    href={getCheckoutHref(
-                                                        tool.plan?.skuAnnual,
-                                                    )}
+                                                <button
+                                                    onClick={() =>
+                                                        alert(
+                                                            "Checkout not yet supported. Please contact us at contact@nf-software.com for purchasing inquiries.",
+                                                        )
+                                                    }
+                                                    className={`text-center px-4 py-2.5 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
                                                 >
                                                     Subscribe
-                                                </Btn>
-                                                <Btn
-                                                    className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} font-semibold rounded-lg hover:border-blue-500/50 hover:scale-[1.02] transition-all duration-300`}
-                                                    href={getCheckoutHref(
-                                                        tool.plan?.skuOneTime,
-                                                    )}
+                                                </button>
+                                                <button
+                                                    onClick={() =>
+                                                        alert(
+                                                            "Checkout not yet supported. Please contact us at contact@nf-software.com for purchasing inquiries.",
+                                                        )
+                                                    }
+                                                    className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} font-semibold rounded-lg hover:border-blue-500/50 hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
                                                 >
                                                     Buy Once
-                                                </Btn>
+                                                </button>
                                             </div>
                                         </div>
                                     ))}
@@ -540,24 +528,26 @@ const Products = () => {
                                                         </span>
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-2 pt-2">
-                                                        <Btn
-                                                            className={`text-center px-4 py-2.5 bg-gradient-to-r ${tool.gradient} text-white rounded-lg`}
-                                                            href={getCheckoutHref(
-                                                                tool.plan
-                                                                    ?.skuAnnual,
-                                                            )}
+                                                        <button
+                                                            onClick={() =>
+                                                                alert(
+                                                                    "Checkout not yet supported. Please contact us at contact@nf-software.com for purchasing inquiries.",
+                                                                )
+                                                            }
+                                                            className={`text-center px-4 py-2.5 bg-gradient-to-r ${tool.gradient} text-white rounded-lg cursor-pointer`}
                                                         >
                                                             Subscribe
-                                                        </Btn>
-                                                        <Btn
-                                                            className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} rounded-lg`}
-                                                            href={getCheckoutHref(
-                                                                tool.plan
-                                                                    ?.skuOneTime,
-                                                            )}
+                                                        </button>
+                                                        <button
+                                                            onClick={() =>
+                                                                alert(
+                                                                    "Checkout not yet supported. Please contact us at contact@nf-software.com for purchasing inquiries.",
+                                                                )
+                                                            }
+                                                            className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} rounded-lg cursor-pointer`}
                                                         >
                                                             Buy Once
-                                                        </Btn>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             );

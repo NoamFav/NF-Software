@@ -18,7 +18,7 @@ import {
     Users,
     ChevronRight,
 } from "lucide-react";
-import { SiX, SiGithub } from "@icons-pack/react-simple-icons";
+import { SiGithub, SiInstagram } from "@icons-pack/react-simple-icons";
 import { FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
@@ -595,7 +595,7 @@ const Hero = () => {
                                     <span className="text-sm">GitHub</span>
                                 </a>
                                 <a
-                                    href="https://linkedin.com"
+                                    href="www.linkedin.com/in/NoamFav"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
@@ -605,14 +605,14 @@ const Hero = () => {
                                     <span className="text-sm">LinkedIn</span>
                                 </a>
                                 <a
-                                    href="https://twitter.com"
+                                    href="https://www.instagram.com/noamfav/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
-                                    aria-label="Twitter"
+                                    aria-label="Instagram"
                                 >
-                                    <SiX className="w-5 h-5" />
-                                    <span className="text-sm">Twitter</span>
+                                    <SiInstagram className="w-5 h-5" />
+                                    <span className="text-sm">Instagram</span>
                                 </a>
                                 <a
                                     href="mailto:contact@nf-software.com"
