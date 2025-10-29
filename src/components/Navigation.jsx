@@ -66,7 +66,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                                 : theme.textSecondary + " hover:" + theme.text
                         } transition`}
                     >
-                        Start Your Project
+                        Start
                     </Link>
                     <button
                         onClick={toggleDarkMode}
@@ -133,7 +133,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                             className={`block text-sm ${theme.textSecondary}`}
                             onClick={() => setMobileMenuOpen(false)}
                         >
-                            Contact me
+                            Start
                         </Link>
                         <button
                             onClick={toggleDarkMode}
