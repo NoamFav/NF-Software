@@ -1,6 +1,3 @@
-// ============================================================================
-// FILE: src/pages/Contact.jsx
-// ============================================================================
 import { useState } from "react";
 import {
     Mail,
@@ -8,7 +5,7 @@ import {
     Send,
     Building,
     User,
-    DollarSign,
+    Euro,
     Calendar,
     FileText,
     Upload,
@@ -16,11 +13,18 @@ import {
     AlertCircle,
     Loader,
     Clock,
+    Phone,
+    Globe,
+    Target,
+    Users,
+    Zap,
+    Code,
+    Smartphone,
+    Database,
+    X,
 } from "lucide-react";
-import { SiGithub } from "@icons-pack/react-simple-icons";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
-
 const Contact = () => {
     const { darkMode } = useDarkMode();
     const theme = getTheme(darkMode);
@@ -28,33 +32,81 @@ const Contact = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
+        phone: "",
         company: "",
-        projectType: "personal",
+        website: "",
+        projectType: "web-app",
+        industry: "",
+        teamSize: "",
         timeframe: "",
         budget: "",
         description: "",
+        goals: "",
+        technicalRequirements: "",
+        designPreferences: "",
+        targetAudience: "",
+        features: [],
+        hasDesign: "no",
+        needsHosting: "unsure",
         attachments: [],
     });
     const [status, setStatus] = useState({ type: "", message: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
+
+    const projectTypes = [
+        { value: "web-app", label: "Web Application", icon: Globe },
+        { value: "mobile-app", label: "Mobile App", icon: Smartphone },
+        { value: "api", label: "API/Backend", icon: Database },
+        { value: "fullstack", label: "Full-Stack Solution", icon: Code },
+        { value: "other", label: "Other", icon: Zap },
+    ];
+
+    const commonFeatures = [
+        "User Authentication",
+        "Payment Integration",
+        "Admin Dashboard",
+        "Real-time Updates",
+        "API Integration",
+        "Database Design",
+        "Cloud Deployment",
+        "Mobile Responsive",
+        "Analytics",
+        "Email Notifications",
+    ];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const handleFeatureToggle = (feature) => {
+        setFormData((prev) => ({
+            ...prev,
+            features: prev.features.includes(feature)
+                ? prev.features.filter((f) => f !== feature)
+                : [...prev.features, feature],
+        }));
+    };
+
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
-        setFormData((prev) => ({ ...prev, attachments: files }));
+        setFormData((prev) => ({
+            ...prev,
+            attachments: [...prev.attachments, ...files],
+        }));
+    };
+
+    const removeFile = (index) => {
+        setFormData((prev) => ({
+            ...prev,
+            attachments: prev.attachments.filter((_, i) => i !== index),
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Check honeypot
-        if (e.target.company_website.value) {
-            return; // Likely spam
-        }
+        if (e.target.company_website.value) return;
 
         setIsSubmitting(true);
         setStatus({ type: "", message: "" });
@@ -63,118 +115,108 @@ const Contact = () => {
             setStatus({
                 type: "success",
                 message:
-                    "Thank you! Your project inquiry has been received. I'll get back to you within 24-48 hours with a detailed estimate.",
+                    "Thank you! Your detailed project inquiry has been received. I'll review everything and get back to you within 24-48 hours with a comprehensive proposal.",
             });
             setIsSubmitting(false);
-
+            setCurrentStep(1);
             setFormData({
                 name: "",
                 email: "",
+                phone: "",
                 company: "",
-                projectType: "personal",
+                website: "",
+                projectType: "web-app",
+                industry: "",
+                teamSize: "",
                 timeframe: "",
                 budget: "",
                 description: "",
+                goals: "",
+                technicalRequirements: "",
+                designPreferences: "",
+                targetAudience: "",
+                features: [],
+                hasDesign: "no",
+                needsHosting: "unsure",
                 attachments: [],
             });
-
-            const fileInput = document.getElementById("file-upload");
-            if (fileInput) fileInput.value = "";
         }, 2000);
     };
 
+    const steps = [
+        { number: 1, title: "Contact Info" },
+        { number: 2, title: "Project Details" },
+        { number: 3, title: "Requirements" },
+        { number: 4, title: "Additional Info" },
+    ];
+
     return (
-        <>
+        <div className={`min-h-screen ${theme.bg} ${theme.text}`}>
+            {/* Hero Section */}
             <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute inset-0">
                     <div
-                        className="absolute inset-0 opacity-30"
-                        style={{
-                            backgroundImage: `radial-gradient(circle at 50% 50%, ${darkMode ? "rgba(99, 102, 241, 0.15)" : "rgba(99, 102, 241, 0.08)"}, transparent 50%)`,
-                        }}
+                        className={`absolute inset-0 ${darkMode ? "bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10" : "bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5"}`}
                     />
                     <div
-                        className={`absolute top-1/4 left-1/4 w-96 h-96 ${theme.blobBlue} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob`}
+                        className={`absolute top-1/4 left-1/4 w-96 h-96 ${darkMode ? "bg-blue-500/20" : "bg-blue-500/10"} rounded-full mix-blend-multiply filter blur-3xl animate-pulse`}
                     />
                     <div
-                        className={`absolute top-1/3 right-1/4 w-96 h-96 ${theme.blobPurple} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000`}
-                    />
-                    <div
-                        className={`absolute bottom-1/4 left-1/2 w-96 h-96 ${theme.blobPink} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000 `}
+                        className={`absolute top-1/3 right-1/4 w-96 h-96 ${darkMode ? "bg-purple-500/20" : "bg-purple-500/10"} rounded-full mix-blend-multiply filter blur-3xl animate-pulse`}
+                        style={{ animationDelay: "2s" }}
                     />
                 </div>
 
                 <div className="max-w-4xl mx-auto text-center relative z-10">
                     <div
-                        className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border ${theme.blobBlue}/20 mb-6 animate-fade-in`}
+                        className={`inline-flex items-center gap-2 px-4 py-2 ${darkMode ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-500/30" : "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20"} rounded-full border mb-6`}
                     >
-                        <Sparkles
-                            className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
-                        />
+                        <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
                         <span className="text-sm font-medium">
-                            Let's Build Together
+                            Let's Build Something Amazing
                         </span>
                     </div>
 
-                    <h1
-                        className={`text-5xl md:text-6xl font-bold ${theme.text} mb-6 animate-fade-in-up`}
-                    >
+                    <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                         Start Your Project
                     </h1>
 
                     <p
-                        className={`text-xl ${theme.textSecondary} max-w-2xl mx-auto animate-fade-in-up animation-delay-200`}
+                        className={`text-xl ${theme.textSecondary} max-w-2xl mx-auto`}
                     >
-                        Tell me about your project and I'll provide a detailed
-                        estimate with timeline, deliverables, and pricing
-                        tailored to your needs.
+                        Share your vision and requirements. I'll provide a
+                        detailed estimate with timeline, deliverables, and
+                        pricing in EUR.
                     </p>
                 </div>
             </section>
 
-            <section className="relative px-6 pb-20" data-animate>
+            {/* Quick Contact Cards */}
+            <section className="px-6 pb-12">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div
-                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-blue-500/50 transition-all duration-300`}
+                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-blue-500/50 transition-all duration-300 group`}
                         >
-                            <Mail className="w-10 h-10 text-blue-500 mb-4" />
+                            <Mail className="w-10 h-10 text-blue-400 mb-4 group-hover:scale-110 transition-transform" />
                             <h3
-                                className={`text-lg font-semibold ${theme.text} mb-2`}
+                                className={`text-lg font-semibold mb-2 ${theme.text}`}
                             >
                                 Email
                             </h3>
                             <a
                                 href="mailto:contact@nf-software.com"
-                                className={`text-sm ${theme.textSecondary} hover:${theme.text} transition`}
+                                className={`text-sm ${theme.textSecondary} hover:text-blue-400 transition`}
                             >
                                 contact@nf-software.com
                             </a>
                         </div>
                         <div
-                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-purple-500/50 transition-all duration-300`}
+                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-purple-500/50 transition-all duration-300 group`}
                         >
-                            <SiGithub className="w-10 h-10 text-purple-500 mb-4" />
+                            <Clock className="w-10 h-10 text-purple-400 mb-4 group-hover:scale-110 transition-transform" />
                             <h3
-                                className={`text-lg font-semibold ${theme.text} mb-2`}
-                            >
-                                GitHub
-                            </h3>
-                            <a
-                                href="https://github.com/NoamFav"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`text-sm ${theme.textSecondary} hover:${theme.text} transition`}
-                            >
-                                github.com/NoamFav
-                            </a>
-                        </div>
-                        <div
-                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-pink-500/50 transition-all duration-300`}
-                        >
-                            <Clock className="w-10 h-10 text-pink-500 mb-4" />
-                            <h3
-                                className={`text-lg font-semibold ${theme.text} mb-2`}
+                                className={`text-lg font-semibold mb-2 ${theme.text}`}
                             >
                                 Response Time
                             </h3>
@@ -182,18 +224,64 @@ const Contact = () => {
                                 24-48 hours
                             </p>
                         </div>
+                        <div
+                            className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-pink-500/50 transition-all duration-300 group`}
+                        >
+                            <Globe className="w-10 h-10 text-pink-400 mb-4 group-hover:scale-110 transition-transform" />
+                            <h3
+                                className={`text-lg font-semibold mb-2 ${theme.text}`}
+                            >
+                                Location
+                            </h3>
+                            <p className={`text-sm ${theme.textSecondary}`}>
+                                Europe (CET/CEST)
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section className="relative px-6 pb-32" data-animate>
-                <div className="max-w-4xl mx-auto">
+            {/* Form Section */}
+            <section className="px-6 pb-32">
+                <div className="max-w-5xl mx-auto">
+                    {/* Progress Steps */}
+                    <div className="mb-12">
+                        <div className="flex items-center justify-between max-w-3xl mx-auto">
+                            {steps.map((step, index) => (
+                                <div
+                                    key={step.number}
+                                    className="flex items-center flex-1"
+                                >
+                                    <div className="flex flex-col items-center">
+                                        <div
+                                            className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all ${
+                                                currentStep >= step.number
+                                                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-110"
+                                                    : `${darkMode ? "bg-gray-800 text-gray-500" : "bg-gray-200 text-gray-400"}`
+                                            }`}
+                                        >
+                                            {step.number}
+                                        </div>
+                                        <span
+                                            className={`text-xs mt-2 ${currentStep >= step.number ? theme.text : theme.textSecondary}`}
+                                        >
+                                            {step.title}
+                                        </span>
+                                    </div>
+                                    {index < steps.length - 1 && (
+                                        <div
+                                            className={`flex-1 h-1 mx-4 ${currentStep > step.number ? "bg-gradient-to-r from-blue-500 to-purple-500" : darkMode ? "bg-gray-800" : "bg-gray-200"}`}
+                                        />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     <form
                         onSubmit={handleSubmit}
                         className={`${theme.cardBg} rounded-3xl p-8 md:p-12 border ${theme.border}`}
-                        aria-busy={isSubmitting}
                     >
-                        {/* Honeypot field */}
                         <input
                             type="text"
                             name="company_website"
@@ -204,413 +292,850 @@ const Contact = () => {
 
                         {status.message && (
                             <div
-                                className={`mb-8 p-4 rounded-lg flex items-start gap-3 ${
+                                className={`mb-8 p-4 rounded-xl flex items-start gap-3 ${
                                     status.type === "success"
-                                        ? "bg-green-500/10 border border-green-500/20"
-                                        : "bg-red-500/10 border border-red-500/20"
+                                        ? `${darkMode ? "bg-green-500/10 border-green-500/30" : "bg-green-50 border-green-200"} border`
+                                        : `${darkMode ? "bg-red-500/10 border-red-500/30" : "bg-red-50 border-red-200"} border`
                                 }`}
                             >
                                 {status.type === "success" ? (
-                                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                                    <CheckCircle
+                                        className={`w-5 h-5 ${darkMode ? "text-green-400" : "text-green-600"} flex-shrink-0 mt-0.5`}
+                                    />
                                 ) : (
-                                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                    <AlertCircle
+                                        className={`w-5 h-5 ${darkMode ? "text-red-400" : "text-red-600"} flex-shrink-0 mt-0.5`}
+                                    />
                                 )}
                                 <p
-                                    className={`text-sm ${status.type === "success" ? "text-green-500" : "text-red-500"}`}
+                                    className={`text-sm ${status.type === "success" ? (darkMode ? "text-green-400" : "text-green-700") : darkMode ? "text-red-400" : "text-red-700"}`}
                                 >
                                     {status.message}
                                 </p>
                             </div>
                         )}
 
-                        <div className="mb-8">
-                            <h3
-                                className={`text-2xl font-bold ${theme.text} mb-6`}
-                            >
-                                Personal Information
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Step 1: Contact Information */}
+                        {currentStep === 1 && (
+                            <div className="space-y-8">
                                 <div>
-                                    <label
-                                        htmlFor="full-name"
-                                        className={`block text-sm font-medium ${theme.text} mb-2`}
+                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                                        Contact Information
+                                    </h3>
+                                    <p
+                                        className={`${theme.textSecondary} mb-8`}
                                     >
-                                        Full Name{" "}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <User
-                                            className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <input
-                                            type="text"
-                                            id="full-name"
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleChange}
-                                            required
-                                            aria-required="true"
-                                            aria-invalid={
-                                                !formData.name
-                                                    ? "true"
-                                                    : "false"
-                                            }
-                                            className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
-                                            placeholder="John Doe"
-                                        />
-                                    </div>
+                                        Let's start with your basic details
+                                    </p>
                                 </div>
-                                <div>
-                                    <label
-                                        htmlFor="email-address"
-                                        className={`block text-sm font-medium ${theme.text} mb-2`}
-                                    >
-                                        Email Address{" "}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <Mail
-                                            className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <input
-                                            type="email"
-                                            id="email-address"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            required
-                                            aria-required="true"
-                                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                            aria-invalid={
-                                                !formData.email
-                                                    ? "true"
-                                                    : "false"
-                                            }
-                                            className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
-                                            placeholder="john@example.com"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="mb-8">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Full Name{" "}
+                                            <span className="text-red-400">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div className="relative">
+                                            <User
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                                required
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                placeholder="John Doe"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Email Address{" "}
+                                            <span className="text-red-400">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div className="relative">
+                                            <Mail
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                                required
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                placeholder="john@example.com"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Phone Number (Optional)
+                                        </label>
+                                        <div className="relative">
+                                            <Phone
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <input
+                                                type="tel"
+                                                name="phone"
+                                                value={formData.phone}
+                                                onChange={handleChange}
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                placeholder="+31 6 1234 5678"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Company Name (Optional)
+                                        </label>
+                                        <div className="relative">
+                                            <Building
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="company"
+                                                value={formData.company}
+                                                onChange={handleChange}
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                placeholder="Your Company"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="md:col-span-2">
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Website (Optional)
+                                        </label>
+                                        <div className="relative">
+                                            <Globe
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <input
+                                                type="url"
+                                                name="website"
+                                                value={formData.website}
+                                                onChange={handleChange}
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                                placeholder="https://yourcompany.com"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setCurrentStep(2)}
+                                    className="w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]"
+                                >
+                                    Continue to Project Details
+                                </button>
+                            </div>
+                        )}
+
+                        {/* Step 2: Project Details */}
+                        {currentStep === 2 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                        Project Details
+                                    </h3>
+                                    <p
+                                        className={`${theme.textSecondary} mb-8`}
+                                    >
+                                        Tell me about your project vision
+                                    </p>
+                                </div>
+
                                 <div>
                                     <label
-                                        htmlFor="project-type"
-                                        className={`block text-sm font-medium ${theme.text} mb-2`}
+                                        className={`block text-sm font-medium mb-4 ${theme.text}`}
                                     >
                                         Project Type{" "}
-                                        <span className="text-red-500">*</span>
+                                        <span className="text-red-400">*</span>
                                     </label>
-                                    <select
-                                        id="project-type"
-                                        name="projectType"
-                                        value={formData.projectType}
-                                        onChange={handleChange}
-                                        required
-                                        aria-required="true"
-                                        className={`w-full px-4 py-3 ${theme.bgInput} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
-                                    >
-                                        <option value="personal">
-                                            Personal Project
-                                        </option>
-                                        <option value="business">
-                                            Business/Company
-                                        </option>
-                                        <option value="startup">Startup</option>
-                                        <option value="enterprise">
-                                            Enterprise
-                                        </option>
-                                    </select>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                        {projectTypes.map((type) => {
+                                            const Icon = type.icon;
+                                            return (
+                                                <button
+                                                    key={type.value}
+                                                    type="button"
+                                                    onClick={() =>
+                                                        setFormData((prev) => ({
+                                                            ...prev,
+                                                            projectType:
+                                                                type.value,
+                                                        }))
+                                                    }
+                                                    className={`p-4 rounded-xl border-2 transition-all ${
+                                                        formData.projectType ===
+                                                        type.value
+                                                            ? "border-blue-500 bg-blue-500/10"
+                                                            : `${theme.border} ${theme.inputBg} ${theme.hoverBorder}`
+                                                    }`}
+                                                >
+                                                    <Icon
+                                                        className={`w-8 h-8 mx-auto mb-2 ${formData.projectType === type.value ? "text-blue-400" : theme.textSecondary}`}
+                                                    />
+                                                    <p
+                                                        className={`text-sm font-medium ${theme.text}`}
+                                                    >
+                                                        {type.label}
+                                                    </p>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
-                                <div>
-                                    <label
-                                        htmlFor="company-name"
-                                        className={`block text-sm font-medium ${theme.text} mb-2`}
-                                    >
-                                        Company Name (Optional)
-                                    </label>
-                                    <div className="relative">
-                                        <Building
-                                            className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                        />
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Industry/Sector (Optional)
+                                        </label>
                                         <input
                                             type="text"
-                                            id="company-name"
-                                            name="company"
-                                            value={formData.company}
+                                            name="industry"
+                                            value={formData.industry}
                                             onChange={handleChange}
-                                            className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
-                                            placeholder="Your Company"
+                                            className={`w-full px-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                            placeholder="e.g., E-commerce, Healthcare, Finance"
                                         />
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div className="mb-8">
-                            <h3
-                                className={`text-2xl font-bold ${theme.text} mb-6`}
-                            >
-                                Project Details
-                            </h3>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label
-                                        htmlFor="timeframe"
-                                        className={`block text-sm font-medium ${theme.text} mb-2`}
-                                    >
-                                        Expected Timeframe{" "}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <Calendar
-                                            className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                        />
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Team Size (Optional)
+                                        </label>
                                         <select
-                                            id="timeframe"
-                                            name="timeframe"
-                                            value={formData.timeframe}
+                                            name="teamSize"
+                                            value={formData.teamSize}
                                             onChange={handleChange}
-                                            required
-                                            aria-required="true"
-                                            className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
+                                            className={`w-full px-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
                                         >
                                             <option value="">
-                                                Select timeframe
+                                                Select team size
                                             </option>
-                                            <option value="urgent">
-                                                ASAP (1-2 weeks)
-                                            </option>
-                                            <option value="short">
-                                                Short-term (1-2 months)
-                                            </option>
-                                            <option value="medium">
-                                                Medium-term (3-6 months)
-                                            </option>
-                                            <option value="long">
-                                                Long-term (6+ months)
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="budget"
-                                        className={`block text-sm font-medium ${theme.text} mb-2`}
-                                    >
-                                        Budget Range{" "}
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <DollarSign
-                                            className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
-                                        />
-                                        <select
-                                            id="budget"
-                                            name="budget"
-                                            value={formData.budget}
-                                            onChange={handleChange}
-                                            required
-                                            aria-required="true"
-                                            className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 transition`}
-                                        >
-                                            <option value="">
-                                                Select budget range
+                                            <option value="solo">
+                                                Solo Founder
                                             </option>
                                             <option value="small">
-                                                $1,000 - $5,000
+                                                2-10 people
                                             </option>
                                             <option value="medium">
-                                                $5,000 - $15,000
+                                                11-50 people
                                             </option>
                                             <option value="large">
-                                                $15,000 - $50,000
+                                                50+ people
                                             </option>
-                                            <option value="enterprise">
-                                                $50,000+
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Expected Timeframe{" "}
+                                            <span className="text-red-400">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div className="relative">
+                                            <Calendar
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <select
+                                                name="timeframe"
+                                                value={formData.timeframe}
+                                                onChange={handleChange}
+                                                required
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                            >
+                                                <option value="">
+                                                    Select timeframe
+                                                </option>
+                                                <option value="urgent">
+                                                    ASAP (1-2 weeks)
+                                                </option>
+                                                <option value="short">
+                                                    Short-term (1-2 months)
+                                                </option>
+                                                <option value="medium">
+                                                    Medium-term (3-6 months)
+                                                </option>
+                                                <option value="long">
+                                                    Long-term (6+ months)
+                                                </option>
+                                                <option value="flexible">
+                                                    Flexible
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Budget Range (EUR){" "}
+                                            <span className="text-red-400">
+                                                *
+                                            </span>
+                                        </label>
+                                        <div className="relative">
+                                            <Euro
+                                                className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textSecondary}`}
+                                            />
+                                            <select
+                                                name="budget"
+                                                value={formData.budget}
+                                                onChange={handleChange}
+                                                required
+                                                className={`w-full pl-12 pr-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                            >
+                                                <option value="">
+                                                    Select budget range
+                                                </option>
+                                                <option value="small">
+                                                    €1,000 - €5,000
+                                                </option>
+                                                <option value="medium">
+                                                    €5,000 - €15,000
+                                                </option>
+                                                <option value="large">
+                                                    €15,000 - €50,000
+                                                </option>
+                                                <option value="enterprise">
+                                                    €50,000+
+                                                </option>
+                                                <option value="discuss">
+                                                    Prefer to discuss
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                    >
+                                        Project Description{" "}
+                                        <span className="text-red-400">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <FileText
+                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
+                                        />
+                                        <textarea
+                                            name="description"
+                                            value={formData.description}
+                                            onChange={handleChange}
+                                            required
+                                            rows={6}
+                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
+                                            placeholder="Describe your project in detail. What problem does it solve? What are the key features? What makes it unique?"
+                                        />
+                                    </div>
+                                    <p
+                                        className={`mt-2 text-xs ${theme.textSecondary}`}
+                                    >
+                                        Be specific about your vision and
+                                        requirements
+                                    </p>
+                                </div>
+
+                                <div className="flex gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setCurrentStep(1)}
+                                        className={`flex-1 py-4 px-6 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} ${theme.text} font-semibold rounded-xl transition-all duration-300`}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setCurrentStep(3)}
+                                        className="flex-1 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]"
+                                    >
+                                        Continue to Requirements
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 3: Requirements */}
+                        {currentStep === 3 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">
+                                        Technical Requirements
+                                    </h3>
+                                    <p
+                                        className={`${theme.textSecondary} mb-8`}
+                                    >
+                                        Help me understand your technical needs
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-4 ${theme.text}`}
+                                    >
+                                        Key Features{" "}
+                                        <span className={theme.textSecondary}>
+                                            (Select all that apply)
+                                        </span>
+                                    </label>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                        {commonFeatures.map((feature) => (
+                                            <button
+                                                key={feature}
+                                                type="button"
+                                                onClick={() =>
+                                                    handleFeatureToggle(feature)
+                                                }
+                                                className={`px-4 py-3 rounded-lg border transition-all text-sm ${
+                                                    formData.features.includes(
+                                                        feature,
+                                                    )
+                                                        ? "border-blue-500 bg-blue-500/10 text-blue-400"
+                                                        : `${theme.border} ${theme.inputBg} ${theme.textSecondary} ${theme.hoverBorder}`
+                                                }`}
+                                            >
+                                                {feature}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                    >
+                                        Project Goals & Success Metrics
+                                    </label>
+                                    <div className="relative">
+                                        <Target
+                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
+                                        />
+                                        <textarea
+                                            name="goals"
+                                            value={formData.goals}
+                                            onChange={handleChange}
+                                            rows={4}
+                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
+                                            placeholder="What are your main objectives? How will you measure success? (e.g., 10,000 users in 6 months, 95% uptime, etc.)"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                    >
+                                        Target Audience
+                                    </label>
+                                    <div className="relative">
+                                        <Users
+                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
+                                        />
+                                        <textarea
+                                            name="targetAudience"
+                                            value={formData.targetAudience}
+                                            onChange={handleChange}
+                                            rows={3}
+                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
+                                            placeholder="Who will use this? (e.g., age range, profession, technical expertise)"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                    >
+                                        Technical Requirements & Integrations
+                                    </label>
+                                    <div className="relative">
+                                        <Code
+                                            className={`absolute left-4 top-4 w-5 h-5 ${theme.textSecondary}`}
+                                        />
+                                        <textarea
+                                            name="technicalRequirements"
+                                            value={
+                                                formData.technicalRequirements
+                                            }
+                                            onChange={handleChange}
+                                            rows={4}
+                                            className={`w-full pl-12 pr-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
+                                            placeholder="Any specific technologies, platforms, or third-party integrations? (e.g., Stripe, AWS, specific frameworks)"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Do you have existing designs?
+                                        </label>
+                                        <select
+                                            name="hasDesign"
+                                            value={formData.hasDesign}
+                                            onChange={handleChange}
+                                            className={`w-full px-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                        >
+                                            <option value="no">
+                                                No, need full design
+                                            </option>
+                                            <option value="partial">
+                                                Have wireframes/mockups
+                                            </option>
+                                            <option value="yes">
+                                                Complete design ready
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                        >
+                                            Need hosting/deployment help?
+                                        </label>
+                                        <select
+                                            name="needsHosting"
+                                            value={formData.needsHosting}
+                                            onChange={handleChange}
+                                            className={`w-full px-4 py-4 ${theme.selectBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition`}
+                                        >
+                                            <option value="unsure">
+                                                Not sure yet
+                                            </option>
+                                            <option value="yes">
+                                                Yes, full deployment
+                                            </option>
+                                            <option value="no">
+                                                No, I'll handle it
                                             </option>
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div className="mb-8">
-                            <label
-                                htmlFor="description"
-                                className={`block text-sm font-medium ${theme.text} mb-2`}
-                            >
-                                Project Description{" "}
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <div className="relative">
-                                <FileText
-                                    className={`absolute left-3 top-3 w-5 h-5 ${theme.textSecondary}`}
-                                />
-                                <textarea
-                                    id="description"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    required
-                                    aria-required="true"
-                                    rows={8}
-                                    className={`w-full pl-11 pr-4 py-3 ${darkMode ? "bg-black" : "bg-white"} border ${theme.border} rounded-lg ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition`}
-                                    placeholder="Tell me about your project, goals, key features, technical requirements, and any specific challenges you're facing..."
-                                />
+                                <div className="flex gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setCurrentStep(2)}
+                                        className={`flex-1 py-4 px-6 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} ${theme.text} font-semibold rounded-xl transition-all duration-300`}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setCurrentStep(4)}
+                                        className="flex-1 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]"
+                                    >
+                                        Continue to Final Details
+                                    </button>
+                                </div>
                             </div>
-                            <p
-                                className={`mt-2 text-xs ${theme.textSecondary}`}
-                            >
-                                Be as detailed as possible to help me provide an
-                                accurate estimate
-                            </p>
-                        </div>
+                        )}
 
-                        <div className="mb-8">
-                            <label
-                                className={`block text-sm font-medium ${theme.text} mb-2`}
-                            >
-                                Attachments (Optional)
-                            </label>
-                            <div
-                                className={`border-2 border-dashed ${theme.border} rounded-lg p-8 text-center ${theme.hoverBg} transition cursor-pointer`}
-                            >
-                                <input
-                                    type="file"
-                                    multiple
-                                    onChange={handleFileChange}
-                                    className="hidden"
-                                    id="file-upload"
-                                    accept="image/*,.pdf,.doc,.docx"
-                                    aria-label="Upload files"
-                                />
-                                <label
-                                    htmlFor="file-upload"
-                                    className="cursor-pointer block"
-                                >
-                                    <Upload
-                                        className={`w-12 h-12 ${theme.textSecondary} mx-auto mb-4`}
+                        {/* Step 4: Additional Info */}
+                        {currentStep === 4 && (
+                            <div className="space-y-8">
+                                <div>
+                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                                        Additional Information
+                                    </h3>
+                                    <p
+                                        className={`${theme.textSecondary} mb-8`}
+                                    >
+                                        Final details to help me provide an
+                                        accurate estimate
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-2 ${theme.text}`}
+                                    >
+                                        Design Preferences & Inspiration
+                                    </label>
+                                    <textarea
+                                        name="designPreferences"
+                                        value={formData.designPreferences}
+                                        onChange={handleChange}
+                                        rows={4}
+                                        className={`w-full px-4 py-4 ${theme.inputBg} border ${theme.border} rounded-xl ${theme.text} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition`}
+                                        placeholder="Any design preferences, color schemes, or reference websites you like? (e.g., 'Modern and minimal like Stripe', 'Bold and colorful like Spotify')"
                                     />
-                                    <p
-                                        className={`text-sm ${theme.text} mb-2 font-medium`}
+                                </div>
+
+                                <div>
+                                    <label
+                                        className={`block text-sm font-medium mb-4 ${theme.text}`}
                                     >
-                                        Click to upload or drag and drop
-                                    </p>
-                                    <p
-                                        className={`text-xs ${theme.textSecondary} mb-4`}
+                                        Attachments (Optional)
+                                    </label>
+                                    <div
+                                        className={`border-2 border-dashed ${theme.border} rounded-xl p-8 text-center ${theme.hoverBorder} transition`}
                                     >
-                                        Images, PDFs, or documents (max 10MB
-                                        each)
-                                    </p>
-                                    {formData.attachments.length > 0 && (
-                                        <div
-                                            className={`mt-4 p-3 ${theme.cardBg} rounded-lg border ${theme.border}`}
+                                        <input
+                                            type="file"
+                                            multiple
+                                            onChange={handleFileChange}
+                                            className="hidden"
+                                            id="file-upload"
+                                            accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.fig"
+                                        />
+                                        <label
+                                            htmlFor="file-upload"
+                                            className="cursor-pointer block"
                                         >
+                                            <Upload
+                                                className={`w-12 h-12 ${theme.textSecondary} mx-auto mb-4`}
+                                            />
                                             <p
-                                                className={`text-sm ${theme.text} font-medium`}
+                                                className={`text-sm ${theme.text} mb-2 font-medium`}
                                             >
-                                                {formData.attachments.length}{" "}
-                                                file(s) selected:
+                                                Click to upload or drag and drop
                                             </p>
-                                            <div className="mt-2 space-y-1">
-                                                {formData.attachments.map(
-                                                    (file, index) => (
-                                                        <p
-                                                            key={index}
-                                                            className={`text-xs ${theme.textSecondary}`}
+                                            <p
+                                                className={`text-xs ${theme.textSecondary} mb-4`}
+                                            >
+                                                Wireframes, mockups,
+                                                specifications, or reference
+                                                files
+                                            </p>
+                                            <p
+                                                className={`text-xs ${theme.textSecondary}`}
+                                            >
+                                                Supported: Images, PDFs,
+                                                Documents, Figma files (max 10MB
+                                                each)
+                                            </p>
+                                        </label>
+                                    </div>
+
+                                    {formData.attachments.length > 0 && (
+                                        <div className="mt-4 space-y-2">
+                                            {formData.attachments.map(
+                                                (file, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className={`flex items-center justify-between p-3 ${theme.inputBg} border ${theme.border} rounded-lg`}
+                                                    >
+                                                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                            <FileText className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                                                            <div className="min-w-0 flex-1">
+                                                                <p
+                                                                    className={`text-sm ${theme.text} truncate`}
+                                                                >
+                                                                    {file.name}
+                                                                </p>
+                                                                <p
+                                                                    className={`text-xs ${theme.textSecondary}`}
+                                                                >
+                                                                    {(
+                                                                        file.size /
+                                                                        1024 /
+                                                                        1024
+                                                                    ).toFixed(
+                                                                        2,
+                                                                    )}{" "}
+                                                                    MB
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() =>
+                                                                removeFile(
+                                                                    index,
+                                                                )
+                                                            }
+                                                            className={`p-1 ${darkMode ? "hover:bg-red-500/10" : "hover:bg-red-50"} rounded-lg transition`}
                                                         >
-                                                            {file.name}
-                                                        </p>
-                                                    ),
-                                                )}
-                                            </div>
+                                                            <X className="w-5 h-5 text-red-400" />
+                                                        </button>
+                                                    </div>
+                                                ),
+                                            )}
                                         </div>
                                     )}
-                                </label>
+                                </div>
+
+                                <div
+                                    className={`${darkMode ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30" : "bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-blue-500/20"} border rounded-xl p-6`}
+                                >
+                                    <h4
+                                        className={`font-semibold mb-3 flex items-center gap-2 ${theme.text}`}
+                                    >
+                                        <Sparkles className="w-5 h-5 text-blue-400" />
+                                        What happens next?
+                                    </h4>
+                                    <ul
+                                        className={`space-y-2 text-sm ${theme.textSecondary}`}
+                                    >
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                            <span>
+                                                I'll review your requirements in
+                                                detail (24-48 hours)
+                                            </span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                            <span>
+                                                You'll receive a comprehensive
+                                                proposal with timeline,
+                                                milestones, and pricing in EUR
+                                            </span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                            <span>
+                                                We can schedule a call to
+                                                discuss any questions or
+                                                refinements
+                                            </span>
+                                        </li>
+                                        <li className="flex items-start gap-2">
+                                            <CheckCircle className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
+                                            <span>
+                                                Once approved, we'll kick off
+                                                with a detailed project roadmap
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div className="flex gap-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setCurrentStep(3)}
+                                        className={`flex-1 py-4 px-6 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-gray-200 hover:bg-gray-300"} ${theme.text} font-semibold rounded-xl transition-all duration-300`}
+                                    >
+                                        Back
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        disabled={isSubmitting}
+                                        className="flex-1 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                                    >
+                                        {isSubmitting ? (
+                                            <>
+                                                <Loader className="w-5 h-5 animate-spin" />
+                                                Submitting...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Send className="w-5 h-5" />
+                                                Submit Project Inquiry
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
+
+                                <p
+                                    className={`text-xs ${theme.textSecondary} text-center`}
+                                >
+                                    By submitting, you agree to receive
+                                    project-related communications. Your
+                                    information will be kept confidential.
+                                </p>
                             </div>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className={`w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2`}
-                        >
-                            {isSubmitting ? (
-                                <>
-                                    <Loader className="w-5 h-5 animate-spin" />
-                                    Submitting...
-                                </>
-                            ) : (
-                                <>
-                                    <Send className="w-5 h-5" />
-                                    Submit Project Inquiry
-                                </>
-                            )}
-                        </button>
-
-                        <p
-                            className={`text-xs ${theme.textSecondary} text-center mt-4`}
-                        >
-                            I typically respond within 24-48 hours with a
-                            detailed estimate including timeline, milestones,
-                            and pricing
-                        </p>
+                        )}
                     </form>
                 </div>
             </section>
 
-            <section className="relative px-6 pb-32" data-animate>
+            {/* FAQ Section */}
+            <section className="px-6 pb-32">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
-                        <h2
-                            className={`text-3xl md:text-4xl font-bold ${theme.text} mb-4`}
-                        >
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                             Frequently Asked Questions
                         </h2>
                         <p className={`text-lg ${theme.textSecondary}`}>
-                            Everything you need to know about the project
-                            process
+                            Everything you need to know about working together
                         </p>
                     </div>
 
-                    <div className="space-y-4">
+                    <div className="grid gap-6">
                         {[
                             {
-                                question:
-                                    "What happens after I submit this form?",
-                                answer: "I'll review your project details and respond within 24-48 hours with a comprehensive proposal including timeline, milestones, deliverables, and pricing. We can then schedule a call to discuss any questions.",
+                                question: "What's included in your proposal?",
+                                answer: "You'll receive a detailed breakdown including project timeline with milestones, comprehensive feature list, technology stack recommendations, pricing in EUR (with payment schedule options), and estimated delivery dates. I also include potential challenges and how we'll address them.",
+                            },
+                            {
+                                question: "How do you calculate pricing?",
+                                answer: "Pricing is based on project complexity, required features, timeline, and ongoing support needs. I offer both fixed-price packages for well-defined projects and flexible hourly rates for evolving requirements. All prices are in EUR and include regular check-ins and revisions.",
                             },
                             {
                                 question:
-                                    "What information do you need for an accurate estimate?",
-                                answer: "The more details you provide about your project goals, technical requirements, desired features, and constraints, the more accurate my estimate will be. Wireframes, design mockups, or reference examples are also very helpful.",
+                                    "What information helps you provide the most accurate estimate?",
+                                answer: "The more details, the better! Specific feature requirements, user flow descriptions, design references, technical constraints, target launch date, and any existing systems to integrate with. Wireframes or mockups are incredibly helpful but not required.",
                             },
                             {
                                 question:
-                                    "Do you work on fixed-price or hourly projects?",
-                                answer: "I offer both options depending on the project scope. Fixed-price works well for clearly defined projects, while hourly is better for ongoing work or projects with evolving requirements.",
+                                    "Do you work with startups on equity/revenue share?",
+                                answer: "I primarily work on paid projects, but I'm open to discussing hybrid arrangements (partial payment + equity) for exceptional early-stage startups with strong potential. This is evaluated case-by-case.",
+                            },
+                            {
+                                question: "What's your development process?",
+                                answer: "I follow an agile approach with 1-2 week sprints, regular demos, and iterative feedback. You'll have access to staging environments, GitHub repositories, and regular progress updates. Communication is key - I use Slack, email, and video calls as needed.",
+                            },
+                            {
+                                question: "Do you provide post-launch support?",
+                                answer: "Yes! I offer flexible maintenance packages including bug fixes, security updates, performance optimization, and feature additions. We can discuss ongoing support needs during the proposal phase.",
                             },
                             {
                                 question:
-                                    "What's your typical project timeline?",
-                                answer: "It varies based on complexity, but most projects range from 1-6 months. Rush projects (1-2 weeks) are possible for smaller scopes. I'll provide a detailed timeline in my proposal.",
+                                    "Can you work with my existing development team?",
+                                answer: "Absolutely! I'm experienced in collaborating with in-house teams, providing technical leadership, code reviews, or handling specific components. I adapt to your team's workflow and tools.",
                             },
                             {
                                 question:
-                                    "Do you provide ongoing maintenance and support?",
-                                answer: "Yes! I offer maintenance packages for bug fixes, updates, and feature additions. This can be discussed during our initial consultation.",
+                                    "What if my project requirements change?",
+                                answer: "Change is natural in software development. For fixed-price projects, we'll discuss scope adjustments and pricing impacts. For hourly projects, you have full flexibility to pivot as needed. Clear communication ensures we stay aligned.",
                             },
                         ].map((faq, index) => (
                             <div
                                 key={index}
-                                className={`${theme.cardBg} rounded-xl p-6 border ${theme.border}`}
+                                className={`${theme.cardBg} rounded-xl p-6 border ${theme.border} ${theme.hoverBorder} transition-all`}
                             >
                                 <h3
-                                    className={`text-lg font-semibold ${theme.text} mb-3`}
+                                    className={`text-lg font-semibold mb-3 ${theme.text}`}
                                 >
                                     {faq.question}
                                 </h3>
@@ -622,9 +1147,26 @@ const Contact = () => {
                             </div>
                         ))}
                     </div>
+
+                    <div className="mt-12 text-center">
+                        <div
+                            className={`inline-block ${darkMode ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30" : "bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-blue-500/20"} border rounded-xl p-8`}
+                        >
+                            <p className={`${theme.textSecondary} mb-4`}>
+                                Still have questions?
+                            </p>
+                            <a
+                                href="mailto:contact@nf-software.com"
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
+                            >
+                                <Mail className="w-5 h-5" />
+                                Email me directly
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
-        </>
+        </div>
     );
 };
 
