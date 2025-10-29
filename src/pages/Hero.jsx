@@ -80,7 +80,7 @@ const Hero = () => {
                             className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                         />
                         <span className="text-sm font-medium">
-                            Innovating Software Solutions Since 2020
+                            Innovating Software Solutions Since 2023
                         </span>
                     </div>
 

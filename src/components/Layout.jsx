@@ -7,6 +7,7 @@ import { useDarkMode } from "../hooks/useDarkMode";
 import { useMouseTracking } from "../hooks/useMouseTracking";
 import { useScrollAnimations } from "../hooks/useScrollAnimations";
 import { getTheme } from "../utils/theme";
+import ScrollToTop from "./ScrollToTop";
 
 const Layout = ({ children }) => {
     const { darkMode, toggleDarkMode } = useDarkMode();
@@ -28,7 +29,7 @@ const Layout = ({ children }) => {
                     background: `radial-gradient(circle, ${darkMode ? "rgba(99,102,241,.15)" : "rgba(99,102,241,.08)"} 0%, transparent 70%)`,
                 }}
             />
-
+            <ScrollToTop />
             <Navigation
                 darkMode={darkMode}
                 toggleDarkMode={toggleDarkMode}

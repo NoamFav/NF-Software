@@ -88,7 +88,7 @@ const About = () => {
                             className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                         />
                         <span className="text-sm font-medium">
-                            Building Since 2020
+                            Building Since 2023
                         </span>
                     </div>
 
@@ -154,7 +154,7 @@ const About = () => {
                     <p
                         className={`text-lg md:text-xl ${theme.textSecondary} leading-relaxed`}
                     >
-                        Since 2020, we've focused on one thing: creating
+                        Since 2023, we've focused on one thing: creating
                         developer tools that combine exceptional performance
                         with privacy-first design. No tracking, no bloat, no
                         compromises—just software that works the way you expect

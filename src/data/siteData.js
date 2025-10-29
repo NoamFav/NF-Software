@@ -10,40 +10,58 @@ export const stats = [
 
 export const timeline = [
     {
-        year: "2020",
-        title: "Foundation",
+        year: "2023",
+        title: "First Experiments",
         description:
-            "Started with a simple belief: developer tools should be fast, private, and delightful.",
-    },
-    {
-        year: "2021",
-        title: "First Release",
-        description:
-            "Launched Sysmon-CLI. Sub-millisecond system monitoring adopted by 1,000+ developers.",
-    },
-    {
-        year: "2022",
-        title: "Growing the Stack",
-        description:
-            "Shipped CodeGrep and began work on AI-powered tooling with privacy at the core.",
+            "Began exploring developer tooling, productivity workflows, and local-first software ideas.",
     },
     {
         year: "2023",
-        title: "Community Momentum",
+        title: "NFvim Suite",
         description:
-            "Reached 2,500+ GitHub stars. Introduced Zvezda to help teams understand their repositories.",
+            "Released a personal Neovim workflow that later evolved into the NFvim Suite.",
     },
     {
         year: "2024",
-        title: "AI Without Compromise",
+        title: "NF Software Identity",
         description:
-            "Iris development begins: local-first AI assistance that respects your privacy and runs offline.",
+            "Defined the NF Software vision: fast, minimal, privacy-first tools that feel good to use.",
+    },
+    {
+        year: "2024",
+        title: "Zvezda / CodeGrep Prototypes",
+        description:
+            "Built early prototypes for visual repository analytics (Zvezda) and syntax-aware code search (CodeGrep).",
+    },
+    {
+        year: "2024",
+        title: "Iris Research",
+        description:
+            "Started experimenting with local voice interfaces, Whisper.cpp, and contextual memory systems.",
+    },
+    {
+        year: "2025",
+        title: "Website & Public Launch",
+        description:
+            "Rolled out nf-software.com with clear product suites, pricing, contact, licensing, and brand identity.",
+    },
+    {
+        year: "2025",
+        title: "auto-commit Beta",
+        description:
+            "Released auto-commit in beta: AI-assisted conventional commits and multi-repo automation.",
+    },
+    {
+        year: "2025",
+        title: "BitVoyager Beta",
+        description:
+            "Launched BitVoyager early beta: gamified terminal-based learning environment.",
     },
     {
         year: "2025",
         title: "Building Forward",
         description:
-            "Expanding our toolkit with SysDash Ultra, BitVoyager, and continued innovation in privacy-first AI.",
+            "Continued development on Zvezda, RepoOps, Sysmon-CLI, SysDash Ultra, NetViz Pro, and the Iris suite.",
     },
 ];
 
