@@ -1,0 +1,51 @@
+# fly.toml app configuration file generated for nf-software-server on 2025-10-29T17:37:06+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'nf-software-server'
+primary_region = 'ams'
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  PORT = '8080'
+
+[[mounts]]
+  source = 'data'
+  destination = '/data'
+
+[[services]]
+  protocol = 'tcp'
+  internal_port = 8080
+  processes = ['app']
+
+  [[services.ports]]
+    port = 80
+    handlers = ['http']
+
+  [[services.ports]]
+    port = 443
+    handlers = ['tls', 'http']
+
+  [[services.tcp_checks]]
+    interval = "10s"
+    timeout = "2s"
+
+  [[services.http_checks]]
+    interval = "10s"
+    timeout = "2s"
+    method = "get"
+    path = "/health"
+    protocol = "http"
+    tls_skip_verify = true
+
+  [services.concurrency]
+    hard_limit = 20
+    soft_limit = 10
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
