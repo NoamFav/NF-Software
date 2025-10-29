@@ -154,22 +154,27 @@ const Contact = () => {
         <div className={`min-h-screen ${theme.bg} ${theme.text}`}>
             {/* Hero Section */}
             <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-                <div className="absolute inset-0">
+                <div className="absolute inset-0 overflow-hidden">
                     <div
-                        className={`absolute inset-0 ${darkMode ? "bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10" : "bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5"}`}
+                        className="absolute inset-0 opacity-30"
+                        style={{
+                            backgroundImage: `radial-gradient(circle at 50% 50%, ${darkMode ? "rgba(99, 102, 241, 0.15)" : "rgba(99, 102, 241, 0.08)"}, transparent 50%)`,
+                        }}
                     />
                     <div
-                        className={`absolute top-1/4 left-1/4 w-96 h-96 ${darkMode ? "bg-blue-500/20" : "bg-blue-500/10"} rounded-full mix-blend-multiply filter blur-3xl animate-pulse`}
+                        className={`absolute top-1/4 left-1/4 w-96 h-96 ${theme.blobBlue} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob`}
                     />
                     <div
-                        className={`absolute top-1/3 right-1/4 w-96 h-96 ${darkMode ? "bg-purple-500/20" : "bg-purple-500/10"} rounded-full mix-blend-multiply filter blur-3xl animate-pulse`}
-                        style={{ animationDelay: "2s" }}
+                        className={`absolute top-1/3 right-1/4 w-96 h-96 ${theme.blobPurple} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000`}
+                    />
+                    <div
+                        className={`absolute bottom-1/4 left-1/2 w-96 h-96 ${theme.blobPink} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000 `}
                     />
                 </div>
 
                 <div className="max-w-4xl mx-auto text-center relative z-10">
                     <div
-                        className={`inline-flex items-center gap-2 px-4 py-2 ${darkMode ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-500/30" : "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/20"} rounded-full border mb-6`}
+                        className={`inline-flex items-center gap-2 px-4 py-2 ${darkMode ? `bg-gradient-to-r ${theme.ligthGradientPrimary} border-blue-500/30` : `bg-gradient-to-r ${theme.badgeGradient} border-blue-500/20`} rounded-full border mb-6`}
                     >
                         <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
                         <span className="text-sm font-medium">
@@ -177,7 +182,9 @@ const Contact = () => {
                         </span>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    <h1
+                        className={`text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r ${theme.lightGradientAccent} bg-clip-text text-transparent`}
+                    >
                         Start Your Project
                     </h1>
 
@@ -256,7 +263,7 @@ const Contact = () => {
                                         <div
                                             className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all ${
                                                 currentStep >= step.number
-                                                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white scale-110"
+                                                    ? `bg-gradient-to-r ${theme.gradientPrimary} text-white scale-110`
                                                     : `${darkMode ? "bg-gray-800 text-gray-500" : "bg-gray-200 text-gray-400"}`
                                             }`}
                                         >
@@ -270,7 +277,7 @@ const Contact = () => {
                                     </div>
                                     {index < steps.length - 1 && (
                                         <div
-                                            className={`flex-1 h-1 mx-4 ${currentStep > step.number ? "bg-gradient-to-r from-blue-500 to-purple-500" : darkMode ? "bg-gray-800" : "bg-gray-200"}`}
+                                            className={`flex-1 h-1 mx-4 ${currentStep > step.number ? `bg-gradient-to-r ${theme.gradientPrimary}` : `${theme.bgButton}`}`}
                                         />
                                     )}
                                 </div>
@@ -319,7 +326,9 @@ const Contact = () => {
                         {currentStep === 1 && (
                             <div className="space-y-8">
                                 <div>
-                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                                    <h3
+                                        className={`text-3xl font-bold mb-2 bg-gradient-to-r ${theme.lightGradient} bg-clip-text text-transparent`}
+                                    >
                                         Contact Information
                                     </h3>
                                     <p
@@ -447,7 +456,7 @@ const Contact = () => {
                                 <button
                                     type="button"
                                     onClick={() => setCurrentStep(2)}
-                                    className="w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]"
+                                    className={`w-full py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                 >
                                     Continue to Project Details
                                 </button>
@@ -458,7 +467,9 @@ const Contact = () => {
                         {currentStep === 2 && (
                             <div className="space-y-8">
                                 <div>
-                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                    <h3
+                                        className={`text-3xl font-bold mb-2 bg-gradient-to-r ${theme.gradientThirdary} bg-clip-text text-transparent`}
+                                    >
                                         Project Details
                                     </h3>
                                     <p
@@ -682,7 +693,7 @@ const Contact = () => {
                                     <button
                                         type="button"
                                         onClick={() => setCurrentStep(3)}
-                                        className="flex-1 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]"
+                                        className={`flex-1 py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                     >
                                         Continue to Requirements
                                     </button>
@@ -694,7 +705,9 @@ const Contact = () => {
                         {currentStep === 3 && (
                             <div className="space-y-8">
                                 <div>
-                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">
+                                    <h3
+                                        className={`text-3xl font-bold mb-2 bg-gradient-to-r ${theme.gradientQuaterly} bg-clip-text text-transparent`}
+                                    >
                                         Technical Requirements
                                     </h3>
                                     <p
@@ -861,7 +874,7 @@ const Contact = () => {
                                     <button
                                         type="button"
                                         onClick={() => setCurrentStep(4)}
-                                        className="flex-1 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]"
+                                        className={`flex-1 py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                     >
                                         Continue to Final Details
                                     </button>
@@ -873,7 +886,9 @@ const Contact = () => {
                         {currentStep === 4 && (
                             <div className="space-y-8">
                                 <div>
-                                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                                    <h3
+                                        className={`text-3xl font-bold mb-2 bg-gradient-to-r ${theme.gradientQuintly} bg-clip-text text-transparent`}
+                                    >
                                         Additional Information
                                     </h3>
                                     <p
@@ -995,7 +1010,7 @@ const Contact = () => {
                                 </div>
 
                                 <div
-                                    className={`${darkMode ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30" : "bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-blue-500/20"} border rounded-xl p-6`}
+                                    className={`${darkMode ? `bg-gradient-to-r ${theme.badgeGradient} border-blue-500/30` : `bg-gradient-to-r ${theme.secondBadgeGradient} border-blue-500/20`} border rounded-xl p-6`}
                                 >
                                     <h4
                                         className={`font-semibold mb-3 flex items-center gap-2 ${theme.text}`}
@@ -1050,7 +1065,7 @@ const Contact = () => {
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="flex-1 py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2"
+                                        className={`flex-1 py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-2`}
                                     >
                                         {isSubmitting ? (
                                             <>
@@ -1083,7 +1098,9 @@ const Contact = () => {
             <section className="px-6 pb-32">
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                        <h2
+                            className={`text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r ${theme.lightGradient} bg-clip-text text-transparent`}
+                        >
                             Frequently Asked Questions
                         </h2>
                         <p className={`text-lg ${theme.textSecondary}`}>
@@ -1150,14 +1167,14 @@ const Contact = () => {
 
                     <div className="mt-12 text-center">
                         <div
-                            className={`inline-block ${darkMode ? "bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500/30" : "bg-gradient-to-r from-blue-500/5 to-purple-500/5 border-blue-500/20"} border rounded-xl p-8`}
+                            className={`inline-block ${darkMode ? `bg-gradient-to-r ${theme.badgeGradient} border-blue-500/30` : `bg-gradient-to-r ${theme.secondBadgeGradient} border-blue-500/20`} border rounded-xl p-8`}
                         >
                             <p className={`${theme.textSecondary} mb-4`}>
                                 Still have questions?
                             </p>
                             <a
                                 href="mailto:contact@nf-software.com"
-                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
+                                className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                             >
                                 <Mail className="w-5 h-5" />
                                 Email me directly

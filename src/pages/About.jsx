@@ -115,7 +115,7 @@ const About = () => {
                     <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
                         <Link
                             to="/products"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
+                            className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                         >
                             Explore Products
                             <ArrowRight className="w-5 h-5" />
@@ -286,7 +286,9 @@ const About = () => {
                                 style={{ animationDelay: `${index * 100}ms` }}
                             >
                                 <div className="flex items-center gap-3 mb-4">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                                    <div
+                                        className={`w-10 h-10 rounded-full bg-gradient-to-r ${theme.gradientSecondary} flex items-center justify-center flex-shrink-0`}
+                                    >
                                         <step.icon className="w-5 h-5 text-white" />
                                     </div>
                                     <h3
@@ -354,7 +356,9 @@ const About = () => {
                             >
                                 <div className="flex flex-col md:flex-row md:items-center gap-6">
                                     <div className="flex-shrink-0">
-                                        <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                                        <div
+                                            className={`w-20 h-20 rounded-full bg-gradient-to-r ${theme.gradientPrimary} flex items-center justify-center`}
+                                        >
                                             <span className="text-white font-bold text-lg">
                                                 {milestone.year}
                                             </span>
@@ -561,7 +565,7 @@ const About = () => {
                             href="https://github.com/NoamFav"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105"
+                            className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                         >
                             <SiGithub className="w-5 h-5" />
                             Explore on GitHub
@@ -588,7 +592,9 @@ const About = () => {
                         </div>
 
                         <div className="relative z-10">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full border border-blue-500/20 mb-6">
+                            <div
+                                className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border border-blue-500/20 mb-6`}
+                            >
                                 <Sparkles className="w-4 h-4 text-blue-500" />
                                 <span className="text-sm font-medium">
                                     Let's Connect
@@ -613,7 +619,7 @@ const About = () => {
                             <div className="flex flex-wrap gap-4 justify-center">
                                 <a
                                     href="mailto:contact@nf-software.com"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+                                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Mail className="w-5 h-5" />
                                     Get in Touch

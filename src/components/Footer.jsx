@@ -1,7 +1,8 @@
 // ============================================================================
 // FILE: src/components/Footer.jsx
 // ============================================================================
-import { Code, Github, Mail } from "lucide-react";
+import { Code, Mail } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 
 const Footer = ({ theme }) => {
     const footerLinks = {
@@ -40,7 +41,7 @@ const Footer = ({ theme }) => {
                                 className={`${theme.textSecondary} hover:${theme.text} transition`}
                                 aria-label="GitHub"
                             >
-                                <Github className="w-5 h-5" />
+                                <SiGithub className="w-5 h-5" />
                             </a>
                             <a
                                 href="mailto:contact@nf-software.com"

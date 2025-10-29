@@ -36,9 +36,15 @@ export const getTheme = (darkMode) => ({
 
     // Primary gradients (commonly used)
     gradientPrimary: "from-blue-500 to-purple-500",
+    ligthGradientPrimary: "from-blue-500/20 to-purple-500/20",
+    lightGradient: "from-blue-400 to-purple-400",
     gradientSecondary: "from-purple-500 to-pink-500",
     gradientAccent: "from-blue-500 via-purple-500 to-pink-500",
-
+    lightGradientAccent: "from-blue-400 via-purple-400 to-pink-400",
+    gradientThirdary: "from-purple-400 to-pink-400",
+    gradientQuaterly: "from-pink-400 to-orange-400",
+    gradientQuintly: "from-orange-400 to-red-400",
     // Badge/Tag gradients
     badgeGradient: "from-blue-500/10 to-purple-500/10",
+    secondBadgeGradient: "from-blue-500/5 to-purple-500/5",
 });

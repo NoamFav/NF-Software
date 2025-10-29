@@ -19,7 +19,9 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                 <Link to="/" className="flex items-center gap-2">
                     <div className="relative">
                         <Code className="w-6 h-6" />
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20 group-hover:opacity-40 transition" />
+                        <div
+                            className={`absolute -inset-1 bg-gradient-to-r ${theme.gradientPrimary} rounded-lg blur opacity-20 group-hover:opacity-40 transition`}
+                        />
                     </div>
                     <span className="font-semibold text-lg">NF Software</span>
                 </Link>

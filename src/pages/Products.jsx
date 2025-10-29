@@ -240,7 +240,7 @@ const Products = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`${darkMode ? "bg-black" : "bg-white"} rounded-2xl p-6 border ${theme.border} min-w-[280px]`}
+                                            className={`${theme.bg} rounded-2xl p-6 border ${theme.border} min-w-[280px]`}
                                         >
                                             <div className="space-y-4">
                                                 <div>
@@ -588,7 +588,7 @@ const Products = () => {
                         <div className="flex flex-wrap gap-4 justify-center">
                             <a
                                 href="#/pricing"
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl transition"
+                                className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl transition`}
                             >
                                 View Pricing
                                 <ArrowRight className="w-5 h-5" />

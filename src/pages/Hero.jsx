@@ -567,7 +567,7 @@ const Hero = () => {
                             <div className="flex flex-wrap gap-4 justify-center">
                                 <a
                                     href="mailto:contact@nf-software.com"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+                                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Mail className="w-5 h-5" />
                                     Get in Touch

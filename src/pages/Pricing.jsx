@@ -608,7 +608,9 @@ const Pricing = () => {
                         </div>
 
                         <div className="relative z-10">
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full border border-blue-500/20 mb-6">
+                            <div
+                                className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border border-blue-500/20 mb-6`}
+                            >
                                 <Sparkles className="w-4 h-4 text-blue-500" />
                                 <span className="text-sm font-medium">
                                     Questions?
@@ -632,7 +634,7 @@ const Pricing = () => {
                             <div className="flex flex-wrap gap-4 justify-center">
                                 <a
                                     href="mailto:contact@nf-software.com"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
+                                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     Contact Sales
                                     <ArrowRight className="w-5 h-5" />
