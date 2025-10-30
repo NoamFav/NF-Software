@@ -77,7 +77,64 @@ const insertAttachment = db.prepare(`
 INSERT INTO attachments (id, submission_id, filename, stored_path, size, type)
 VALUES (@id,@submission_id,@filename,@stored_path,@size,@type)
 `);
+const isAdmin = (req) => {
+    const auth = req.headers.authorization || "";
+    if (!auth.startsWith("Basic ")) return false;
+    const decoded = Buffer.from(auth.split(" ")[1], "base64").toString();
+    const [, pw = ""] = decoded.split(":"); // user:anything, pass must match
+    return pw === ADMIN_PW;
+};
 
+// Query used by /admin; reusing here for JSON endpoints
+const selectSubmissionsWithFiles = db.prepare(`
+  SELECT s.*, json_group_array(
+    CASE WHEN a.id IS NOT NULL
+      THEN json_object(
+        'filename', a.filename,
+        'url', '/files/'||a.stored_path,
+        'size', a.size,
+        'type', a.type
+      )
+      ELSE NULL
+    END
+  ) AS files
+  FROM submissions s
+  LEFT JOIN attachments a ON a.submission_id = s.id
+  GROUP BY s.id
+  ORDER BY datetime(s.created_at) DESC
+  LIMIT @limit OFFSET @offset
+`);
+
+const selectOneSubmission = db.prepare(`
+  SELECT s.*, json_group_array(
+    CASE WHEN a.id IS NOT NULL
+      THEN json_object(
+        'filename', a.filename,
+        'url', '/files/'||a.stored_path,
+        'size', a.size,
+        'type', a.type
+      )
+      ELSE NULL
+    END
+  ) AS files
+  FROM submissions s
+  LEFT JOIN attachments a ON a.submission_id = s.id
+  WHERE s.id = @id
+  GROUP BY s.id
+  LIMIT 1
+`);
+
+const selectAttachPathsBySubmission = db.prepare(`
+  SELECT stored_path FROM attachments WHERE submission_id = ?
+`);
+
+const deleteAttachmentsBySubmission = db.prepare(`
+  DELETE FROM attachments WHERE submission_id = ?
+`);
+
+const deleteSubmissionById = db.prepare(`
+  DELETE FROM submissions WHERE id = ?
+`);
 app.get("/health", async (_, reply) => reply.send({ ok: true }));
 app.post("/submit", async (req, reply) => {
     const parts = req.parts();
@@ -154,7 +211,101 @@ app.post("/submit", async (req, reply) => {
 
     return reply.send({ ok: true });
 });
+app.get("/submissions", async (req, reply) => {
+    if (!isAdmin(req)) {
+        reply.header("WWW-Authenticate", 'Basic realm="admin"');
+        return reply.code(401).send({ error: "Auth required" });
+    }
 
+    const limit = Math.max(1, Math.min(500, Number(req.query.limit ?? 200)));
+    const offset = Math.max(0, Number(req.query.offset ?? 0));
+
+    const rows = selectSubmissionsWithFiles.all({ limit, offset }).map((r) => {
+        const files = (JSON.parse(r.files || "[]") || []).filter(Boolean);
+        const features = (() => {
+            try {
+                return JSON.parse(r.features || "[]");
+            } catch {
+                return [];
+            }
+        })();
+        return { ...r, files, features };
+    });
+
+    return reply.send({ items: rows, limit, offset, count: rows.length });
+});
+
+// Get one submission by id
+app.get("/submissions/:id", async (req, reply) => {
+    if (!isAdmin(req)) {
+        reply.header("WWW-Authenticate", 'Basic realm="admin"');
+        return reply.code(401).send({ error: "Auth required" });
+    }
+
+    const row = selectOneSubmission.get({ id: req.params.id });
+    if (!row) return reply.code(404).send({ error: "Not found" });
+
+    const files = (JSON.parse(row.files || "[]") || []).filter(Boolean);
+    let features = [];
+    try {
+        features = JSON.parse(row.features || "[]");
+    } catch {
+        return;
+    }
+
+    return reply.send({ ...row, files, features });
+});
+
+// Remove one or many submissions (and attachments + files on disk)
+app.post("/remove", async (req, reply) => {
+    if (!isAdmin(req)) {
+        reply.header("WWW-Authenticate", 'Basic realm="admin"');
+        return reply.code(401).send({ error: "Auth required" });
+    }
+
+    // Accept { id: "..." } or { ids: ["...", "..."] }
+    const body = req.body || {};
+    const ids = Array.isArray(body.ids) ? body.ids : body.id ? [body.id] : [];
+
+    if (ids.length === 0)
+        return reply.code(400).send({ error: "No id(s) provided" });
+
+    const removed = [];
+    const tx = db.transaction(() => {
+        for (const id of ids) {
+            // collect file paths to unlink after SQL succeeds
+            const paths = selectAttachPathsBySubmission
+                .all(id)
+                .map((r) => r.stored_path);
+
+            deleteAttachmentsBySubmission.run(id);
+            const res = deleteSubmissionById.run(id);
+
+            // mark to remove files only if the row existed
+            if (res.changes > 0) removed.push({ id, paths });
+        }
+    });
+
+    try {
+        tx();
+    } catch {
+        return reply.code(500).send({ error: "DB transaction failed" });
+    }
+
+    // Best-effort unlink of files on disk
+    for (const r of removed) {
+        for (const p of r.paths) {
+            const full = path.join("/data/uploads", p);
+            try {
+                fs.unlinkSync(full);
+            } catch {
+                return;
+            }
+        }
+    }
+
+    return reply.send({ ok: true, removed: removed.map((r) => r.id) });
+});
 app.get("/admin", async (req, reply) => {
     const auth = req.headers.authorization || "";
     const ok =
