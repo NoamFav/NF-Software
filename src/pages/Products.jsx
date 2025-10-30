@@ -109,7 +109,7 @@ const Products = () => {
                                 className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                             />
                             <span className="text-sm font-medium">
-                                4 Suites, 16+ Tools
+                                Tools Built with Intention
                             </span>
                         </div>
 
@@ -128,10 +128,9 @@ const Products = () => {
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Four complete suites covering development, system
-                            monitoring, AI assistance, and experimental tools.
-                            Each tool is crafted with precision and built to
-                            last.
+                            Four focused suites for development, system
+                            monitoring, AI, and research. Every tool is designed
+                            to be fast, minimal, and built to last.
                         </p>
                     </div>
 

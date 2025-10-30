@@ -69,27 +69,27 @@ export const principles = [
     {
         title: "Privacy by Default",
         description:
-            "Your data belongs to you. We build local-first software that respects your privacy without compromise.",
+            "Your data stays on your machine. Local-first whenever possible. No tracking. No analytics. No hidden collection.",
     },
     {
         title: "Performance Matters",
         description:
-            "Every millisecond counts. We optimize relentlessly, measure obsessively, and ship software that feels instant.",
+            "Software should be fast. We measure, profile, and optimize until interactions feel instantaneous.",
     },
     {
         title: "Craft Over Scale",
         description:
-            "Small, focused tools that excel at their purpose. We value elegance and precision over feature bloat.",
+            "Small, focused tools that excel at their purpose. Precision is more valuable than features.",
     },
     {
         title: "Open by Design",
         description:
-            "Transparency builds trust. We share our code, document our decisions, and learn in public.",
+            "Transparency builds trust. We build in public, document decisions, and encourage contribution.",
     },
     {
         title: "AI as Augmentation",
         description:
-            "Intelligence should empower, not replace. We build AI tools that enhance human capability without sacrificing control.",
+            "AI should extend human ability — not replace it. Intelligence is a tool, not the driver.",
     },
 ];
 
@@ -97,21 +97,21 @@ export const process = [
     {
         title: "Research",
         description:
-            "Deep dive into the problem space. Talk to users, study existing solutions, understand the real need.",
+            "Start with the real use case. Understand workflows, constraints, and what actually matters — not just what could be built.",
     },
     {
         title: "Prototype",
         description:
-            "Build fast, fail faster. Validate core assumptions with minimal viable implementations.",
+            "Build small and prove the core idea quickly. If it doesn’t feel right early, it doesn’t ship.",
     },
     {
         title: "Performance Pass",
         description:
-            "Measure, profile, optimize. No feature ships until it meets our latency and resource budgets.",
+            "Profile, measure, and tune. Every tool has latency budgets and resource constraints — nothing ships until it meets them.",
     },
     {
         title: "Polish",
         description:
-            "Sweat the details. Refine interactions, perfect animations, ensure every pixel serves a purpose.",
+            "Refine interaction, naming, feel, pacing, clarity. Details are the difference between usable and effortless.",
     },
 ];

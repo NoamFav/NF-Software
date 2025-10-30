@@ -14,7 +14,7 @@ export const sections = [
         title: "Overview",
         icon: FileText,
         content:
-            "These Terms govern your use of the NF Software website, products, and services. By accessing or purchasing any product, you agree to these Terms.",
+            "By using this website or purchasing any product, you agree to these Terms. Software provided by NF Software is built for professional use and should be used with technical awareness.",
     },
     {
         number: "2",
@@ -43,7 +43,7 @@ export const sections = [
         important: true,
         content:
             "Due to the nature of digital software delivery, all sales are final. Once a license or download key has been issued, no refunds or cancellations are provided.",
-        note: "If there is a technical issue, please contact support and we will assist in resolving it.",
+        note: "If you experience a technical issue, contact support — issues will be addressed promptly.",
     },
     {
         number: "4",
@@ -65,7 +65,7 @@ export const sections = [
         icon: AlertTriangle,
         content:
             'NF Software is provided "as is" without warranties of any kind.',
-        subtitle: "We do not guarantee:",
+        subtitle: "No guarantee is made regarding:",
         list: [
             "Uninterrupted access",
             "Correctness or reliability of results",

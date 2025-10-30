@@ -107,9 +107,9 @@ const About = () => {
                     <p
                         className={`text-xl md:text-2xl ${theme.textSecondary} max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200`}
                     >
-                        We're a team obsessed with building developer tools that
-                        respect your privacy, optimize for speed, and feel
-                        delightful to use every single day.
+                        NF Software is an independent software studio focused on
+                        building developer tools that respect your privacy,
+                        optimize for speed, and feel intentional to use.
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
@@ -142,7 +142,6 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
             {/* Mission Section */}
             <section id="mission" data-animate className="relative py-32 px-6">
                 <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -154,23 +153,20 @@ const About = () => {
                     <p
                         className={`text-lg md:text-xl ${theme.textSecondary} leading-relaxed`}
                     >
-                        Since 2023, we've focused on one thing: creating
-                        developer tools that combine exceptional performance
-                        with privacy-first design. No tracking, no bloat, no
-                        compromises—just software that works the way you expect
-                        it to.
+                        Since 2023, the goal has been simple: create software
+                        that is fast, minimal, and grounded in real use — no
+                        tracking, no bloat, no unnecessary complexity.
                     </p>
                     <p
                         className={`text-lg md:text-xl ${theme.textSecondary} leading-relaxed`}
                     >
-                        Our tools run locally when possible, optimize for every
-                        millisecond, and integrate AI as augmentation—not
-                        replacement. We believe the best software feels
-                        invisible until you need it, then becomes indispensable.
+                        Our tools run locally when possible, prioritize
+                        performance, and use AI as augmentation, not
+                        replacement. Software should feel invisible until the
+                        moment you need it — then become indispensable.
                     </p>
                 </div>
             </section>
-
             {/* Stats Section */}
             <section data-animate className="relative py-20 px-6">
                 <div className="max-w-7xl mx-auto">
@@ -196,7 +192,6 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
             {/* Principles Section with Angled Background */}
             <section
                 id="principles"
@@ -231,8 +226,8 @@ const About = () => {
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Five principles that guide every line of code we
-                            write and every product we ship.
+                            Five principles that shape how we build software and
+                            how it should feel to use.
                         </p>
                     </div>
 
@@ -259,7 +254,6 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
             {/* Process Section */}
             <section id="process" data-animate className="relative py-32 px-6">
                 <div className="max-w-7xl mx-auto">
@@ -272,9 +266,10 @@ const About = () => {
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Our process balances speed with rigor. We move fast,
-                            but we never ship without measuring performance and
-                            polishing the experience.
+                            The process is simple: understand the problem
+                            deeply, build with intention, and refine until it
+                            feels right. Every release is measured, tested, and
+                            tuned for performance.
                         </p>
                     </div>
 
@@ -307,7 +302,6 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
             {/* Timeline Section with Angled Background */}
             <section
                 id="timeline"
@@ -337,13 +331,13 @@ const About = () => {
                         <h2
                             className={`text-5xl md:text-6xl font-bold ${theme.text}`}
                         >
-                            Our Journey
+                            The Journey
                         </h2>
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Five years of building, learning, and growing with
-                            our community.
+                            2 years of building, learning, and growing with our
+                            community.
                         </p>
                     </div>
 
@@ -382,7 +376,7 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
+            {/*
             {/* Team Section */}
             <section id="team" data-animate className="relative py-32 px-6">
                 <div className="max-w-5xl mx-auto">
@@ -390,14 +384,15 @@ const About = () => {
                         <h2
                             className={`text-5xl md:text-6xl font-bold ${theme.text}`}
                         >
-                            Small Team, Big Impact
+                            How this studio works
                         </h2>
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            We're a lean, focused team of engineers and
-                            designers who care deeply about the tools we build
-                            and the developers who use them.
+                            NF Software is a one-person studio. I lead
+                            engineering, product, and design; collaborators join
+                            on specific projects when it helps the work. The bar
+                            is performance, clarity, and respect for the user.
                         </p>
                     </div>
 
@@ -413,9 +408,9 @@ const About = () => {
                                     Engineering
                                 </h3>
                                 <p className={`text-sm ${theme.textSecondary}`}>
-                                    Performance-obsessed developers who measure
-                                    every millisecond and optimize every
-                                    algorithm.
+                                    Performance first. Measure, profile, and
+                                    keep strict latency budgets. Ship fast, keep
+                                    it lean, no regressions.
                                 </p>
                             </div>
                             <div className="text-center">
@@ -426,9 +421,9 @@ const About = () => {
                                     Product
                                 </h3>
                                 <p className={`text-sm ${theme.textSecondary}`}>
-                                    Focused on solving real problems with
-                                    elegant, minimal solutions that feel
-                                    effortless.
+                                    Solve real problems with small, focused
+                                    tools. Ship the minimum that matters,
+                                    iterate with real usage.
                                 </p>
                             </div>
                             <div className="text-center">
@@ -439,8 +434,9 @@ const About = () => {
                                     Design
                                 </h3>
                                 <p className={`text-sm ${theme.textSecondary}`}>
-                                    Crafting interfaces that balance aesthetics
-                                    with usability, motion with performance.
+                                    Interfaces that disappear until you need
+                                    them. Motion only when it improves clarity.
+                                    Accessible by default.
                                 </p>
                             </div>
                         </div>
@@ -449,11 +445,9 @@ const About = () => {
                             <p
                                 className={`text-center ${theme.textSecondary} leading-relaxed`}
                             >
-                                We believe in working in the open, sharing our
-                                learnings, and building tools that we ourselves
-                                want to use. Every team member contributes to
-                                code, design, and product decisions—we move fast
-                                because we trust each other.
+                                I build in public and use what I ship. When a
+                                project needs extra hands, I bring in trusted
+                                collaborators.
                             </p>
                         </div>
                     </div>
@@ -476,9 +470,9 @@ const About = () => {
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Transparency builds trust. We share our code,
-                            document our decisions, and learn from our
-                            community.
+                            Transparency builds trust. A large part of NF
+                            Software is developed in public, where ideas,
+                            experiments, and improvements are shared openly.
                         </p>
                     </div>
 
@@ -490,14 +484,14 @@ const About = () => {
                             <h3
                                 className={`text-2xl font-bold ${theme.text} mb-4`}
                             >
-                                7 Open Source Projects
+                                Built in Public
                             </h3>
                             <p
                                 className={`${theme.textSecondary} mb-6 leading-relaxed`}
                             >
-                                From system monitoring to AI-powered Git tools,
-                                our projects are built in public and available
-                                for anyone to use, modify, and learn from.
+                                From system monitoring tools to AI-assisted Git
+                                workflows, our projects are available for anyone
+                                to explore, learn from, and contribute to.
                             </p>
                             <div className="flex flex-wrap gap-2">
                                 <span
@@ -515,10 +509,26 @@ const About = () => {
                                 >
                                     React
                                 </span>
+
                                 <span
                                     className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
                                 >
-                                    C#
+                                    Lua
+                                </span>
+                                <span
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
+                                >
+                                    Java
+                                </span>
+                                <span
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
+                                >
+                                    Python
+                                </span>
+                                <span
+                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
+                                >
+                                    ...
                                 </span>
                             </div>
                         </div>
@@ -530,14 +540,14 @@ const About = () => {
                             <h3
                                 className={`text-2xl font-bold ${theme.text} mb-4`}
                             >
-                                20+ GitHub Stars
+                                Growing Community
                             </h3>
                             <p
                                 className={`${theme.textSecondary} mb-6 leading-relaxed`}
                             >
-                                Our community has grown organically through
-                                developers who value privacy, performance, and
-                                quality software.
+                                Development is driven by real usage and feedback
+                                from developers who care about privacy,
+                                performance, and craft.
                             </p>
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-2">
@@ -545,7 +555,7 @@ const About = () => {
                                     <span
                                         className={`text-sm ${theme.textSecondary}`}
                                     >
-                                        Active maintenance
+                                        Active development
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-2">
@@ -574,7 +584,6 @@ const About = () => {
                     </div>
                 </div>
             </section>
-
             {/* CTA Section */}
             <section id="cta" data-animate className="relative py-32 px-6">
                 <div className="max-w-5xl mx-auto">
@@ -604,7 +613,7 @@ const About = () => {
                             <h2
                                 className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
                             >
-                                Want to work with us?
+                                Want to build something together?
                             </h2>
 
                             <p
@@ -612,18 +621,18 @@ const About = () => {
                             >
                                 Whether you're interested in collaborating,
                                 contributing to our open source projects, or
-                                just want to say hello—we'd love to hear from
+                                just want to say hello—I'd love to hear from
                                 you.
                             </p>
 
                             <div className="flex flex-wrap gap-4 justify-center">
-                                <a
-                                    href="mailto:contact@nf-software.com"
+                                <Link
+                                    to="/contact"
                                     className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Mail className="w-5 h-5" />
-                                    Get in Touch
-                                </a>
+                                    Start Your Project
+                                </Link>
                                 <Link
                                     to="/products"
                                     className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}

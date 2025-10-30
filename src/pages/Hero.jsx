@@ -99,9 +99,9 @@ const Hero = () => {
                     <p
                         className={`text-xl md:text-2xl ${theme.textSecondary} max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200`}
                     >
-                        Professional software solutions designed for developers,
-                        enterprises, and innovators who refuse to compromise on
-                        quality, performance, and user experience.
+                        Custom tooling, automation systems, and local-first
+                        workflows — built for developers, teams, and research
+                        groups who care about quality.
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
@@ -565,13 +565,13 @@ const Hero = () => {
                             </p>
 
                             <div className="flex flex-wrap gap-4 justify-center">
-                                <a
-                                    href="mailto:contact@nf-software.com"
+                                <Link
+                                    to="/contact"
                                     className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Mail className="w-5 h-5" />
-                                    Get in Touch
-                                </a>
+                                    Start Your Project
+                                </Link>
                                 <a
                                     href="https://github.com/NoamFav"
                                     target="_blank"

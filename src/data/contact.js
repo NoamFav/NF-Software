@@ -102,14 +102,14 @@ export const faqData = [
     },
     {
         question: "What about micro projects and automation scripts?",
-        answer: "I absolutely take on smaller projects! Whether it's a simple automation script (€20-200), a browser extension (€200-500), or a quick data processing tool, I'm happy to help. These projects typically have a faster turnaround (1-7 days) and are perfect for testing the waters before larger commitments.",
+        answer: "I also take on smaller projects. Whether it's a simple automation script (€20–200), a browser extension (€200–500), or a quick data processing tool, I'm happy to help. These projects typically have a faster turnaround (1–7 days) and are perfect for testing the waters before larger commitments.",
     },
 ];
 
 export const contactInfo = {
     email: "contact@nf-software.com",
     github: "https://github.com/NoamFav",
-    responseTime: "24-48 hours",
+    responseTime: "Typically 24–48 hours",
     location: "Europe (CET/CEST)",
 };
 
