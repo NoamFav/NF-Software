@@ -17,6 +17,7 @@ import {
     DollarSign,
     Package,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { suites, standaloneTools } from "../data/products";
@@ -58,6 +59,13 @@ const Pricing = () => {
     };
     */
 
+    const suiteDescriptions = {
+        dev: "Developer workflow & automation",
+        sys: "System monitoring & telemetry",
+        iris: "Local-first AI tooling",
+        lab: "Experimental & learning tools",
+    };
+
     return (
         <>
             {/* Hero Section */}
@@ -89,7 +97,7 @@ const Pricing = () => {
                                 className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                             />
                             <span className="text-sm font-medium">
-                                Simple, Transparent Pricing
+                                Straightforward, Transparent Pricing
                             </span>
                         </div>
                         <h1
@@ -100,18 +108,18 @@ const Pricing = () => {
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Buy complete suites at discounted rates, or purchase
-                            individual tools separately. All plans include
-                            continuous updates.
+                            Pay once or subscribe annually — your choice. All
+                            licenses include continuous updates and offline
+                            activation.
                         </p>
                     </div>
 
                     {/* Plan Selector */}
                     <div className="flex flex-wrap justify-center gap-4 mb-16">
                         {[
-                            { id: "individual", label: "Individual" },
-                            { id: "professional", label: "Professional" },
-                            { id: "enterprise", label: "Enterprise" },
+                            { id: "individual", label: "Personal Use" },
+                            { id: "professional", label: "Team Use" },
+                            { id: "enterprise", label: "Organization Use" },
                         ].map((plan) => (
                             <button
                                 key={plan.id}
@@ -358,8 +366,12 @@ const Pricing = () => {
                                                                 <div
                                                                     className={`text-sm ${theme.textSecondary}`}
                                                                 >
-                                                                    Complete
-                                                                    suite
+                                                                    {
+                                                                        suiteDescriptions[
+                                                                            suite
+                                                                                .id
+                                                                        ]
+                                                                    }
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -396,7 +408,7 @@ const Pricing = () => {
                                                     </td>
                                                     <td className="p-4">
                                                         <span className="px-3 py-1 rounded-full text-xs border border-blue-500/50 text-blue-500">
-                                                            Best Value
+                                                            Bundle Pricing
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -635,25 +647,25 @@ const Pricing = () => {
                             <h2
                                 className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
                             >
-                                Need a custom plan?
+                                Need something more specific?
                             </h2>
 
                             <p
                                 className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto mb-8`}
                             >
-                                For organizations with specific requirements or
-                                larger teams, we offer custom enterprise
-                                solutions.
+                                For larger teams or specialized workflows,
+                                custom licensing and collaboration agreements
+                                are available.
                             </p>
 
                             <div className="flex flex-wrap gap-4 justify-center">
-                                <a
-                                    href="mailto:contact@nf-software.com"
+                                <Link
+                                    to="/contact"
                                     className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
-                                    Contact Sales
+                                    Start Your Project
                                     <ArrowRight className="w-5 h-5" />
-                                </a>
+                                </Link>
                                 <a
                                     href="#/products"
                                     className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}

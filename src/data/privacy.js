@@ -14,13 +14,14 @@ export const sections = [
         title: "Overview",
         icon: Eye,
         content:
-            "This Privacy Policy explains how NF Software collects, uses, and protects personal information submitted through this website (nf-software.com) and related services.",
+            "This policy explains how NF Software handles information submitted through this website (nf-software.com) and related communication channels.",
     },
     {
         number: "2",
-        title: "What Data We Collect",
+        title: "Data We Collect  ",
         icon: Database,
-        content: "When you submit the contact form, we may collect:",
+        content:
+            "If you submit a contact or project inquiry form, we may collect:",
         list: [
             "Name (if provided)",
             "Email address",
@@ -31,9 +32,9 @@ export const sections = [
     },
     {
         number: "3",
-        title: "How We Use This Data",
+        title: "How the Data Is Used",
         icon: FileText,
-        content: "We use the submitted information solely to:",
+        content: "Information is used only to:",
         list: [
             "Respond to inquiries",
             "Prepare project proposals or estimates",
@@ -42,32 +43,32 @@ export const sections = [
         negativeList: {
             title: "We do not:",
             items: [
-                "Sell personal data",
-                "Share personal data with advertisers",
-                "Use personal data for automated decision-making",
+                "Sell data",
+                "Share data with advertisers",
+                "Use data for automated decision-making",
             ],
         },
     },
     {
         number: "4",
-        title: "Where Data Is Stored",
+        title: "Storage",
         icon: Globe,
         content:
-            "Form submissions may be processed via NF Software's backend server hosted in Europe (CET/CEST region). Emails are stored in a private business inbox managed by the owner.",
+            "Form submissions and communication records are stored in a private business inbox and/or secure server infrastructure located in the EU.",
     },
     {
         number: "5",
-        title: "Who Has Access",
+        title: "Access",
         icon: Lock,
         content:
-            "Only the owner (Noam Favier) has access to the stored communication. No employees or third-party contractors have access unless explicitly required for a client project, and only with permission.",
+            "Access is limited to the owner (Noam Favier). If external collaboration is required, access is granted only with your explicit permission.",
     },
     {
         number: "6",
         title: "Analytics",
         icon: Eye,
         content:
-            "This website may use a privacy-friendly analytics tool (such as Plausible or Umami), which collects:",
+            "This website may use a privacy-friendly analytics tool (e.g., Plausible or Umami) to measure page usage.",
         list: ["Page views", "Browser/device type", "Referring pages"],
         note: "It does not collect identifying information, IP addresses, or cookies. No tracking for advertising or behavioral profiling is performed.",
     },
@@ -93,7 +94,7 @@ export const sections = [
         number: "9",
         title: "Your Rights (EU GDPR)",
         icon: Shield,
-        content: "If you are located in the EU, you have the right to:",
+        content: "If you are in the EU, you may:",
         list: [
             "Request access to your stored data",
             "Request correction or deletion",

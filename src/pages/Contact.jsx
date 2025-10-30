@@ -511,10 +511,12 @@ const Contact = () => {
                     <p
                         className={`text-xl ${theme.textSecondary} max-w-2xl mx-auto`}
                     >
-                        Share your vision and requirements. From micro
-                        automation scripts (€20+) to enterprise solutions
-                        (€50K+), I'll provide a detailed estimate with timeline,
-                        deliverables, and pricing in EUR.
+                        Every project begins with a clear conversation. Tell me
+                        what you're looking to build, and I’ll provide a
+                        detailed estimate with timeline, deliverables, and
+                        pricing. I take on everything from small automation
+                        tools (€20+) to full-scale systems and long-term
+                        development partnerships.
                     </p>
                 </div>
             </section>
@@ -662,7 +664,7 @@ const Contact = () => {
                                     <p
                                         className={`${theme.textSecondary} mb-8`}
                                     >
-                                        Let's start with your basic details
+                                        Tell me where to reach you.
                                     </p>
                                 </div>
 
@@ -717,7 +719,7 @@ const Contact = () => {
                                     onClick={() => handleStepChange(2)}
                                     className={`w-full py-4 px-6 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-[1.02]`}
                                 >
-                                    Continue to Project Details
+                                    Next Step → Project Details
                                 </button>
                             </div>
                         )}
@@ -1284,14 +1286,14 @@ const Contact = () => {
                             className={`inline-block ${darkMode ? `bg-gradient-to-r ${theme.badgeGradient} border-blue-500/30` : `bg-gradient-to-r ${theme.secondBadgeGradient} border-blue-500/20`} border rounded-xl p-8`}
                         >
                             <p className={`${theme.textSecondary} mb-4`}>
-                                Still have questions?
+                                Still unsure where your project fits?
                             </p>
                             <a
                                 href={`mailto:${contactInfo.email}`}
                                 className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                             >
                                 <Mail className="w-5 h-5" />
-                                Email me directly
+                                Send a message!
                             </a>
                         </div>
                     </div>
