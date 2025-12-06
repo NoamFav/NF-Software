@@ -65,6 +65,8 @@ const Products = () => {
                 return "border-green-500/50 text-green-500 bg-green-500/10";
             case "Beta":
                 return "border-yellow-500/50 text-yellow-500 bg-yellow-500/10";
+            case "Alpha":
+                return "border-purple-500/50 text-purple-500 bg-purple-500/10";
             case "In Development":
                 return "border-blue-500/50 text-blue-500 bg-blue-500/10";
             default:
