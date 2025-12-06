@@ -72,7 +72,7 @@ export const suites = [
                     "GitHub integration - Native API support",
                 ],
                 tech: ["Go", "Bubble Tea", "Lipgloss"],
-                status: "In Development",
+                status: "Alpha",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -145,6 +145,7 @@ export const suites = [
                 description:
                     "Curated Neovim setup with custom plugins including Apple Music control and Cyberpunk theme.",
                 features: [
+                    "Open Source",
                     "LSP integration - Full language support",
                     "Custom plugins - apple_music.nvim & 2077 theme",
                     "Optimized config - Professional workflow",
@@ -154,15 +155,15 @@ export const suites = [
                 license: {
                     devices: 1,
                     offlineActivation: true,
-                    upgradeDiscount: 0.4,
+                    upgradeDiscount: 1,
                 },
                 plan: {
-                    annual: 5,
-                    oneTime: 9,
+                    annual: 0,
+                    oneTime: 0,
                     skuAnnual: "tool_nfvim-suite_annual_001",
                     skuOneTime: "tool_nfvim-suite_onetime_001",
                 },
-                github: false,
+                github: true,
             },
         ],
     },
@@ -207,7 +208,7 @@ export const suites = [
                     "Cross-platform - Linux, macOS, Windows, BSD",
                 ],
                 tech: ["C", "POSIX", "IOKit", "procfs"],
-                status: "In Development",
+                status: "Alpha",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -316,7 +317,7 @@ export const suites = [
                     "Contextual memory - Learns your workflow",
                 ],
                 tech: ["Rust", "Go", "Whisper.cpp", "Coqui TTS"],
-                status: "In Development",
+                status: "Alpha",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -342,7 +343,7 @@ export const suites = [
                     "Developer integration - Terminal-native",
                 ],
                 tech: ["Rust"],
-                status: "In Development",
+                status: "Alpha",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -394,7 +395,7 @@ export const suites = [
                     "User adaptation - Personalized AI",
                 ],
                 tech: ["MongoDB", "Go"],
-                status: "In Development",
+                status: "Testing",
                 license: {
                     devices: 1,
                     offlineActivation: true,
@@ -488,6 +489,32 @@ export const suites = [
                     oneTime: 9,
                     skuAnnual: "tool_worktime_annual_001",
                     skuOneTime: "tool_worktime_onetime_001",
+                },
+                github: false,
+            },
+            {
+                name: "GymBuddy",
+                slug: "gymbuddy",
+                tagline: "Your Smart Gym Knowledge Coach",
+                description:
+                    "iOS app that helps you master fitness fundamentals through adaptive quizzes, exercise facts, and intelligent spaced repetition.",
+                features: [
+                    "Adaptive Quizzes – Difficulty adjusts to your level",
+                    "Exercise Library – Facts, cues, and common mistakes",
+                    "Spaced Repetition – Long-term retention system",
+                ],
+                tech: ["Swift", "SwiftUI", "CoreData"],
+                status: "Alpha",
+                license: {
+                    devices: 1,
+                    offlineActivation: true,
+                    upgradeDiscount: 0.4,
+                },
+                plan: {
+                    annual: 5,
+                    oneTime: 10,
+                    skuAnnual: "tool_gymbuddy_annual_001",
+                    skuOneTime: "tool_gymbuddy_onetime_001",
                 },
                 github: false,
             },

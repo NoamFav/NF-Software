@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { suites } from "../data/products";
-import { testimonials } from "../data/testimonials";
+import { _testimonials } from "../data/testimonials";
 
 const Hero = () => {
     const { darkMode } = useDarkMode();
@@ -155,7 +155,6 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
-
             {/* About Section */}
             <section id="about" data-animate className="relative py-32 px-6">
                 <div className="max-w-7xl mx-auto">
@@ -197,7 +196,6 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
-
             {/* Products Showcase */}
             <section id="products" className="relative">
                 <div className="text-center py-20 px-6">
@@ -458,8 +456,8 @@ const Hero = () => {
                     </div>
                 ))}
             </section>
-
             {/* Testimonials Section */}
+            {/*
             <section
                 id="testimonials"
                 data-animate
@@ -525,7 +523,7 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
-
+            */}
             {/* CTA Section */}
             <section id="cta" className="relative py-32 px-6">
                 <div className="max-w-5xl mx-auto">
@@ -626,7 +624,6 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
-
             {/* Scroll to Top Button */}
             {scrollY > 500 && (
                 <button
