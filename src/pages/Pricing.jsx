@@ -474,7 +474,10 @@ const Pricing = () => {
                                                                         : tool.status ===
                                                                             "Beta"
                                                                           ? "bg-yellow-500/20 text-yellow-500"
-                                                                          : "bg-blue-500/20 text-blue-500"
+                                                                          : tool.status ===
+                                                                              "Alpha"
+                                                                            ? "bg-purple-500/20 text-purple-500"
+                                                                            : "bg-blue-500/20 text-blue-500"
                                                                 }`}
                                                             >
                                                                 {tool.status}
@@ -550,7 +553,10 @@ const Pricing = () => {
                                                                 : tool.status ===
                                                                     "Beta"
                                                                   ? "bg-yellow-500/20 text-yellow-500"
-                                                                  : "bg-blue-500/20 text-blue-500"
+                                                                  : tool.status ===
+                                                                      "Alpha"
+                                                                    ? "bg-purple-500/20 text-purple-500"
+                                                                    : "bg-blue-500/20 text-blue-500"
                                                         }`}
                                                     >
                                                         {tool.status}
