@@ -26,14 +26,15 @@ const Pricing = () => {
     const { darkMode } = useDarkMode();
     const theme = getTheme(darkMode);
     const [selectedPlan, setSelectedPlan] = useState("individual");
-    const fmt = (n) =>
-        (n ?? n === 0)
-            ? new Intl.NumberFormat(undefined, {
-                  style: "currency",
-                  currency: "EUR",
-                  maximumFractionDigits: 0,
-              }).format(n)
-            : "—";
+    const fmt = (n) => {
+        if (n === null || n === undefined) return "—";
+        if (n === 0) return "Free";
+        return new Intl.NumberFormat(undefined, {
+            style: "currency",
+            currency: "EUR",
+            maximumFractionDigits: 0,
+        }).format(n);
+    };
     const getIconComponent = (iconName) => {
         const icons = {
             Code: Code,

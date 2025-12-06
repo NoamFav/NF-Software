@@ -535,7 +535,7 @@ export const standaloneTools = [
             "Metadata extraction - Smart categorization",
         ],
         tech: ["Go", "fsnotify", "YAML", "Tesseract OCR"],
-        status: "In Development",
+        status: "Alpha",
         gradient: "from-orange-500 to-red-500",
         icon: "FolderTree",
         license: {

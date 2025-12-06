@@ -47,4 +47,6 @@ export const getTheme = (darkMode) => ({
     // Badge/Tag gradients
     badgeGradient: "from-blue-500/10 to-purple-500/10",
     secondBadgeGradient: "from-blue-500/5 to-purple-500/5",
+    selectBg: darkMode ? "bg-black" : "bg-white",
+    hoverBorder: darkMode ? "hover:border-gray-600" : "hover:border-gray-300",
 });

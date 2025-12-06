@@ -43,8 +43,7 @@ const Layout = ({ children }) => {
             {/* Global Styles */}
             <style>{`
                 @keyframes gradient {
-                    0%,
-                    100% {
+                    0%, 100% {
                         background-position: 0% 50%;
                     }
                     50% {
@@ -53,8 +52,7 @@ const Layout = ({ children }) => {
                 }
 
                 @keyframes blob {
-                    0%,
-                    100% {
+                    0%, 100% {
                         transform: translate(0, 0) scale(1);
                     }
                     25% {
@@ -127,12 +125,17 @@ const Layout = ({ children }) => {
                     animation-fill-mode: backwards;
                 }
 
+                /* FIXED: Don't hide elements initially */
                 [data-animate] {
+                    opacity: 1;
+                    transform: translateY(0);
+                    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+                }
+
+                /* Only apply hiding when not visible yet */
+                [data-animate]:not(.is-visible) {
                     opacity: 0;
                     transform: translateY(30px);
-                    transition:
-                        opacity 0.8s ease-out,
-                        transform 0.8s ease-out;
                 }
 
                 [data-animate].is-visible {
@@ -141,17 +144,15 @@ const Layout = ({ children }) => {
                 }
 
                 @media (prefers-reduced-motion: reduce) {
-                    *,
-                    *::before,
-                    *::after {
+                    *, *::before, *::after {
                         animation-duration: 0.01ms !important;
                         animation-iteration-count: 1 !important;
                         transition-duration: 0.01ms !important;
                     }
 
                     [data-animate] {
-                        opacity: 1;
-                        transform: none;
+                        opacity: 1 !important;
+                        transform: none !important;
                     }
                 }
             `}</style>
