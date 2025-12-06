@@ -24,7 +24,9 @@ import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { suites } from "../data/products";
-import { _testimonials } from "../data/testimonials";
+{
+    /*import { testimonials } from "../data/testimonials";*/
+}
 
 const Hero = () => {
     const { darkMode } = useDarkMode();
