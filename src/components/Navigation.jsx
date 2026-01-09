@@ -59,6 +59,16 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                         Pricing
                     </Link>
                     <Link
+                        to="/blog"
+                        className={`text-sm ${
+                            isActive("/blog")
+                                ? theme.text + " font-medium"
+                                : theme.textSecondary + " hover:" + theme.text
+                        } transition`}
+                    >
+                        Blog
+                    </Link>
+                    <Link
                         to="/contact"
                         className={`text-sm ${
                             isActive("/contact")
@@ -127,6 +137,13 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                             onClick={() => setMobileMenuOpen(false)}
                         >
                             Pricing
+                        </Link>
+                        <Link
+                            to="/blog"
+                            className={`block text-sm ${theme.textSecondary}`}
+                            onClick={() => setMobileMenuOpen(false)}
+                        >
+                            Blog
                         </Link>
                         <Link
                             to="/contact"
