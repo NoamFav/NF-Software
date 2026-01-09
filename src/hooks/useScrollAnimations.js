@@ -3,12 +3,14 @@
 // ============================================================================
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useDarkMode } from "./useDarkMode";
 
 export const useScrollAnimations = () => {
     const location = useLocation();
+    const { darkMode } = useDarkMode();
 
     useEffect(() => {
-        // Small delay to ensure DOM is updated after route change
+        // Small delay to ensure DOM is updated after route change or theme change
         const timeoutId = setTimeout(() => {
             const els = document.querySelectorAll("[data-animate]");
             if (!els.length) return;
@@ -35,5 +37,5 @@ export const useScrollAnimations = () => {
         }, 50);
 
         return () => clearTimeout(timeoutId);
-    }, [location.pathname]); // Re-run when route changes
+    }, [location.pathname, darkMode]); // Re-run when route changes OR theme changes
 };
