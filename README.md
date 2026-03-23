@@ -1,12 +1,47 @@
-# React + Vite
+# 💻 NF-Software
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+<img src="https://img.shields.io/badge/react-18+-61DAFB.svg?style=for-the-badge&logo=react" alt="React">
+<img src="https://img.shields.io/badge/vite-5+-646CFF.svg?style=for-the-badge&logo=vite" alt="Vite">
+<img src="https://img.shields.io/badge/license-Private-red.svg?style=for-the-badge" alt="Private">
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**NF Software landing page and product hub**
 
-## Expanding the ESLint configuration
+[Installation](#installation) · [Development](#development)
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+</div>
+
+---
+
+The official website for NF Software — showcasing tools, products, and the NF-ToolBox ecosystem.
+
+---
+
+## Installation
+
+```bash
+npm install
+```
+
+---
+
+## Development
+
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run preview  # Preview production build
+```
+
+---
+
+## License
+
+Private — NF Software
+
+---
+
+<div align="center">
+Made with ❤️ by <a href="https://github.com/NoamFav">NoamFav</a>
+</div>
