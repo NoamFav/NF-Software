@@ -5,33 +5,25 @@ import {
     ArrowRight,
     Mail,
     Sparkles,
-    Zap,
     Lock,
     Gauge,
     Layers,
     GitBranch,
     Lightbulb,
-    Target,
-    Users,
-    Telescope,
-    Wrench,
-    Package,
+    Code,
+    Rocket,
     Star,
-    CheckCircle,
-    ExternalLink,
+    Package,
 } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
-import { stats, timeline, principles, process } from "../data/siteData";
+import { stats, timeline, principles } from "../data/siteData";
 
 const About = () => {
     const { darkMode } = useDarkMode();
     const theme = getTheme(darkMode);
-
-    const RIGHT_SLASH = "polygon(60% 0, 100% 0, 100% 100%, 50% 100%)";
-    const LEFT_BACKSL = "polygon(0 0, 40% 0, 50% 100%, 0 100%)";
 
     const iconMap = {
         "Privacy by Default": Lock,
@@ -39,61 +31,43 @@ const About = () => {
         "Craft Over Scale": Layers,
         "Open by Design": GitBranch,
         "AI as Augmentation": Lightbulb,
-        Research: Telescope,
-        Prototype: Wrench,
-        "Performance Pass": Zap,
-        Polish: Sparkles,
     };
 
-    const principlesWithIcons = principles.map((p) => ({
-        ...p,
-        icon: iconMap[p.title],
-    }));
-
-    const processWithIcons = process.map((p) => ({
-        ...p,
-        icon: iconMap[p.title],
-    }));
+    const statsIcons = [Code, Star, Rocket, Sparkles];
 
     return (
         <>
-            {/* Hero Section */}
-            <section
-                id="hero"
-                className="relative min-h-screen flex items-center justify-center px-6 pt-20"
-            >
-                <div className="absolute inset-0 overflow-hidden">
+            {/* ── Hero ─────────────────────────────────────────────── */}
+            <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div
                         className="absolute inset-0 opacity-30"
                         style={{
-                            backgroundImage: `radial-gradient(circle at 50% 50%, ${darkMode ? "rgba(99, 102, 241, 0.15)" : "rgba(99, 102, 241, 0.08)"}, transparent 50%)`,
+                            backgroundImage: `radial-gradient(circle at 50% 40%, ${darkMode ? "rgba(99,102,241,.15)" : "rgba(99,102,241,.08)"}, transparent 55%)`,
                         }}
                     />
                     <div
-                        className={`absolute top-1/4 left-1/4 w-96 h-96 ${theme.blobBlue} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob`}
+                        className={`absolute top-1/4 left-1/4 w-80 h-80 ${theme.blobBlue} rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob`}
                     />
                     <div
-                        className={`absolute top-1/3 right-1/4 w-96 h-96 ${theme.blobPurple} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000`}
-                    />
-                    <div
-                        className={`absolute bottom-1/4 left-1/2 w-96 h-96 ${theme.blobPink} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000 `}
+                        className={`absolute top-1/3 right-1/4 w-80 h-80 ${theme.blobPurple} rounded-full mix-blend-multiply filter blur-3xl opacity-15 animate-blob animation-delay-2000`}
                     />
                 </div>
 
-                <div className="max-w-5xl mx-auto text-center space-y-8 relative z-10">
+                <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
                     <div
-                        className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border ${theme.blobBlue}/20 mb-6 animate-fade-in`}
+                        className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border ${theme.blobBlue}/20 animate-fade-in`}
                     >
                         <Sparkles
                             className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                         />
                         <span className="text-sm font-medium">
-                            Building Since 2023
+                            NF Software Studio · Est. 2023
                         </span>
                     </div>
 
                     <h1
-                        className={`text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight ${theme.text} animate-fade-in-up`}
+                        className={`text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight ${theme.text} animate-fade-in-up`}
                     >
                         Craft meets
                         <br />
@@ -105,492 +79,202 @@ const About = () => {
                     </h1>
 
                     <p
-                        className={`text-xl md:text-2xl ${theme.textSecondary} max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200`}
+                        className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200`}
                     >
-                        NF Software is an independent software studio focused on
-                        building developer tools that respect your privacy,
-                        optimize for speed, and feel intentional to use.
+                        Independent software studio focused on developer tools,
+                        open source, and custom software built for speed and
+                        clarity.
                     </p>
 
-                    <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
+                    <div className="flex flex-wrap gap-4 justify-center pt-4 animate-fade-in-up animation-delay-400">
                         <Link
                             to="/products"
-                            className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
+                            className={`inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-105`}
                         >
                             Explore Products
-                            <ArrowRight className="w-5 h-5" />
+                            <ArrowRight className="w-4 h-4" />
                         </Link>
                         <a
                             href="https://github.com/NoamFav"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`inline-flex items-center gap-2 px-8 py-4 ${theme.bgButton} border ${theme.borderButton} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
+                            className={`inline-flex items-center gap-2 px-6 py-3 ${theme.bgButton} border ${theme.borderButton} font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
                         >
-                            <SiGithub className="w-5 h-5" />
-                            View on GitHub
+                            <SiGithub className="w-4 h-4" />
+                            GitHub
                         </a>
                     </div>
                 </div>
+            </section>
 
-                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-                    <div
-                        className={`w-6 h-10 rounded-full border-2 ${theme.border} flex items-start justify-center p-2`}
-                    >
-                        <div
-                            className={`w-1.5 h-1.5 ${theme.bgPrimary} rounded-full animate-pulse`}
-                        />
-                    </div>
-                </div>
-            </section>
-            {/* Mission Section */}
-            <section id="mission" data-animate className="relative py-32 px-6">
-                <div className="max-w-4xl mx-auto text-center space-y-8">
-                    <h2
-                        className={`text-4xl md:text-5xl font-bold ${theme.text}`}
-                    >
-                        We build tools that matter
-                    </h2>
-                    <p
-                        className={`text-lg md:text-xl ${theme.textSecondary} leading-relaxed`}
-                    >
-                        Since 2023, the goal has been simple: create software
-                        that is fast, minimal, and grounded in real use — no
-                        tracking, no bloat, no unnecessary complexity.
-                    </p>
-                    <p
-                        className={`text-lg md:text-xl ${theme.textSecondary} leading-relaxed`}
-                    >
-                        Our tools run locally when possible, prioritize
-                        performance, and use AI as augmentation, not
-                        replacement. Software should feel invisible until the
-                        moment you need it — then become indispensable.
-                    </p>
-                </div>
-            </section>
-            {/* Stats Section */}
-            <section data-animate className="relative py-20 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {stats.map((stat, index) => (
-                            <div
-                                key={stat.label}
-                                className={`${theme.cardBg} rounded-2xl p-8 text-center border ${theme.border} hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
-                                style={{ animationDelay: `${index * 100}ms` }}
-                            >
-                                <div
-                                    className={`text-4xl font-bold ${theme.text} mb-2`}
-                                >
-                                    {stat.value}
-                                </div>
-                                <div
-                                    className={`text-sm ${theme.textSecondary}`}
-                                >
-                                    {stat.label}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            {/* Principles Section with Angled Background */}
-            <section
-                id="principles"
-                data-animate
-                className="relative min-h-screen flex items-center py-32 px-6"
-            >
-                <div className="absolute inset-0 pointer-events-none">
-                    <div
-                        className="absolute inset-0"
-                        style={{ clipPath: RIGHT_SLASH }}
-                    >
-                        <img
-                            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80"
-                            alt=""
-                            aria-hidden="true"
-                            decoding="async"
-                            loading="lazy"
-                            sizes="(min-width: 1024px) 100vw, 100vw"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    </div>
-                </div>
-
-                <div className="max-w-7xl mx-auto relative z-10">
-                    <div className="text-center space-y-6 mb-20">
-                        <h2
-                            className={`text-5xl md:text-6xl font-bold ${theme.text}`}
-                        >
-                            What We Believe
+            {/* ── About + Stats ────────────────────────────────────── */}
+            <section className="relative py-20 px-6">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    {/* About text */}
+                    <div className="space-y-5">
+                        <h2 className={`text-3xl font-bold ${theme.text}`}>
+                            About the studio
                         </h2>
-                        <p
-                            className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
-                        >
-                            Five principles that shape how we build software and
-                            how it should feel to use.
+                        <p className={`${theme.textSecondary} leading-relaxed`}>
+                            I'm Noam — a solo developer building NF Software as
+                            an independent studio. I started in 2023 with a
+                            simple goal: build the tools I actually want to use.
+                            Fast, minimal, privacy-first, no tracking.
                         </p>
+                        <p className={`${theme.textSecondary} leading-relaxed`}>
+                            NF Dev Suite and NF Sys Suite are fully open source
+                            under Apache 2.0 — use them, fork them, contribute.
+                            Iris Suite stays premium because local AI
+                            infrastructure takes real work to maintain. NF Lab
+                            apps are on the App Store with one-time purchases.
+                        </p>
+                        <p className={`${theme.textSecondary} leading-relaxed`}>
+                            Alongside the products, I take on custom software
+                            projects — CLI tools, automation pipelines, mobile
+                            apps, developer tooling. I'm registering as an
+                            auto-entrepreneur in France to formalize the studio
+                            side of things.
+                        </p>
+                        <div className="flex flex-wrap gap-2 pt-2">
+                            {["Go", "Rust", "Swift", "Lua", "TypeScript", "C", "Python"].map(
+                                (lang) => (
+                                    <span
+                                        key={lang}
+                                        className={`px-3 py-1 text-sm rounded-lg ${theme.bgButton} border ${theme.borderButton} ${theme.textSecondary}`}
+                                    >
+                                        {lang}
+                                    </span>
+                                ),
+                            )}
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {principlesWithIcons.map((principle, index) => (
-                            <div
-                                key={principle.title}
-                                className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
-                                style={{ animationDelay: `${index * 100}ms` }}
-                            >
-                                <principle.icon className="w-12 h-12 text-blue-500 mb-4" />
-                                <h3
-                                    className={`text-xl font-bold ${theme.text} mb-3`}
+                    {/* Stats */}
+                    <div className="grid grid-cols-2 gap-4">
+                        {stats.map((stat, i) => {
+                            const Icon = statsIcons[i] ?? Sparkles;
+                            return (
+                                <div
+                                    key={stat.label}
+                                    className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-blue-500/40 transition-all duration-300`}
                                 >
-                                    {principle.title}
-                                </h3>
-                                <p
-                                    className={`${theme.textSecondary} leading-relaxed`}
-                                >
-                                    {principle.description}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-            {/* Process Section */}
-            <section id="process" data-animate className="relative py-32 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center space-y-6 mb-20">
-                        <h2
-                            className={`text-5xl md:text-6xl font-bold ${theme.text}`}
-                        >
-                            How We Build
-                        </h2>
-                        <p
-                            className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
-                        >
-                            The process is simple: understand the problem
-                            deeply, build with intention, and refine until it
-                            feels right. Every release is measured, tested, and
-                            tuned for performance.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {processWithIcons.map((step, index) => (
-                            <div
-                                key={step.title}
-                                className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-purple-500/50 transition-all duration-300`}
-                                style={{ animationDelay: `${index * 100}ms` }}
-                            >
-                                <div className="flex items-center gap-3 mb-4">
+                                    <Icon className="w-8 h-8 text-blue-500 mb-3" />
                                     <div
-                                        className={`w-10 h-10 rounded-full bg-gradient-to-r ${theme.gradientSecondary} flex items-center justify-center flex-shrink-0`}
+                                        className={`text-3xl font-bold ${theme.text} mb-1`}
                                     >
-                                        <step.icon className="w-5 h-5 text-white" />
+                                        {stat.value}
                                     </div>
-                                    <h3
-                                        className={`text-lg font-bold ${theme.text}`}
+                                    <div
+                                        className={`text-sm ${theme.textSecondary}`}
                                     >
-                                        {step.title}
-                                    </h3>
+                                        {stat.label}
+                                    </div>
                                 </div>
-                                <p
-                                    className={`text-sm ${theme.textSecondary} leading-relaxed`}
-                                >
-                                    {step.description}
-                                </p>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                 </div>
             </section>
-            {/* Timeline Section with Angled Background */}
-            <section
-                id="timeline"
-                data-animate
-                className="relative min-h-screen flex items-center py-32 px-6"
-            >
-                <div className="absolute inset-0 pointer-events-none">
-                    <div
-                        className="absolute inset-0"
-                        style={{ clipPath: LEFT_BACKSL }}
-                    >
-                        <img
-                            src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&q=80"
-                            alt=""
-                            aria-hidden="true"
-                            decoding="async"
-                            loading="lazy"
-                            sizes="(min-width: 1024px) 100vw, 100vw"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    </div>
-                </div>
 
-                <div className="max-w-5xl mx-auto relative z-10">
-                    <div className="text-center space-y-6 mb-20">
-                        <h2
-                            className={`text-5xl md:text-6xl font-bold ${theme.text}`}
-                        >
-                            The Journey
+            {/* ── Principles ───────────────────────────────────────── */}
+            <section className="relative py-20 px-6">
+                <div className="max-w-6xl mx-auto">
+                    <div className="mb-10">
+                        <h2 className={`text-3xl font-bold ${theme.text} mb-2`}>
+                            What I believe
                         </h2>
-                        <p
-                            className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
-                        >
-                            2 years of building, learning, and growing with our
-                            community.
+                        <p className={`${theme.textSecondary}`}>
+                            Five principles that shape how I build and what I
+                            ship.
                         </p>
                     </div>
 
-                    <div className="space-y-8">
-                        {timeline.map((milestone, index) => (
-                            <div
-                                key={milestone.year}
-                                className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-blue-500/50 transition-all duration-300 transform hover:translate-x-2`}
-                                style={{ animationDelay: `${index * 100}ms` }}
-                            >
-                                <div className="flex flex-col md:flex-row md:items-center gap-6">
-                                    <div className="flex-shrink-0">
-                                        <div
-                                            className={`w-20 h-20 rounded-full bg-gradient-to-r ${theme.gradientPrimary} flex items-center justify-center`}
-                                        >
-                                            <span className="text-white font-bold text-lg">
-                                                {milestone.year}
-                                            </span>
-                                        </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {principles.map((principle) => {
+                            const Icon = iconMap[principle.title] ?? Sparkles;
+                            return (
+                                <div
+                                    key={principle.title}
+                                    className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-blue-500/40 transition-all duration-300`}
+                                >
+                                    <Icon className="w-8 h-8 text-blue-500 mb-3" />
+                                    <h3
+                                        className={`font-bold ${theme.text} mb-2`}
+                                    >
+                                        {principle.title}
+                                    </h3>
+                                    <p
+                                        className={`text-sm ${theme.textSecondary} leading-relaxed`}
+                                    >
+                                        {principle.description}
+                                    </p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Timeline ─────────────────────────────────────────── */}
+            <section className="relative py-20 px-6">
+                <div className="max-w-3xl mx-auto">
+                    <div className="mb-10">
+                        <h2 className={`text-3xl font-bold ${theme.text} mb-2`}>
+                            The story so far
+                        </h2>
+                        <p className={`${theme.textSecondary}`}>
+                            Two years of building, shipping, and learning in
+                            public.
+                        </p>
+                    </div>
+
+                    <div className="relative">
+                        {/* Vertical line */}
+                        <div
+                            className={`absolute left-[22px] top-0 bottom-0 w-px ${theme.border} border-l`}
+                        />
+
+                        <div className="space-y-6">
+                            {timeline.map((milestone, index) => (
+                                <div
+                                    key={`${milestone.year}-${index}`}
+                                    className="relative flex gap-6 pl-12"
+                                >
+                                    {/* Dot */}
+                                    <div
+                                        className={`absolute left-0 w-11 h-11 rounded-full bg-gradient-to-r ${theme.gradientPrimary} flex items-center justify-center flex-shrink-0 text-white text-xs font-bold`}
+                                    >
+                                        {milestone.year.slice(2)}
                                     </div>
-                                    <div className="flex-1">
+
+                                    <div
+                                        className={`${theme.cardBg} rounded-xl p-5 border ${theme.border} flex-1 hover:border-blue-500/40 transition-all duration-300`}
+                                    >
                                         <h3
-                                            className={`text-2xl font-bold ${theme.text} mb-2`}
+                                            className={`font-bold ${theme.text} mb-1`}
                                         >
                                             {milestone.title}
                                         </h3>
                                         <p
-                                            className={`${theme.textSecondary} leading-relaxed`}
+                                            className={`text-sm ${theme.textSecondary} leading-relaxed`}
                                         >
                                             {milestone.description}
                                         </p>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
-            {/*
-            {/* Team Section */}
-            <section id="team" data-animate className="relative py-32 px-6">
-                <div className="max-w-5xl mx-auto">
-                    <div className="text-center space-y-6 mb-20">
-                        <h2
-                            className={`text-5xl md:text-6xl font-bold ${theme.text}`}
-                        >
-                            How this studio works
-                        </h2>
-                        <p
-                            className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
-                        >
-                            NF Software is a one-person studio. I lead
-                            engineering, product, and design; collaborators join
-                            on specific projects when it helps the work. The bar
-                            is performance, clarity, and respect for the user.
-                        </p>
-                    </div>
 
+            {/* ── CTA ──────────────────────────────────────────────── */}
+            <section className="relative py-24 px-6">
+                <div className="max-w-4xl mx-auto">
                     <div
-                        className={`${theme.cardBg} rounded-2xl p-12 border ${theme.border} space-y-6`}
+                        className={`${theme.cardBg} rounded-3xl p-10 md:p-16 text-center space-y-6 border ${theme.border} relative overflow-hidden`}
                     >
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            <div className="text-center">
-                                <Users className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-                                <h3
-                                    className={`text-lg font-bold ${theme.text} mb-2`}
-                                >
-                                    Engineering
-                                </h3>
-                                <p className={`text-sm ${theme.textSecondary}`}>
-                                    Performance first. Measure, profile, and
-                                    keep strict latency budgets. Ship fast, keep
-                                    it lean, no regressions.
-                                </p>
-                            </div>
-                            <div className="text-center">
-                                <Target className="w-12 h-12 text-purple-500 mx-auto mb-4" />
-                                <h3
-                                    className={`text-lg font-bold ${theme.text} mb-2`}
-                                >
-                                    Product
-                                </h3>
-                                <p className={`text-sm ${theme.textSecondary}`}>
-                                    Solve real problems with small, focused
-                                    tools. Ship the minimum that matters,
-                                    iterate with real usage.
-                                </p>
-                            </div>
-                            <div className="text-center">
-                                <Sparkles className="w-12 h-12 text-pink-500 mx-auto mb-4" />
-                                <h3
-                                    className={`text-lg font-bold ${theme.text} mb-2`}
-                                >
-                                    Design
-                                </h3>
-                                <p className={`text-sm ${theme.textSecondary}`}>
-                                    Interfaces that disappear until you need
-                                    them. Motion only when it improves clarity.
-                                    Accessible by default.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className={`pt-8 border-t ${theme.border}`}>
-                            <p
-                                className={`text-center ${theme.textSecondary} leading-relaxed`}
-                            >
-                                I build in public and use what I ship. When a
-                                project needs extra hands, I bring in trusted
-                                collaborators.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Open Source Section */}
-            <section
-                id="opensource"
-                data-animate
-                className="relative py-32 px-6"
-            >
-                <div className="max-w-5xl mx-auto">
-                    <div className="text-center space-y-6 mb-20">
-                        <h2
-                            className={`text-5xl md:text-6xl font-bold ${theme.text}`}
-                        >
-                            Open Source at Our Core
-                        </h2>
-                        <p
-                            className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
-                        >
-                            Transparency builds trust. A large part of NF
-                            Software is developed in public, where ideas,
-                            experiments, and improvements are shared openly.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                        <div
-                            className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-blue-500/50 transition-all duration-300`}
-                        >
-                            <Package className="w-12 h-12 text-blue-500 mb-4" />
-                            <h3
-                                className={`text-2xl font-bold ${theme.text} mb-4`}
-                            >
-                                Built in Public
-                            </h3>
-                            <p
-                                className={`${theme.textSecondary} mb-6 leading-relaxed`}
-                            >
-                                From system monitoring tools to AI-assisted Git
-                                workflows, our projects are available for anyone
-                                to explore, learn from, and contribute to.
-                            </p>
-                            <div className="flex flex-wrap gap-2">
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    Rust
-                                </span>
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    Go
-                                </span>
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    React
-                                </span>
-
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    Lua
-                                </span>
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    Java
-                                </span>
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    Python
-                                </span>
-                                <span
-                                    className={`px-3 py-1 ${theme.bgButton} rounded-lg text-sm ${theme.textSecondary}`}
-                                >
-                                    ...
-                                </span>
-                            </div>
-                        </div>
-
-                        <div
-                            className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-purple-500/50 transition-all duration-300`}
-                        >
-                            <Star className="w-12 h-12 text-yellow-500 mb-4" />
-                            <h3
-                                className={`text-2xl font-bold ${theme.text} mb-4`}
-                            >
-                                Growing Community
-                            </h3>
-                            <p
-                                className={`${theme.textSecondary} mb-6 leading-relaxed`}
-                            >
-                                Development is driven by real usage and feedback
-                                from developers who care about privacy,
-                                performance, and craft.
-                            </p>
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle className="w-5 h-5 text-green-500" />
-                                    <span
-                                        className={`text-sm ${theme.textSecondary}`}
-                                    >
-                                        Active development
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle className="w-5 h-5 text-green-500" />
-                                    <span
-                                        className={`text-sm ${theme.textSecondary}`}
-                                    >
-                                        Regular updates
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="text-center">
-                        <a
-                            href="https://github.com/NoamFav"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
-                        >
-                            <SiGithub className="w-5 h-5" />
-                            Explore on GitHub
-                            <ExternalLink className="w-4 h-4" />
-                        </a>
-                    </div>
-                </div>
-            </section>
-            {/* CTA Section */}
-            <section id="cta" data-animate className="relative py-32 px-6">
-                <div className="max-w-5xl mx-auto">
-                    <div
-                        className={`${theme.cardBg} rounded-3xl p-12 md:p-20 text-center space-y-8 border ${theme.border} relative overflow-hidden`}
-                    >
-                        <div className="absolute inset-0 opacity-10">
+                        <div className="absolute inset-0 opacity-10 pointer-events-none">
                             <div
                                 className="absolute inset-0"
                                 style={{
@@ -601,37 +285,25 @@ const About = () => {
                         </div>
 
                         <div className="relative z-10">
-                            <div
-                                className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border border-blue-500/20 mb-6`}
-                            >
-                                <Sparkles className="w-4 h-4 text-blue-500" />
-                                <span className="text-sm font-medium">
-                                    Let's Connect
-                                </span>
-                            </div>
-
                             <h2
-                                className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
+                                className={`text-3xl md:text-5xl font-bold ${theme.text} mb-4`}
                             >
-                                Want to build something together?
+                                Want to build something?
                             </h2>
-
                             <p
-                                className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto mb-8`}
+                                className={`${theme.textSecondary} max-w-xl mx-auto mb-8`}
                             >
-                                Whether you're interested in collaborating,
-                                contributing to our open source projects, or
-                                just want to say hello—I'd love to hear from
-                                you.
+                                I take on custom projects and love hearing about
+                                interesting problems. Drop me a line.
                             </p>
 
                             <div className="flex flex-wrap gap-4 justify-center">
                                 <Link
                                     to="/contact"
-                                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
+                                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/40 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Mail className="w-5 h-5" />
-                                    Start Your Project
+                                    Get in Touch
                                 </Link>
                                 <Link
                                     to="/products"
@@ -639,27 +311,25 @@ const About = () => {
                                 >
                                     <Package className="w-5 h-5" />
                                     Explore Products
-                                    <ArrowRight className="w-4 h-4" />
                                 </Link>
                             </div>
 
-                            <div className="flex flex-wrap items-center justify-center gap-6 pt-12">
+                            <div className="flex items-center justify-center gap-6 pt-8">
                                 <a
                                     href="https://github.com/NoamFav"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
-                                    aria-label="GitHub"
+                                    className={`flex items-center gap-2 text-sm ${theme.textSecondary} hover:${theme.text} transition`}
                                 >
-                                    <SiGithub className="w-5 h-5" />
-                                    <span className="text-sm">GitHub</span>
+                                    <SiGithub className="w-4 h-4" />
+                                    GitHub
                                 </a>
                                 <a
                                     href="mailto:contact@nf-software.com"
-                                    className={`flex items-center gap-2 ${theme.textSecondary} hover:${theme.text} transition`}
+                                    className={`flex items-center gap-2 text-sm ${theme.textSecondary} hover:${theme.text} transition`}
                                 >
-                                    <Mail className="w-5 h-5" />
-                                    <span className="text-sm">Email</span>
+                                    <Mail className="w-4 h-4" />
+                                    contact@nf-software.com
                                 </a>
                             </div>
                         </div>
