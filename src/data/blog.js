@@ -558,7 +558,7 @@ Can't fix what you can't reproduce. Try to match production:
 - Production data (sanitized if needed)
 - Same environment variables
 
-I had a Zvezda bug that only triggered when the Git config had `core.autocrlf=true`. Local repro was impossible until I actually looked at the user's Git config.
+I had a Zvezda bug that only triggered when the Git config had \`core.autocrlf=true\`. Local repro was impossible until I actually looked at the user's Git config.
 
 ## Instrumentation When You're Blind
 

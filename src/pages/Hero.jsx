@@ -4,19 +4,17 @@
 import React from "react";
 import {
     ArrowRight,
-    Mail,
     Sparkles,
     Zap,
     Shield,
     Target,
     CheckCircle,
     Star,
-    Award,
     Rocket,
-    Download,
     Code,
     Users,
     ChevronRight,
+    Mail,
 } from "lucide-react";
 import { SiGithub, SiInstagram } from "@icons-pack/react-simple-icons";
 import { FaLinkedin } from "react-icons/fa";
@@ -43,9 +41,9 @@ const Hero = () => {
     }, []);
 
     const stats = [
-        { label: "Projects Delivered", value: "10+", icon: Rocket },
-        { label: "Lines of Code", value: "100K+", icon: Code },
-        { label: "Active Users", value: "20+", icon: Users },
+        { label: "Open Source Tools", value: "10+", icon: Code },
+        { label: "Lines of Code", value: "100K+", icon: Rocket },
+        { label: "Custom Projects", value: "10+", icon: Users },
         { label: "GitHub Stars", value: "20+", icon: Star },
     ];
 
@@ -82,7 +80,7 @@ const Hero = () => {
                             className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                         />
                         <span className="text-sm font-medium">
-                            Innovating Software Solutions Since 2023
+                            NF Software Studio · Open Source & Custom Work
                         </span>
                     </div>
 
@@ -101,35 +99,33 @@ const Hero = () => {
                     <p
                         className={`text-xl md:text-2xl ${theme.textSecondary} max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200`}
                     >
-                        Custom tooling, automation systems, and local-first
-                        workflows — built for developers, teams, and research
-                        groups who care about quality.
+                        Open source tools, automation systems, and custom
+                        software — built for developers and teams who value
+                        craft, speed, and privacy.
                     </p>
 
                     <div className="flex flex-wrap gap-4 justify-center pt-8 animate-fade-in-up animation-delay-400">
                         <Link
-                            to="/products"
+                            to="/contact"
                             className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                         >
-                            Explore Products
+                            Work With Us
                             <ArrowRight className="w-5 h-5" />
                         </Link>
-                        <a
-                            href="https://github.com/NoamFav"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                        <Link
+                            to="/products"
                             className={`inline-flex items-center gap-2 px-8 py-4 ${theme.bgButton} border ${theme.borderButton} border font-semibold rounded-full hover:border-gray-400 transition-all duration-300 transform hover:scale-105`}
                         >
                             <SiGithub className="w-5 h-5" />
-                            View on GitHub
-                        </a>
+                            Open Source Tools
+                        </Link>
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center gap-8 pt-12 animate-fade-in animation-delay-600">
                         <div className="flex items-center gap-2">
                             <CheckCircle className="w-5 h-5 text-green-500" />
                             <span className={`text-sm ${theme.textSecondary}`}>
-                                Trusted by 10+ teams
+                                Apache 2.0 Licensed
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -139,9 +135,9 @@ const Hero = () => {
                             </span>
                         </div>
                         <div className="flex items-center gap-2">
-                            <Award className="w-5 h-5 text-blue-500" />
+                            <Rocket className="w-5 h-5 text-blue-500" />
                             <span className={`text-sm ${theme.textSecondary}`}>
-                                Award-winning design
+                                10+ projects delivered
                             </span>
                         </div>
                     </div>
@@ -553,15 +549,15 @@ const Hero = () => {
                             <h2
                                 className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
                             >
-                                Ready to innovate?
+                                Have a project in mind?
                             </h2>
 
                             <p
                                 className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto mb-8`}
                             >
-                                Let's collaborate on building exceptional
-                                software solutions that push boundaries and
-                                create lasting impact.
+                                NF Software takes on custom CLI tools, automation
+                                pipelines, developer tooling, and mobile apps.
+                                Tell us what you need.
                             </p>
 
                             <div className="flex flex-wrap gap-4 justify-center">
@@ -570,7 +566,7 @@ const Hero = () => {
                                     className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <Mail className="w-5 h-5" />
-                                    Start Your Project
+                                    Start a Project
                                 </Link>
                                 <a
                                     href="https://github.com/NoamFav"
@@ -579,7 +575,7 @@ const Hero = () => {
                                     className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
                                 >
                                     <SiGithub className="w-5 h-5" />
-                                    Explore Projects
+                                    Browse Open Source
                                 </a>
                             </div>
 

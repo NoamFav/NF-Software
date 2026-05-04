@@ -13,8 +13,10 @@ import {
     Brain,
     GraduationCap,
     FolderTree,
+    Smartphone,
 } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
+import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
 import { suites, standaloneTools } from "../data/products";
@@ -229,58 +231,75 @@ const Products = () => {
                                             </div>
                                         </div>
                                         <div
-                                            className={`${theme.bg} rounded-2xl p-6 border ${theme.border} min-w-[280px]`}
+                                            className={`${theme.bg} rounded-2xl p-6 border ${theme.border} min-w-[260px]`}
                                         >
-                                            <div className="space-y-4">
-                                                <div>
-                                                    <div
-                                                        className={`text-sm ${theme.textTertiary} mb-1`}
-                                                    >
-                                                        Individual (Annual)
+                                            {suite.openSource ? (
+                                                <div className="space-y-4">
+                                                    <div>
+                                                        <div className={`text-sm ${theme.textTertiary} mb-1`}>License</div>
+                                                        <div className={`text-3xl font-bold text-green-500`}>Free</div>
+                                                        <div className={`text-sm ${theme.textSecondary} mt-1`}>Apache 2.0 · forever</div>
                                                     </div>
-                                                    <div
-                                                        className={`text-3xl font-bold ${theme.text}`}
+                                                    <a
+                                                        href="https://github.com/NoamFav"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
                                                     >
-                                                        {fmt(
-                                                            suite.plans
-                                                                ?.individual
-                                                                .annual,
-                                                        )}
-                                                        /yr
-                                                    </div>
+                                                        <SiGithub className="w-4 h-4" />
+                                                        View on GitHub
+                                                    </a>
                                                 </div>
-                                                <div>
-                                                    <div
-                                                        className={`text-sm ${theme.textTertiary} mb-1`}
-                                                    >
-                                                        One-Time License
+                                            ) : suite.iap ? (
+                                                <div className="space-y-4">
+                                                    <div>
+                                                        <div className={`text-sm ${theme.textTertiary} mb-1`}>Pricing model</div>
+                                                        <div className={`text-xl font-bold ${theme.text}`}>In-App Purchase</div>
+                                                        <div className={`text-sm ${theme.textSecondary} mt-1`}>per app · you own it</div>
                                                     </div>
-                                                    <div
-                                                        className={`text-2xl font-bold ${theme.text}`}
-                                                    >
-                                                        {fmt(
-                                                            suite.plans
-                                                                ?.individual
-                                                                .oneTime,
-                                                        )}
+                                                    <div className="space-y-1">
+                                                        {suite.tools.map((tool) => (
+                                                            <div key={tool.name} className="flex justify-between text-sm">
+                                                                <span className={theme.textSecondary}>{tool.name}</span>
+                                                                <span className={`font-semibold ${theme.text}`}>€{tool.plan?.oneTime}</span>
+                                                            </div>
+                                                        ))}
                                                     </div>
+                                                    <Link
+                                                        to="/pricing"
+                                                        className={`block text-center text-sm ${theme.textSecondary} hover:${theme.text} transition`}
+                                                    >
+                                                        View pricing details →
+                                                    </Link>
                                                 </div>
-                                                <button
-                                                    onClick={() => {
-                                                        const message = `Checkout coming soon!\n\nInterested in ${suite.name}?\nContact us at contact@nf-software.com`;
-                                                        alert(message);
-                                                    }}
-                                                    className={`w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
-                                                >
-                                                    Get Suite
-                                                </button>
-                                                <a
-                                                    href="#/pricing"
-                                                    className={`block text-center text-sm ${theme.textSecondary} hover:${theme.text} transition`}
-                                                >
-                                                    View all pricing options →
-                                                </a>
-                                            </div>
+                                            ) : (
+                                                <div className="space-y-4">
+                                                    <div>
+                                                        <div className={`text-sm ${theme.textTertiary} mb-1`}>Individual (Annual)</div>
+                                                        <div className={`text-3xl font-bold ${theme.text}`}>
+                                                            {fmt(suite.plans?.individual.annual)}/yr
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div className={`text-sm ${theme.textTertiary} mb-1`}>One-Time License</div>
+                                                        <div className={`text-2xl font-bold ${theme.text}`}>
+                                                            {fmt(suite.plans?.individual.oneTime)}
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => alert(`Checkout coming soon!\n\nInterested in ${suite.name}?\nContact us at contact@nf-software.com`)}
+                                                        className={`w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
+                                                    >
+                                                        Get Suite
+                                                    </button>
+                                                    <Link
+                                                        to="/pricing"
+                                                        className={`block text-center text-sm ${theme.textSecondary} hover:${theme.text} transition`}
+                                                    >
+                                                        View all pricing options →
+                                                    </Link>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -355,79 +374,62 @@ const Products = () => {
                                                     )}
                                                 </div>
 
-                                                <div
-                                                    className={`pt-4 border-t ${theme.border} space-y-2`}
-                                                >
-                                                    <div className="flex justify-between text-sm">
-                                                        <span
-                                                            className={
-                                                                theme.textSecondary
-                                                            }
+                                                {tool.openSource ? (
+                                                    <div className={`pt-4 border-t ${theme.border} space-y-3`}>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className="px-2 py-1 rounded-full text-xs font-semibold bg-green-500/15 text-green-500 border border-green-500/30">
+                                                                Free · Apache 2.0
+                                                            </span>
+                                                        </div>
+                                                        <a
+                                                            href={`https://github.com/NoamFav/${tool.slug}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className={`flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-lg hover:shadow-lg transition`}
                                                         >
-                                                            Annual
-                                                        </span>
-                                                        <span
-                                                            className={`font-semibold ${theme.text}`}
-                                                        >
-                                                            {fmt(
-                                                                tool.plan
-                                                                    ?.annual,
-                                                            )}
-                                                            /yr
-                                                        </span>
+                                                            <SiGithub className="w-4 h-4" />
+                                                            View on GitHub
+                                                        </a>
                                                     </div>
-                                                    <div className="flex justify-between text-sm">
-                                                        <span
-                                                            className={
-                                                                theme.textSecondary
-                                                            }
-                                                        >
-                                                            One-Time
-                                                        </span>
-                                                        <span
-                                                            className={`font-semibold ${theme.text}`}
-                                                        >
-                                                            {fmt(
-                                                                tool.plan
-                                                                    ?.oneTime,
-                                                            )}
-                                                        </span>
+                                                ) : tool.iap ? (
+                                                    <div className={`pt-4 border-t ${theme.border} space-y-3`}>
+                                                        <div className="flex items-center justify-between">
+                                                            <span className={`text-sm ${theme.textSecondary}`}>In-App Purchase</span>
+                                                            <span className={`text-xl font-bold ${theme.text}`}>€{tool.plan?.oneTime}</span>
+                                                        </div>
+                                                        <div className={`flex items-center gap-2 text-xs ${theme.textTertiary}`}>
+                                                            <Smartphone className="w-3 h-3" />
+                                                            Available on platform store
+                                                        </div>
                                                     </div>
-                                                </div>
-
-                                                {tool.github && (
-                                                    <a
-                                                        href="https://github.com/NoamFav"
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className={`flex items-center justify-center gap-2 px-4 py-2 ${theme.cardBg} border ${theme.border} rounded-lg text-sm font-medium hover:border-blue-500/50 transition`}
-                                                    >
-                                                        <SiGithub className="w-4 h-4" />
-                                                        View on GitHub
-                                                    </a>
+                                                ) : (
+                                                    <>
+                                                        <div className={`pt-4 border-t ${theme.border} space-y-2`}>
+                                                            <div className="flex justify-between text-sm">
+                                                                <span className={theme.textSecondary}>Annual</span>
+                                                                <span className={`font-semibold ${theme.text}`}>{fmt(tool.plan?.annual)}/yr</span>
+                                                            </div>
+                                                            <div className="flex justify-between text-sm">
+                                                                <span className={theme.textSecondary}>One-Time</span>
+                                                                <span className={`font-semibold ${theme.text}`}>{fmt(tool.plan?.oneTime)}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="grid grid-cols-2 gap-2 pt-2">
+                                                            <button
+                                                                onClick={() => alert("Checkout not yet supported. Please contact us at contact@nf-software.com")}
+                                                                className={`text-center px-4 py-2.5 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
+                                                            >
+                                                                Subscribe
+                                                            </button>
+                                                            <button
+                                                                onClick={() => alert("Checkout not yet supported. Please contact us at contact@nf-software.com")}
+                                                                className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} font-semibold rounded-lg hover:border-blue-500/50 hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
+                                                            >
+                                                                Buy Once
+                                                            </button>
+                                                        </div>
+                                                    </>
                                                 )}
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-2 pt-2">
-                                                <button
-                                                    onClick={() =>
-                                                        alert(
-                                                            "Checkout not yet supported. Please contact us at contact@nf-software.com for purchasing inquiries.",
-                                                        )
-                                                    }
-                                                    className={`text-center px-4 py-2.5 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-lg hover:shadow-lg hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
-                                                >
-                                                    Subscribe
-                                                </button>
-                                                <button
-                                                    onClick={() =>
-                                                        alert(
-                                                            "Checkout not yet supported. Please contact us at contact@nf-software.com for purchasing inquiries.",
-                                                        )
-                                                    }
-                                                    className={`text-center px-4 py-2.5 ${theme.cardBg} border ${theme.border} font-semibold rounded-lg hover:border-blue-500/50 hover:scale-[1.02] transition-all duration-300 cursor-pointer`}
-                                                >
-                                                    Buy Once
-                                                </button>
                                             </div>
                                         </div>
                                     ))}

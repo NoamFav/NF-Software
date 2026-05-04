@@ -2,9 +2,9 @@
 // FILE: src/data/siteData.js
 // ============================================================================
 export const stats = [
-    { label: "Open Source Projects", value: "10+" },
+    { label: "Open Source Tools", value: "10+" },
     { label: "GitHub Stars", value: "20+" },
-    { label: "Active Users", value: "20+" },
+    { label: "Custom Projects Delivered", value: "10+" },
     { label: "Years Building", value: "2+" },
 ];
 
@@ -59,9 +59,15 @@ export const timeline = [
     },
     {
         year: "2025",
-        title: "Building Forward",
+        title: "Going Open Source",
         description:
-            "Continued development on Zvezda, RepoOps, Sysmon-CLI, SysDash Ultra, NetViz Pro, and the Iris suite.",
+            "NF Dev Suite and NF Sys Suite moved to Apache 2.0. Building in public, accepting contributions, and shipping faster.",
+    },
+    {
+        year: "2025",
+        title: "Studio & Custom Work",
+        description:
+            "NF Software evolves into a studio. Taking on custom CLI, automation, and software projects for developers and small teams.",
     },
 ];
 

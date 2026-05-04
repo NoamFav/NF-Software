@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Code, Sun, Moon, Menu, X } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 
+
 const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
@@ -76,7 +77,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                                 : theme.textSecondary + " hover:" + theme.text
                         } transition`}
                     >
-                        Start
+                        Custom Work
                     </Link>
                     <button
                         onClick={toggleDarkMode}
@@ -89,12 +90,12 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                             <Moon className="w-4 h-4" />
                         )}
                     </button>
-                    <a
-                        href="mailto:contact@nf-software.com"
+                    <Link
+                        to="/contact"
                         className={`px-6 py-2.5 ${theme.bgPrimary} ${theme.textPrimary} rounded-full text-sm font-medium hover:opacity-90 transition transform hover:scale-105`}
                     >
-                        Contact
-                    </a>
+                        Work With Us
+                    </Link>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -150,7 +151,7 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                             className={`block text-sm ${theme.textSecondary}`}
                             onClick={() => setMobileMenuOpen(false)}
                         >
-                            Start
+                            Custom Work
                         </Link>
                         <button
                             onClick={toggleDarkMode}
@@ -163,12 +164,13 @@ const Navigation = ({ darkMode, toggleDarkMode, theme }) => {
                                 <Moon className="w-4 h-4" />
                             )}
                         </button>
-                        <a
-                            href="mailto:contact@nf-software.com"
+                        <Link
+                            to="/contact"
                             className={`block w-full text-center px-6 py-2.5 ${theme.bgPrimary} ${theme.textPrimary} rounded-full text-sm font-medium`}
+                            onClick={() => setMobileMenuOpen(false)}
                         >
-                            Contact
-                        </a>
+                            Work With Us
+                        </Link>
                     </div>
                 </div>
             )}

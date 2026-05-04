@@ -1,31 +1,35 @@
 // ============================================================================
 // FILE: src/pages/Pricing.jsx
 // ============================================================================
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import {
     Check,
     Shield,
-    Users,
-    Download,
     ArrowRight,
     Code,
     Cpu,
     Brain,
     GraduationCap,
-    FolderTree,
     Sparkles,
-    DollarSign,
-    Package,
+    Github,
+    Smartphone,
+    Wrench,
+    Terminal,
+    Zap,
+    Mail,
+    Lock,
 } from "lucide-react";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 import { Link } from "react-router-dom";
 import { useDarkMode } from "../hooks/useDarkMode";
 import { getTheme } from "../utils/theme";
-import { suites, standaloneTools } from "../data/products";
+import { suites } from "../data/products";
 
 const Pricing = () => {
     const { darkMode } = useDarkMode();
     const theme = getTheme(darkMode);
-    const [selectedPlan, setSelectedPlan] = useState("individual");
+    const [selectedIrisPlan, setSelectedIrisPlan] = useState("individual");
+
     const fmt = (n) => {
         if (n === null || n === undefined) return "—";
         if (n === 0) return "Free";
@@ -35,37 +39,51 @@ const Pricing = () => {
             maximumFractionDigits: 0,
         }).format(n);
     };
+
     const getIconComponent = (iconName) => {
-        const icons = {
-            Code: Code,
-            Cpu: Cpu,
-            Brain: Brain,
-            GraduationCap: GraduationCap,
-            FolderTree: FolderTree,
-        };
-        const IconComponent = icons[iconName];
-        return IconComponent || icons.Code;
+        const icons = { Code, Cpu, Brain, GraduationCap };
+        return icons[iconName] ?? Code;
     };
 
-    /*
-    const getCheckoutHref = (sku) =>
-        sku ? `/checkout?sku=${encodeURIComponent(sku)}` : "#";
-    const suiteSkuFor = (suite, selectedPlan) => {
-        if (selectedPlan === "individual")
-            return suite.plans?.individual?.skuAnnual;
-        if (selectedPlan === "professional")
-            return suite.plans?.professional?.sku; // annual-only
-        if (selectedPlan === "enterprise") return suite.plans?.enterprise?.sku; // annual-only
-        return null;
-    };
-    */
+    const devSuite = suites.find((s) => s.id === "dev");
+    const sysSuite = suites.find((s) => s.id === "sys");
+    const irisSuite = suites.find((s) => s.id === "iris");
+    const labSuite = suites.find((s) => s.id === "lab");
 
-    const suiteDescriptions = {
-        dev: "Developer workflow & automation",
-        sys: "System monitoring & telemetry",
-        iris: "Local-first AI tooling",
-        lab: "Experimental & learning tools",
-    };
+    const openSourceSuites = [devSuite, sysSuite].filter(Boolean);
+
+    const irisPlanOptions = [
+        { id: "individual", label: "Personal" },
+        { id: "professional", label: "Team" },
+        { id: "enterprise", label: "Organization" },
+    ];
+
+    const customServices = [
+        {
+            icon: Terminal,
+            title: "CLI & Automation",
+            description:
+                "Custom command-line tools, shell pipelines, and developer workflow automation.",
+        },
+        {
+            icon: Zap,
+            title: "Developer Tooling",
+            description:
+                "Language servers, build tooling, code analysis tools, and IDE integrations.",
+        },
+        {
+            icon: Smartphone,
+            title: "Mobile Apps",
+            description:
+                "Native iOS applications with SwiftUI — productivity, utilities, and niche tools.",
+        },
+        {
+            icon: Wrench,
+            title: "System Software",
+            description:
+                "Low-level system utilities, monitoring tools, and performance-critical software.",
+        },
+    ];
 
     return (
         <>
@@ -84,9 +102,6 @@ const Pricing = () => {
                     <div
                         className={`absolute top-1/3 right-1/4 w-96 h-96 ${theme.blobPurple} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000`}
                     />
-                    <div
-                        className={`absolute bottom-1/4 left-1/2 w-96 h-96 ${theme.blobPink} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000 `}
-                    />
                 </div>
 
                 <div className="max-w-7xl mx-auto relative z-10">
@@ -94,187 +109,95 @@ const Pricing = () => {
                         <div
                             className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border ${theme.blobBlue}/20 mb-6 animate-fade-in`}
                         >
-                            <DollarSign
+                            <Sparkles
                                 className={`w-4 h-4 ${theme.textBlue} animate-pulse`}
                             />
                             <span className="text-sm font-medium">
-                                Straightforward, Transparent Pricing
+                                Open Source, Premium & Custom
                             </span>
                         </div>
                         <h1
                             className={`text-5xl md:text-6xl font-bold ${theme.text} mb-6`}
                         >
-                            Choose Your Plan
+                            Simple, Honest Pricing
                         </h1>
                         <p
                             className={`text-xl ${theme.textSecondary} max-w-3xl mx-auto`}
                         >
-                            Pay once or subscribe annually — your choice. All
-                            licenses include continuous updates and offline
-                            activation.
+                            Most tools are free and open source. Premium AI
+                            tooling stays paid. Apps have their own in-app
+                            purchase. Custom work is project-based.
                         </p>
                     </div>
+                </div>
+            </section>
 
-                    {/* Plan Selector */}
-                    <div className="flex flex-wrap justify-center gap-4 mb-16">
-                        {[
-                            { id: "individual", label: "Personal Use" },
-                            { id: "professional", label: "Team Use" },
-                            { id: "enterprise", label: "Organization Use" },
-                        ].map((plan) => (
-                            <button
-                                key={plan.id}
-                                onClick={() => setSelectedPlan(plan.id)}
-                                className={`px-8 py-3 rounded-full font-medium transition ${
-                                    selectedPlan === plan.id
-                                        ? `bg-gradient-to-r ${theme.gradientPrimary} text-white shadow-lg`
-                                        : `${theme.cardBg} ${theme.textSecondary} border ${theme.border} ${theme.hoverBg}`
-                                }`}
+            {/* ── Open Source ─────────────────────────────────────── */}
+            <section className="relative pb-24 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex items-center gap-4 mb-10">
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
+                        <div className="flex items-center gap-3">
+                            <SiGithub className="w-5 h-5 text-green-500" />
+                            <h2
+                                className={`text-2xl font-bold ${theme.text} whitespace-nowrap`}
                             >
-                                {plan.label}
-                            </button>
-                        ))}
+                                Free & Open Source
+                            </h2>
+                            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-500/15 text-green-500 border border-green-500/30">
+                                Apache 2.0
+                            </span>
+                        </div>
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
                     </div>
 
-                    {/* suite.plans Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                        {suites.map((suite) => {
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {openSourceSuites.map((suite) => {
                             const IconComponent = getIconComponent(suite.icon);
                             return (
                                 <div
-                                    key={suite.slug}
+                                    key={suite.id}
                                     data-animate
-                                    className={`${theme.cardBg} rounded-3xl p-8 border ${theme.border} hover:border-blue-500/50 transition-all duration-300`}
+                                    className={`${theme.cardBg} rounded-3xl p-8 border ${theme.border} hover:border-green-500/40 transition-all duration-300`}
                                 >
-                                    <IconComponent className="w-12 h-12 text-blue-500 mb-4" />
-                                    <h3
-                                        className={`text-2xl font-bold ${theme.text} mb-2`}
-                                    >
-                                        {suite.name}
-                                    </h3>
-                                    <p
-                                        className={`text-sm ${theme.textSecondary} mb-6`}
-                                    >
-                                        {suite.tagline}
-                                    </p>
-
-                                    <div className="space-y-4 mb-6">
-                                        {selectedPlan === "individual" && (
-                                            <>
-                                                <div>
-                                                    <div
-                                                        className={`text-sm ${theme.textTertiary} mb-1`}
-                                                    >
-                                                        Annual
-                                                    </div>
-                                                    <div
-                                                        className={`text-4xl font-bold ${theme.text}`}
-                                                    >
-                                                        {fmt(
-                                                            suite.plans
-                                                                ?.individual
-                                                                .annual,
-                                                        )}
-                                                        <span className="text-lg">
-                                                            /yr
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div
-                                                        className={`text-sm ${theme.textTertiary} mb-1`}
-                                                    >
-                                                        One-Time
-                                                    </div>
-                                                    <div
-                                                        className={`text-3xl font-bold ${theme.text}`}
-                                                    >
-                                                        {fmt(
-                                                            suite.plans
-                                                                ?.individual
-                                                                .oneTime,
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                        {selectedPlan === "professional" && (
-                                            <div>
-                                                <div
-                                                    className={`text-sm ${theme.textTertiary} mb-1`}
-                                                >
-                                                    Annual
-                                                </div>
-                                                <div
-                                                    className={`text-4xl font-bold ${theme.text}`}
-                                                >
-                                                    {fmt(
-                                                        suite.plans
-                                                            ?.professional
-                                                            .annual,
-                                                    )}
-                                                    <span className="text-lg">
-                                                        /yr
-                                                    </span>
-                                                </div>
-                                                <div
-                                                    className={`text-sm ${theme.textSecondary} mt-2`}
-                                                >
-                                                    + Priority support & 2
-                                                    devices
-                                                </div>
+                                    <div className="flex items-start gap-4 mb-6">
+                                        <div
+                                            className={`w-12 h-12 rounded-xl bg-gradient-to-r ${suite.gradient} flex items-center justify-center flex-shrink-0`}
+                                        >
+                                            <IconComponent className="w-6 h-6 text-white" />
+                                        </div>
+                                        <div>
+                                            <h3
+                                                className={`text-xl font-bold ${theme.text}`}
+                                            >
+                                                {suite.name}
+                                            </h3>
+                                            <p
+                                                className={`text-sm ${theme.textSecondary}`}
+                                            >
+                                                {suite.tagline}
+                                            </p>
+                                        </div>
+                                        <div className="ml-auto">
+                                            <div
+                                                className={`text-3xl font-bold ${theme.text}`}
+                                            >
+                                                Free
                                             </div>
-                                        )}
-                                        {selectedPlan === "enterprise" && (
-                                            <div>
-                                                <div
-                                                    className={`text-sm ${theme.textTertiary} mb-1`}
-                                                >
-                                                    Annual (
-                                                    {
-                                                        suite.plans.enterprise
-                                                            .seats
-                                                    }{" "}
-                                                    seats)
-                                                </div>
-                                                <div
-                                                    className={`text-4xl font-bold ${theme.text}`}
-                                                >
-                                                    {fmt(
-                                                        suite.plans?.enterprise
-                                                            .annual,
-                                                    )}
-                                                    <span className="text-lg">
-                                                        /yr
-                                                    </span>
-                                                </div>
-                                                <div
-                                                    className={`text-sm ${theme.textSecondary} mt-2`}
-                                                >
-                                                    Central license management +
-                                                    SLA
-                                                </div>
+                                            <div
+                                                className={`text-xs ${theme.textSecondary} text-right`}
+                                            >
+                                                forever
                                             </div>
-                                        )}
+                                        </div>
                                     </div>
 
-                                    <button
-                                        onClick={() => {
-                                            const message = `Checkout coming soon!\n\nInterested in ${suite.name}?\nContact us at contact@nf-software.com`;
-                                            alert(message);
-                                        }}
-                                        className={`block text-center w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition mb-4 cursor-pointer`}
-                                    >
-                                        Get {suite.name}
-                                    </button>
-
-                                    <div className="space-y-2">
-                                        <div
-                                            className={`text-xs ${theme.textTertiary} mb-2`}
-                                        >
-                                            Includes:
-                                        </div>
-                                        {suite.tools.slice(0, 3).map((tool) => (
+                                    <div className="space-y-2 mb-6">
+                                        {suite.tools.map((tool) => (
                                             <div
                                                 key={tool.name}
                                                 className="flex items-center gap-2"
@@ -285,402 +208,450 @@ const Pricing = () => {
                                                 >
                                                     {tool.name}
                                                 </span>
+                                                <span
+                                                    className={`ml-auto text-xs ${theme.textTertiary}`}
+                                                >
+                                                    {tool.status}
+                                                </span>
                                             </div>
                                         ))}
-                                        {suite.tools.length > 3 && (
-                                            <div
-                                                className={`text-sm ${theme.textSecondary} pl-6`}
-                                            >
-                                                + {suite.tools.length - 3} more
-                                                tools
-                                            </div>
-                                        )}
                                     </div>
+
+                                    <a
+                                        href="https://github.com/NoamFav"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r ${suite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition`}
+                                    >
+                                        <SiGithub className="w-4 h-4" />
+                                        View on GitHub
+                                    </a>
                                 </div>
                             );
                         })}
                     </div>
 
-                    {/* Comparison Table */}
-                    <div
-                        data-animate
-                        className={`${theme.cardBg} rounded-3xl p-8 border ${theme.border} overflow-x-auto mb-16`}
+                    <p
+                        className={`text-center text-sm ${theme.textSecondary} mt-6`}
                     >
-                        <h2 className={`text-3xl font-bold ${theme.text} mb-8`}>
-                            Full Pricing Breakdown
-                        </h2>
-                        <div className="overflow-x-auto">
-                            <table className="w-full min-w-[800px]">
-                                <thead>
-                                    <tr className={`border-b ${theme.border}`}>
-                                        <th
-                                            className={`text-left p-4 ${theme.text} font-semibold`}
-                                        >
-                                            Tool / Product
-                                        </th>
-                                        <th
-                                            className={`text-left p-4 ${theme.text} font-semibold`}
-                                        >
-                                            Suite
-                                        </th>
-                                        <th
-                                            className={`text-left p-4 ${theme.text} font-semibold`}
-                                        >
-                                            Annual
-                                        </th>
-                                        <th
-                                            className={`text-left p-4 ${theme.text} font-semibold`}
-                                        >
-                                            One-Time
-                                        </th>
-                                        <th
-                                            className={`text-left p-4 ${theme.text} font-semibold`}
-                                        >
-                                            Status
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {suites.map((suite) => {
-                                        const IconComponent = getIconComponent(
-                                            suite.icon,
-                                        );
-                                        return (
-                                            <Fragment key={suite.slug}>
-                                                {/* Suite Row */}
-                                                <tr
-                                                    className={`border-b ${theme.border} ${theme.hoverBg}`}
-                                                >
-                                                    <td className="p-4">
-                                                        <div className="flex items-center gap-3">
-                                                            <div
-                                                                className={`w-10 h-10 rounded-lg bg-gradient-to-r ${suite.gradient} flex items-center justify-center`}
-                                                            >
-                                                                <IconComponent className="w-5 h-5 text-white" />
-                                                            </div>
-                                                            <div>
-                                                                <div
-                                                                    className={`font-semibold ${theme.text}`}
-                                                                >
-                                                                    {suite.name}
-                                                                </div>
-                                                                <div
-                                                                    className={`text-sm ${theme.textSecondary}`}
-                                                                >
-                                                                    {
-                                                                        suiteDescriptions[
-                                                                            suite
-                                                                                .id
-                                                                        ]
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <span
-                                                            className={`px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${suite.gradient} text-white`}
-                                                        >
-                                                            Bundle
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <span
-                                                            className={`font-semibold ${theme.text}`}
-                                                        >
-                                                            {fmt(
-                                                                suite.plans
-                                                                    ?.individual
-                                                                    .annual,
-                                                            )}
-                                                            /yr
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <span
-                                                            className={`font-semibold ${theme.text}`}
-                                                        >
-                                                            {fmt(
-                                                                suite.plans
-                                                                    ?.individual
-                                                                    .oneTime,
-                                                            )}
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-4">
-                                                        <span className="px-3 py-1 rounded-full text-xs border border-blue-500/50 text-blue-500">
-                                                            Bundle Pricing
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                {/* Tool Rows */}
-                                                {suite.tools.map((tool) => (
-                                                    <tr
-                                                        key={
-                                                            tool.slug ||
-                                                            tool.name
-                                                        }
-                                                        className={`border-b ${theme.border} ${theme.hoverBg}`}
-                                                    >
-                                                        <td className="p-4 pl-16">
-                                                            <div
-                                                                className={`font-medium ${theme.text}`}
-                                                            >
-                                                                {tool.name}
-                                                            </div>
-                                                            <div
-                                                                className={`text-sm ${theme.textSecondary}`}
-                                                            >
-                                                                {tool.tagline}
-                                                            </div>
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <span
-                                                                className={`text-sm ${theme.textSecondary}`}
-                                                            >
-                                                                {suite.name}
-                                                            </span>
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <span
-                                                                className={
-                                                                    theme.text
-                                                                }
-                                                            >
-                                                                {fmt(
-                                                                    tool.plan
-                                                                        ?.annual,
-                                                                )}
-                                                                /yr
-                                                            </span>
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <span
-                                                                className={
-                                                                    theme.text
-                                                                }
-                                                            >
-                                                                {fmt(
-                                                                    tool.plan
-                                                                        ?.oneTime,
-                                                                )}
-                                                            </span>
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <span
-                                                                className={`px-2 py-1 rounded-full text-xs ${
-                                                                    tool.status ===
-                                                                    "Live"
-                                                                        ? "bg-green-500/20 text-green-500"
-                                                                        : tool.status ===
-                                                                            "Beta"
-                                                                          ? "bg-yellow-500/20 text-yellow-500"
-                                                                          : tool.status ===
-                                                                              "Alpha"
-                                                                            ? "bg-purple-500/20 text-purple-500"
-                                                                            : "bg-blue-500/20 text-blue-500"
-                                                                }`}
-                                                            >
-                                                                {tool.status}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </Fragment>
-                                        );
-                                    })}
+                        Clone, fork, contribute, or just use — Apache 2.0 means
+                        no restrictions.
+                    </p>
+                </div>
+            </section>
 
-                                    {/* Standalone Tools */}
-                                    {standaloneTools.map((tool) => {
-                                        const IconComponent = getIconComponent(
-                                            tool.icon,
-                                        );
-                                        return (
-                                            <tr
-                                                key={tool.name}
-                                                className={`border-b ${theme.border} ${theme.hoverBg}`}
-                                            >
-                                                <td className="p-4">
-                                                    <div className="flex items-center gap-3">
-                                                        <div
-                                                            className={`w-10 h-10 rounded-lg bg-gradient-to-r ${tool.gradient} flex items-center justify-center`}
-                                                        >
-                                                            <IconComponent className="w-5 h-5 text-white" />
-                                                        </div>
-                                                        <div>
-                                                            <div
-                                                                className={`font-medium ${theme.text}`}
-                                                            >
-                                                                {tool.name}
-                                                            </div>
-                                                            <div
-                                                                className={`text-sm ${theme.textSecondary}`}
-                                                            >
-                                                                {tool.tagline}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="p-4">
-                                                    <span
-                                                        className={`text-sm ${theme.textSecondary}`}
-                                                    >
-                                                        Standalone
-                                                    </span>
-                                                </td>
-                                                <td className="p-4">
-                                                    <span
-                                                        className={theme.text}
-                                                    >
-                                                        {fmt(tool.plan?.annual)}
-                                                        /yr
-                                                    </span>
-                                                </td>
-                                                <td className="p-4">
-                                                    <span
-                                                        className={theme.text}
-                                                    >
-                                                        {fmt(
-                                                            tool.plan?.oneTime,
-                                                        )}
-                                                    </span>
-                                                </td>
-                                                <td className="p-4">
-                                                    <span
-                                                        className={`px-2 py-1 rounded-full text-xs ${
-                                                            tool.status ===
-                                                            "Live"
-                                                                ? "bg-green-500/20 text-green-500"
-                                                                : tool.status ===
-                                                                    "Beta"
-                                                                  ? "bg-yellow-500/20 text-yellow-500"
-                                                                  : tool.status ===
-                                                                      "Alpha"
-                                                                    ? "bg-purple-500/20 text-purple-500"
-                                                                    : "bg-blue-500/20 text-blue-500"
-                                                        }`}
-                                                    >
-                                                        {tool.status}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </table>
+            {/* ── Iris Suite (Paid) ────────────────────────────────── */}
+            <section className="relative pb-24 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex items-center gap-4 mb-10">
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
+                        <div className="flex items-center gap-3">
+                            <Brain className="w-5 h-5 text-indigo-500" />
+                            <h2
+                                className={`text-2xl font-bold ${theme.text} whitespace-nowrap`}
+                            >
+                                NF Iris Suite
+                            </h2>
+                            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+                                Premium
+                            </span>
                         </div>
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
                     </div>
 
-                    {/* License Features */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div
-                            data-animate
-                            className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-blue-500/50 transition`}
-                        >
-                            <Shield className="w-12 h-12 text-blue-500 mb-4" />
-                            <h3
-                                className={`text-xl font-bold ${theme.text} mb-3`}
+                    <div className="flex flex-wrap justify-center gap-3 mb-10">
+                        {irisPlanOptions.map((plan) => (
+                            <button
+                                key={plan.id}
+                                onClick={() => setSelectedIrisPlan(plan.id)}
+                                className={`px-6 py-2.5 rounded-full text-sm font-medium transition ${
+                                    selectedIrisPlan === plan.id
+                                        ? `bg-gradient-to-r ${irisSuite.gradient} text-white shadow-lg`
+                                        : `${theme.cardBg} ${theme.textSecondary} border ${theme.border} ${theme.hoverBg}`
+                                }`}
                             >
-                                Lifetime Updates
-                            </h3>
-                            <p className={`text-sm ${theme.textSecondary}`}>
-                                All annual plans include continuous updates.
-                                One-time licenses receive major version upgrades
-                                at 40% off.
-                            </p>
+                                {plan.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div
+                        data-animate
+                        className={`${theme.cardBg} rounded-3xl border ${theme.border} overflow-hidden`}
+                    >
+                        {/* Suite price header */}
+                        <div
+                            className={`bg-gradient-to-r ${irisSuite.gradient} p-8 text-white`}
+                        >
+                            <div className="flex items-start justify-between flex-wrap gap-6">
+                                <div>
+                                    <p className="text-indigo-200 text-sm font-medium mb-1">
+                                        Local-first AI platform
+                                    </p>
+                                    <h3 className="text-3xl font-bold">
+                                        {irisSuite.name}
+                                    </h3>
+                                    <p className="text-indigo-100 mt-2 max-w-md">
+                                        {irisSuite.description}
+                                    </p>
+                                </div>
+                                <div className="text-right">
+                                    {selectedIrisPlan === "individual" && (
+                                        <>
+                                            <div className="text-4xl font-bold">
+                                                {fmt(
+                                                    irisSuite.plans.individual
+                                                        .annual,
+                                                )}
+                                                <span className="text-xl font-normal">
+                                                    /yr
+                                                </span>
+                                            </div>
+                                            <div className="text-indigo-200 text-sm mt-1">
+                                                or{" "}
+                                                {fmt(
+                                                    irisSuite.plans.individual
+                                                        .oneTime,
+                                                )}{" "}
+                                                one-time
+                                            </div>
+                                        </>
+                                    )}
+                                    {selectedIrisPlan === "professional" && (
+                                        <>
+                                            <div className="text-4xl font-bold">
+                                                {fmt(
+                                                    irisSuite.plans.professional
+                                                        .annual,
+                                                )}
+                                                <span className="text-xl font-normal">
+                                                    /yr
+                                                </span>
+                                            </div>
+                                            <div className="text-indigo-200 text-sm mt-1">
+                                                {
+                                                    irisSuite.plans.professional
+                                                        .seats
+                                                }{" "}
+                                                seat · priority support
+                                            </div>
+                                        </>
+                                    )}
+                                    {selectedIrisPlan === "enterprise" && (
+                                        <>
+                                            <div className="text-4xl font-bold">
+                                                {fmt(
+                                                    irisSuite.plans.enterprise
+                                                        .annual,
+                                                )}
+                                                <span className="text-xl font-normal">
+                                                    /yr
+                                                </span>
+                                            </div>
+                                            <div className="text-indigo-200 text-sm mt-1">
+                                                {
+                                                    irisSuite.plans.enterprise
+                                                        .seats
+                                                }{" "}
+                                                seats · SLA included
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div
-                            data-animate
-                            className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-purple-500/50 transition`}
-                        >
-                            <Users className="w-12 h-12 text-purple-500 mb-4" />
-                            <h3
-                                className={`text-xl font-bold ${theme.text} mb-3`}
+
+                        {/* Tools list */}
+                        <div className="p-8">
+                            <p
+                                className={`text-sm font-semibold ${theme.textSecondary} uppercase tracking-wide mb-4`}
                             >
-                                Team Plans
-                            </h3>
-                            <p className={`text-sm ${theme.textSecondary}`}>
-                                Enterprise plans include central license
-                                management, multi-user support, and priority
-                                assistance.
+                                Included tools
                             </p>
-                        </div>
-                        <div
-                            data-animate
-                            className={`${theme.cardBg} rounded-2xl p-8 border ${theme.border} hover:border-green-500/50 transition`}
-                        >
-                            <Download className="w-12 h-12 text-green-500 mb-4" />
-                            <h3
-                                className={`text-xl font-bold ${theme.text} mb-3`}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                                {irisSuite.tools.map((tool) => (
+                                    <div
+                                        key={tool.name}
+                                        className={`rounded-xl p-4 border ${theme.border} ${theme.hoverBg} transition`}
+                                    >
+                                        <div className="flex items-center justify-between mb-1">
+                                            <span
+                                                className={`font-semibold ${theme.text} text-sm`}
+                                            >
+                                                {tool.name}
+                                            </span>
+                                            <span
+                                                className={`text-xs ${theme.textTertiary}`}
+                                            >
+                                                {tool.status}
+                                            </span>
+                                        </div>
+                                        <p
+                                            className={`text-xs ${theme.textSecondary}`}
+                                        >
+                                            {tool.tagline}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="flex flex-wrap items-center gap-6 mb-8">
+                                <div className="flex items-center gap-2">
+                                    <Lock className="w-4 h-4 text-indigo-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        Fully offline
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Shield className="w-4 h-4 text-indigo-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        No telemetry
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Check className="w-4 h-4 text-indigo-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        Offline activation
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={() =>
+                                    alert(
+                                        `Checkout coming soon!\n\nInterested in ${irisSuite.name}?\nContact us at contact@nf-software.com`,
+                                    )
+                                }
+                                className={`w-full py-4 bg-gradient-to-r ${irisSuite.gradient} text-white font-semibold rounded-full hover:shadow-xl transition cursor-pointer`}
                             >
-                                Offline Activation
-                            </h3>
-                            <p className={`text-sm ${theme.textSecondary}`}>
-                                All licenses support offline activation via
-                                machine binding. Transfer licenses between
-                                devices anytime.
-                            </p>
+                                Get Iris Suite
+                            </button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* CTA Section */}
-            <section data-animate className="relative py-32 px-6">
-                <div className="max-w-5xl mx-auto">
-                    <div
-                        className={`${theme.cardBg} rounded-3xl p-12 md:p-20 text-center space-y-8 border ${theme.border} relative overflow-hidden`}
+            {/* ── NF Lab (IAP) ─────────────────────────────────────── */}
+            <section className="relative pb-24 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex items-center gap-4 mb-10">
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
+                        <div className="flex items-center gap-3">
+                            <GraduationCap className="w-5 h-5 text-emerald-500" />
+                            <h2
+                                className={`text-2xl font-bold ${theme.text} whitespace-nowrap`}
+                            >
+                                NF Lab
+                            </h2>
+                            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">
+                                In-App Purchase
+                            </span>
+                        </div>
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
+                    </div>
+
+                    <p
+                        className={`text-center ${theme.textSecondary} mb-10 max-w-xl mx-auto`}
                     >
-                        <div className="absolute inset-0 opacity-10">
+                        Each app is purchased individually through its platform
+                        store. No subscriptions — you own it.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        {labSuite.tools.map((tool) => (
                             <div
-                                className="absolute inset-0"
-                                style={{
-                                    backgroundImage: `radial-gradient(circle at 2px 2px, ${darkMode ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)"} 1px, transparent 0)`,
-                                    backgroundSize: "32px 32px",
-                                }}
-                            />
+                                key={tool.name}
+                                data-animate
+                                className={`${theme.cardBg} rounded-2xl p-6 border ${theme.border} hover:border-emerald-500/40 transition-all duration-300`}
+                            >
+                                <div className="flex items-start justify-between mb-3">
+                                    <div>
+                                        <h3
+                                            className={`font-bold ${theme.text}`}
+                                        >
+                                            {tool.name}
+                                        </h3>
+                                        <p
+                                            className={`text-xs ${theme.textSecondary} mt-0.5`}
+                                        >
+                                            {tool.tagline}
+                                        </p>
+                                    </div>
+                                    <span
+                                        className={`text-xs px-2 py-1 rounded-full ${
+                                            tool.status === "Beta"
+                                                ? "bg-yellow-500/20 text-yellow-500"
+                                                : tool.status === "Alpha"
+                                                  ? "bg-purple-500/20 text-purple-500"
+                                                  : "bg-blue-500/20 text-blue-500"
+                                        }`}
+                                    >
+                                        {tool.status}
+                                    </span>
+                                </div>
+                                <p
+                                    className={`text-sm ${theme.textSecondary} mb-4`}
+                                >
+                                    {tool.description}
+                                </p>
+                                <div className="flex flex-wrap gap-1 mb-4">
+                                    {(tool.tech ?? []).map((t) => (
+                                        <span
+                                            key={t}
+                                            className={`px-2 py-0.5 text-xs rounded border ${theme.border} ${theme.textTertiary}`}
+                                        >
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+                                <div
+                                    className={`pt-4 border-t ${theme.border} flex items-center justify-between`}
+                                >
+                                    <span
+                                        className={`text-xs ${theme.textSecondary}`}
+                                    >
+                                        In-App Purchase
+                                    </span>
+                                    <span
+                                        className={`text-xl font-bold ${theme.text}`}
+                                    >
+                                        {fmt(tool.plan?.oneTime)}
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Custom Work ──────────────────────────────────────── */}
+            <section className="relative pb-32 px-6">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex items-center gap-4 mb-10">
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
+                        <div className="flex items-center gap-3">
+                            <Wrench className="w-5 h-5 text-blue-500" />
+                            <h2
+                                className={`text-2xl font-bold ${theme.text} whitespace-nowrap`}
+                            >
+                                Custom Work
+                            </h2>
+                            <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/30">
+                                Project-Based
+                            </span>
+                        </div>
+                        <div
+                            className={`flex-1 h-px ${theme.border} border-t`}
+                        />
+                    </div>
+
+                    <div
+                        data-animate
+                        className={`${theme.cardBg} rounded-3xl border ${theme.border} overflow-hidden`}
+                    >
+                        <div
+                            className={`bg-gradient-to-r ${theme.gradientPrimary} p-8 text-white`}
+                        >
+                            <h3 className="text-3xl font-bold mb-2">
+                                NF Software Studio
+                            </h3>
+                            <p className="text-blue-100 max-w-2xl">
+                                Independent studio taking on focused software
+                                projects. From a small CLI tool to a full iOS
+                                app — project-based pricing, no retainer
+                                required.
+                            </p>
                         </div>
 
-                        <div className="relative z-10">
+                        <div className="p-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                                {customServices.map((service) => (
+                                    <div
+                                        key={service.title}
+                                        className={`flex gap-4 p-4 rounded-xl border ${theme.border} ${theme.hoverBg} transition`}
+                                    >
+                                        <div
+                                            className={`w-10 h-10 rounded-lg bg-gradient-to-r ${theme.gradientPrimary} flex items-center justify-center flex-shrink-0`}
+                                        >
+                                            <service.icon className="w-5 h-5 text-white" />
+                                        </div>
+                                        <div>
+                                            <h4
+                                                className={`font-semibold ${theme.text} mb-1`}
+                                            >
+                                                {service.title}
+                                            </h4>
+                                            <p
+                                                className={`text-sm ${theme.textSecondary}`}
+                                            >
+                                                {service.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
                             <div
-                                className={`inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r ${theme.badgeGradient} rounded-full border border-blue-500/20 mb-6`}
+                                className={`flex flex-wrap items-center gap-6 mb-8 p-4 rounded-xl ${darkMode ? "bg-white/5" : "bg-black/3"} border ${theme.border}`}
                             >
-                                <Sparkles className="w-4 h-4 text-blue-500" />
-                                <span className="text-sm font-medium">
-                                    Questions?
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <Check className="w-4 h-4 text-green-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        Fixed-scope quotes
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Check className="w-4 h-4 text-green-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        No retainer required
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Check className="w-4 h-4 text-green-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        Source code included
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Check className="w-4 h-4 text-green-500" />
+                                    <span
+                                        className={`text-sm ${theme.textSecondary}`}
+                                    >
+                                        Auto-entrepreneur registered (FR)
+                                    </span>
+                                </div>
                             </div>
 
-                            <h2
-                                className={`text-4xl md:text-6xl font-bold ${theme.text} mb-6`}
+                            <Link
+                                to="/contact"
+                                className={`inline-flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 transform hover:scale-[1.02]`}
                             >
-                                Need something more specific?
-                            </h2>
-
-                            <p
-                                className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto mb-8`}
-                            >
-                                For larger teams or specialized workflows,
-                                custom licensing and collaboration agreements
-                                are available.
-                            </p>
-
-                            <div className="flex flex-wrap gap-4 justify-center">
-                                <Link
-                                    to="/contact"
-                                    className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r ${theme.gradientPrimary} text-white font-semibold rounded-full hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105`}
-                                >
-                                    Start Your Project
-                                    <ArrowRight className="w-5 h-5" />
-                                </Link>
-                                <a
-                                    href="#/products"
-                                    className={`inline-flex items-center gap-2 px-8 py-4 ${theme.cardBg} border ${theme.border} font-semibold rounded-full hover:border-blue-500/50 transition-all duration-300 transform hover:scale-105`}
-                                >
-                                    <Package className="w-5 h-5" />
-                                    View Products
-                                </a>
-                            </div>
+                                <Mail className="w-5 h-5" />
+                                Discuss Your Project
+                                <ArrowRight className="w-5 h-5" />
+                            </Link>
                         </div>
                     </div>
                 </div>
